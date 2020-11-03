@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>首页 -- 前端</title>
+    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/ordinary/dependencies/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/ordinary/dependencies/meanmenu/css/meanmenu.min.css">
+    <link rel="stylesheet" href="/ordinary/dependencies/animate.css/css/animate.min.css">
+    <link rel="stylesheet" href="/ordinary/dependencies/magnific-popup/css/magnific-popup.css">
+    <link rel="stylesheet" href="/ordinary/dependencies/jquery-animated-headlines/css/jquery.animatedheadline.css">
+    <link rel="stylesheet" href="/ordinary/dependencies/owl.carousel/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="/ordinary/dependencies/owl.carousel/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/ordinary/dependencies/flaticon/flaticon.css">
+
+    <!--    <link href="/css/bootstrap.min.css" rel="stylesheet"-->
+    <!--          th:href="@{/css/bootstrap.min.css}">-->
+    <link href="/css/style.css" rel="stylesheet"
+          th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="/ordinary/dependencies/fontawesome/css/all.min.css">
+
+    <style>
+        .img_a {
+            height: 290px;
+        }
+
+        .number_input {
+            width: 46px;
+        }
+
+        #dropdown a:hover {
+            background-color: #eee;
+        }
+    </style>
+</head>
+
+<body class="sticky-header">
+<!--[if lte IE 9]>
+<p class="browserupgrade">您使用的浏览器已<strong>过时</strong>。请
+    <a href="https://browsehappy.com/">升级您的浏览器</a>以改善体验和安全性</p>
+<![endif]-->
+<!-- ScrollUp Start Here -->
+<a href="#wrapper" data-type="section-switch" class="scrollup">
+    <i class="fas fa-angle-double-up"></i>
+</a>
+<!-- ScrollUp End Here -->
+<!-- Preloader Start Here -->
+<div id="preloader"></div>
+<!-- Preloader End Here -->
+<div id="wrapper" class="wrapper">
+    <!--=====================================-->
+    <!--=            Header Start           =-->
+    <!--=====================================-->
+    <div th:replace="front/common/front_header :: .front_header"></div>
+    <!--=====================================-->
+    <!--=          Search Box Start         =-->
+    <!--=====================================-->
+
+    <section class="inner-page-banner" data-bg-image="/ordinary/media/banner/banner1.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumbs-area">
+                        <h1>我的购物车</h1>
+                        <ul>
+                            <li>我的购物车</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding-equal-70">
+        <div class="container">
+            <h1 th:if="${orderSubList==null||orderSubList.size()==0}" class="text-center">购物车没有商品</h1>
+            <div class="row" th:if="${orderSubList!=null&&orderSubList.size()>0}">
+                <div class="col-md-4">
+                    <h3 class="ordering-controller">商品总数：
+                        <span id="all_number">0</span></h3>
+                </div>
+                <div class="col-md-8 d-flex justify-content-md-end justify-content-center">
+                    <h3 class="layout-switcher">总价：$
+                        <span id="all_price">0</span></h3>
+<!--                    <button type="button" class="btn btn-w-md btn-primary"-->
+<!--                            onclick="javascript:history.back(-1);return false;">返 回-->
+<!--                    </button>-->
+                    <button class="btn btn-success btn_pay">确认订单</button>
+                    <button class="btn btn-danger btn_close">清空购物车</button>
+                </div>
+                <div class="col-lg-12">
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="favourite" role="tabpanel">
+                            <div class="myaccount-listing">
+                                <div class="list-view-layout4" th:each="ordersub : ${orderSubList}">
+                                    <div class="product-box-layout3">
+                                        <div class="item-img">
+                                            <a href="">
+                                                <img th:if="${ordersub.commodity.commodityImg!=null}"
+                                                     th:src="@{'http://qilpqdaxg.hd-bkt.clouddn.com/'+${ordersub.commodity.commodityImg}}"
+                                                     width="600" height="300"/>
+                                                <img th:if="${ordersub.commodity.commodityImg==null}"
+                                                     src="/images/nullImg.jpg"
+                                                     th:alt="${ordersub.commodity.commodityName}">
+                                            </a>
+                                        </div>
+                                        <div class="product-info">
+                                            <div class="item-content">
+                                                <h3 class="item-title">
+                                                    <a href=""
+                                                       th:text="${ordersub.commodity.commodityName}">商品名称</a><span>New</span>
+                                                </h3>
+                                                <div class="item-tag">
+                                                    <i class="fas fa-angle-double-right"></i>
+                                                    <span th:text="${ordersub.commodity.supplier.supplierName}">供应商名称</span>
+                                                </div>
+                                                <ul class="entry-meta">
+                                                    <li>
+                                                        <i class="fas fa-map-marker-alt"></i>
+                                                        <span th:text="${ordersub.commodity.supplier.supplierAddress}">供应商地址</span>
+                                                    </li>
+                                                </ul>
+                                                <div class="item-action">
+                                                    <i class="fas fa-align-justify"></i>
+                                                    <span th:text="${ordersub.commodity.commodityType.commodityTypeName}">商品类别</span>
+                                                </div>
+                                            </div>
+                                            <div class="item-right">
+                                                <div class="item-price">
+                                                    <span class="currency-symbol">$</span>
+                                                    <span th:text="${ordersub.totalPrice}"
+                                                          class="totalPrice">单品总价</span>
+                                                </div>
+                                                <div class="item-btn">
+                                                    <div class="btn-group btn-group-round">
+                                                        <button class="btn btn-default num_cut disabled">-</button>
+                                                        <input type="hidden" class="commodity_id"
+                                                               th:value="${ordersub.commodity.commodityId}">
+                                                        <input type="hidden" class="commodity_sell"
+                                                               th:value="${ordersub.commodity.commoditySell}"/>
+                                                        <input type="hidden" class="commodity_stock"
+                                                               th:value="${ordersub.commodity.commodityStock}">
+                                                        <input type="text" class="btn btn-default number_input"
+                                                               th:value="${ordersub.commodityQuantity}"
+                                                               value="0">
+                                                        <button class="btn btn-default num_add">+</button>
+                                                    </div>
+                                                </div>
+                                                <div class="btn-group">
+                                                    <input type="hidden" th:value="${ordersub.commodityId}"
+                                                           class="del_id"/>
+                                                    <button class="btn btn-label btn-danger btn_del" type="button">
+                                                        <label><i class="mdi mdi-close"></i></label> 删除该商品
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+<script type="text/javascript" src="/js/jquery.min.js"
+        th:src="@{/js/jquery.min.js}"></script>
+<script src="/ordinary/dependencies/popper.js/js/popper.min.js"></script>
+<script src="/ordinary/dependencies/bootstrap/js/bootstrap.min.js"></script>
+<script src="/ordinary/dependencies/waypoints/js/jquery.waypoints.min.js"></script>
+<script src="/ordinary/dependencies/jquery.counterup/js/jquery.counterup.min.js"></script>
+<script src="/ordinary/dependencies/owl.carousel/js/owl.carousel.min.js"></script>
+<script src="/ordinary/dependencies/imagesloaded/js/imagesloaded.pkgd.min.js"></script>
+<script src="/ordinary/dependencies/isotope-layout/js/isotope.pkgd.min.js"></script>
+<script src="/ordinary/dependencies/jquery-animated-headlines/js/jquery.animatedheadline.min.js"></script>
+<script src="/ordinary/dependencies/magnific-popup/js/jquery.magnific-popup.min.js"></script>
+<script src="/ordinary/dependencies/elevatezoom/js/jquery.elevateZoom-2.2.3.min.js"></script>
+<script src="/ordinary/dependencies/bootstrap-validator/js/validator.min.js"></script>
+<script src="/ordinary/dependencies/meanmenu/js/jquery.meanmenu.min.js"></script>
+<script src="/ordinary/assets/js/app.js"></script>
+<script src="https://ditu.google.cn/maps/api/js?key=AIzaSyBtmXSwv4YmAKtcZyyad9W7D4AC08z0Rb4"></script>
+<script>
+    $(function () {
+
+        $(".btn_close").click(function (){
+            window.location.href="/order/closeShopCar";
+        })
+
+        $(".btn_pay").click(function (){
+            window.location.href = "/order/toPayOrder"
+        })
+
+        //订单总数
+        function get_all_num() {
+            var num_i = 0;
+            if ($(".commodity_id").length > 0) {
+                for (var i = 0; i < $(".commodity_id").length; i++) {
+                    num_i += parseInt($(".commodity_id").eq(i).parent().find(".number_input").val());
+                }
+            }
+            $("#all_number").html(num_i);
+        }
+
+        //计算商品总价
+        function get_all_price() {
+            var totalPrice_all = $(".totalPrice");
+            var all_price = 0;
+            for (var i = 0; i < totalPrice_all.length; i++) {
+                all_price += parseFloat(totalPrice_all.eq(i).html())
+            }
+            $("#all_price").html(all_price.toFixed(2))
+        }
+
+        //调整数字框大小
+        function change_size() {
+            var number_input_size = 46;
+            for (var i = 0; i < $(".number_input").length; i++) {
+                if ($(".number_input").eq(i).val() != undefined) {
+                    number_input_size = parseInt($(".number_input").eq(i).val().length) * 10 + 36;
+                    $(".number_input").eq(i).css("width", number_input_size + "px");
+                }
+            }
+        }
+
+        function add_ban() {
+            var number_input_list = $(".number_input");
+            for (var i = 0; i < number_input_list.size(); i++) {
+                var commodity_stock = number_input_list.eq(i).prev().val();
+                var commodity_num = number_input_list.eq(i).val();
+                if (commodity_num == commodity_stock) {
+                    number_input_list.eq(i).next().addClass("disabled");
+                }
+            }
+        }
+
+        //修改session中的购物车商品参数
+        function change_commodity_car(obj, totalPrice, all_price, all_number, c_id, c_num) {
+            obj.parent().parent().prev().find(".totalPrice").html(totalPrice.toFixed(2));//修改调整后的商品总价
+            $("#all_price").html(all_price.toFixed(2));                          //修改调整后的订单总价
+            $("#all_number").html(all_number);                                   //修改调整后的订单总数
+            //调整订单参数
+            $.ajax({
+                url: "/shopCar/addCarCommodity",
+                type: "post",
+                dataType: "json",
+                data: {
+                    c_id: c_id,
+                    num: c_num
+                }, success: function (data) {
+                }
+            })
+        }
+
+        get_all_num();
+        get_all_price();
+        change_size();
+        add_ban();
+
+        //动态调整数字框大小
+        $('.number_input').bind('input propertychange', function () {
+            var $this = $(this);
+            var text_length = $this.val().length;//获取当前文本框的长度
+            if (text_length == "") {
+                var current_width = 46;//该16是改变前的宽度除以当前字符串的长度,算出每个字符的长度
+            } else {
+                var current_width = parseInt(text_length) * 10 + 36;//该16是改变前的宽度除以当前字符串的长度,算出每个字符的长度
+            }
+            $this.css("width", current_width + "px");
+        });
+
+        //购物车内删除商品
+        $(".btn_del").click(function () {
+            var del_id = $(this).parent().prev().find(".commodity_id").val();
+            // var totalPrice = parseFloat($(this).parent().parent().prev().html());
+            // var all_price = parseFloat($("#all_price").html());
+            // all_price = (all_price - totalPrice).toFixed(2);
+            $.ajax({
+                url: "/shopCar/addCarCommodity",
+                type: "post",
+                dataType: "json",
+                data: {
+                    c_id: del_id,
+                    num: 0
+                }, success: function (data) {
+                    if (data.result != "0" || data.result != 0) {
+                        $("#car_num").html(data.result)
+                    } else {
+                        $("#car_num").html("0")
+                    }
+                    // $("#all_price").html(all_price)                             //修改删除后的订单总价
+                    location.reload();                                          //刷新页面
+                }
+            })
+        })
+
+        $(".num_cut").click(function () {
+            var parent = $(this).parent();
+            var c_id = parent.find(".commodity_id").val();
+            var number = parseInt(parent.find(".number_input").val())
+            var c_num = number - 1;
+            var c_sell = parseFloat(parent.find(".commodity_sell").val());
+            var totalPrice = parseFloat(c_num * c_sell);
+            var all_price = parseFloat($("#all_price").html());
+            var all_number = parseInt($("#all_number").html());
+            if (c_num == 0) {
+                $(this).addClass("disabled")                                        //修改调整后的按钮状态
+            }
+            all_number -= 1;
+            all_price = all_price - c_sell;
+            parent.find(".num_add").removeClass("disabled");                      //修改调整后的按钮状态
+            if (c_num >= 0) {
+                parent.find(".number_input").val(c_num)
+                change_commodity_car($(this), totalPrice, all_price, all_number, c_id, c_num);
+            }
+        })
+
+        $(".num_add").click(function () {
+            var parent=$(this).parent();
+            var c_stock = parent.find(".commodity_stock").val();
+            var c_id = parent.find(".commodity_id").val();
+            var number = parseInt(parent.find(".number_input").val())
+            var c_num = number + 1;
+            var c_sell = parseFloat(parent.find(".commodity_sell").val());
+            var totalPrice = parseFloat(c_num * c_sell);
+            var all_price = parseFloat($("#all_price").html());
+            var all_number = parseInt($("#all_number").html());
+            if (c_num == c_stock) {//当前数量为库存最大值时
+                $(this).addClass("disabled")                                            //修改调整后的按钮状态
+            }
+            all_price += c_sell;
+            all_number += 1;
+            if (c_num <= c_stock) {//判断商品数量是否超过库存
+                if (number == 0) {
+                    parent.find(".num_add").removeClass("disabled");                    //修改调整后的按钮状态
+                }
+                parent.find(".number_input").val(c_num)                                               //修改调整后的商品数量
+                change_commodity_car($(this), totalPrice, all_price, all_number, c_id, c_num);
+            }
+        })
+
+        //修改数字框
+        $(".number_input").bind('input propertychange', function () {
+            var parent = $(this).parent().parent().parent();
+            var c_sell = parseFloat(parent.find(".commodity_sell").val());
+            var totalPrice = parseFloat(parent.find(".totalPrice").html());
+            var all_price = parseFloat($("#all_price").html());
+            var old_num = parseInt(totalPrice / c_sell);
+            var all_number = parseInt($("#all_number").html());
+            var c_id = parent.find(".commodity_id").val();
+            var stock = parseInt(parent.find(".commodity_stock").val());//当前商品库存
+            var num = $(this).val().replace(/[^0-9]/ig, "");//去掉特殊字符后当前数字框的值
+            if (num.length > 1) {//数字框长度大于1时去前面的0
+                num = num.replace(/\b(0+)/gi, "");//去字符前的0
+            }
+            if (num > 999999999999999) {//超出范围时
+                num = 999999999999999;
+            }
+            if (num > stock) {//数字大于库存时
+                num = stock;
+                parent.find(".number_add").addClass("disabled")
+            } else if (num.length == 0) {//去字符后长度为0时
+                num = 0;
+                parent.find(".number_cut").addClass("disabled")
+            } else {
+                10
+                parent.find(".number_cut").removeClass("disabled")
+                parent.find(".number_add").removeClass("disabled")
+            }
+            all_number = all_number - old_num + parseInt(num)
+            all_price -= totalPrice;
+            totalPrice = num * c_sell;
+            all_price += totalPrice
+            $(this).val(num);
+            change_commodity_car($(this), totalPrice, all_price, all_number, c_id, num)
+        })
+
+    })
+</script>
+</html>

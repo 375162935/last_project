@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>登录页面</title>
+    <link rel="icon" href="favicon.ico" type="image/ico">
+
+    <meta name="author" content="yinqi">
+    <link href="/css/bootstrap.min.css" rel="stylesheet"
+          th:href="@{/css/bootstrap.min.css}">
+    <link href="/css/materialdesignicons.min.css" rel="stylesheet"
+          th:href="@{/css/materialdesignicons.min.css}">
+    <link href="/css/style.css" rel="stylesheet"
+          th:href="@{/css/style.css}">
+    <style>
+        body {
+            background-color: #bff;
+        }
+
+        .wrapper {
+            position: relative;
+        }
+
+        .login {
+            display: flex !important;
+            min-height: 100vh;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        .login-center {
+            background: #fff;
+            min-width: 38.25rem;
+            padding: 2.14286em 3.57143em;
+            border-radius: 5px;
+            margin: 2.85714em 0;
+        }
+
+        .login-header {
+            margin-bottom: 1.5rem !important;
+        }
+
+        .login-center .has-feedback.feedback-left .form-control {
+            padding-left: 38px;
+            padding-right: 12px;
+        }
+
+        .login-center .has-feedback.feedback-left .form-control-feedback {
+            left: 0;
+            right: auto;
+            width: 38px;
+            height: 38px;
+            line-height: 38px;
+            z-index: 4;
+            color: #dcdcdc;
+        }
+
+        .login-center .has-feedback.feedback-left.row .form-control-feedback {
+            left: 15px;
+        }
+
+        .back_btn, .supplier_register {
+            display: none;
+        }
+    </style>
+</head>
+
+<body data-logobg="color_8" data-sidebarbg="color_8">
+<div class="row wrapper">
+    <div class="login">
+        <div class="login-center">
+            <div class="login-header text-center">
+                <a href="#">
+                    <img alt="light year admin" src="/images/logo-sidebar.png"
+                         th:src="@{/images/logo-sidebar.png}"> </a>
+            </div>
+            <form action="#!" method="post">
+                <!--        用户登录        -->
+                <div th:if="${session.user==null}">
+                    <input type="hidden" name="login_type" value="1" id="login_type">
+                    <div class="form-group has-feedback feedback-left">
+                        <input type="text" placeholder="请输入您的用户名" class="form-control" id="username" name="username"/>
+                        <span class="mdi mdi-account form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <div class="form-group has-feedback feedback-left">
+                        <input type="password" placeholder="请输入密码" class="form-control" id="password" name="password"/>
+                        <span class="mdi mdi-lock form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <!--                <div class="form-group has-feedback feedback-left row">-->
+                    <!--                    <div class="col-xs-7">-->
+                    <!--                        <input type="text" name="code" class="form-control" placeholder="验证码">-->
+                    <!--                        <span class="mdi mdi-check-all form-control-feedback" aria-hidden="true"></span>-->
+                    <!--                    </div>-->
+                    <!--                    <div class="col-xs-5">-->
+                    <!--                        <div id="v_container" style="width: 140px;height: 40px;"></div>-->
+                    <!--                    </div>-->
+                    <!--                </div>-->
+                    <div class="form-group">
+                        <button class="btn btn-block btn-primary user_login" type="button">--用户登录--</button>
+                        <button class="btn btn-block btn-primary null_login" type="button">---无账号登录---</button>
+                        <button class="btn btn-block btn-default back_btn" type="button">返回</button>
+                    </div>
+                </div>
+                <div class="form-group" th:if="${session.user!=null}">
+                    <button class="btn btn-block btn-default back_index" type="button">返回主页</button>
+                    <br>
+                    <p class="m-b-0 text-center">
+                        <a href="/user/close" class="commodity_login">退出系统</a>
+                    </p>
+                </div>
+            </form>
+            <footer class="col-sm-12 text-center login_footer" th:if="${session.user==null}">
+                <hr>
+                <p class="m-b-0">
+                    <a href="#" class="commodity_login">商家登录</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="#" class="supplier_login">供应商登录</a></p>
+            </footer>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/js/jquery.min.js"
+        th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"
+        th:src="@{/js/bootstrap.min.js}"></script>
+<script type="text/javascript" src="/js/wer.js"
+        th:src="@{/js/wer.js}"></script>
+<script type="text/javascript">
+    $(function () {
+        // var verifyCode = new GVerify("v_container");
+        //无账号登录
+        $(".null_login").click(function () {
+            window.location.href = "/user/nullLogin";
+        })
+
+        $(".back_index").click(function () {
+            window.location.href = "/user/toIndex";
+        })
+
+        //商家登录
+        $(".commodity_login").click(function () {
+            $(".null_login").css("display", "none");
+            $(".login_footer").css("display", "none");
+            $(".back_btn").css("display", "block");
+            $(".user_login").text("商家登录");
+            $("#login_type").val("2");
+        })
+
+        //供应商登录
+        $(".supplier_login").click(function () {
+            $(".null_login").css("display", "none");
+            $(".login_footer").css("display", "none");
+            $(".back_btn").css("display", "block");
+            $(".supplier_register").css("display", "block");
+            $(".user_login").text("供应商登录")
+            $("#login_type").val("3");
+        })
+
+        //会员登录
+        $(".back_btn").click(function () {
+            $(".back_btn").css("display", "none");
+            $(".supplier_register").css("display", "none");
+            $(".null_login").css("display", "block");
+            $(".login_footer").css("display", "block");
+            $(".user_login").text("用户登录");
+            $("#login_type").val("1");
+        })
+
+        var username = $("input[name=username]");
+        var password = $("input[name=password]");
+        var code = $("input[name=code]");
+        var username_flag = true;
+        var password_flag = true;
+        var code_flag = true;
+
+        function username_type() {
+            username.parent().removeClass("has-error");
+            if (username.val() == "" || username.val() == null) {
+                username.parent().addClass("has-error");
+                username_flag = false;
+            } else {
+                username.parent().addClass("has-success");
+                username_flag = true;
+            }
+        }
+
+        function password_type() {
+            password.parent().removeClass("has-error");
+            if (password.val() == "" || password.val() == null) {
+                password.parent().addClass("has-error");
+                password_flag = false;
+            } else {
+                password.parent().addClass("has-success");
+                password_flag = true;
+            }
+        }
+
+        // function code_type() {
+        //     var my_code=code.val().toLocaleLowerCase();
+        //     var true_code=verifyCode.options.code.toLocaleLowerCase();
+        //     code.parent().removeClass("has-error");
+        //     if (code.val() == "" || code.val() == null ||my_code!=true_code) {
+        //         code.parent().addClass("has-error");
+        //         code_flag = false;
+        //     } else if (my_code==true_code){
+        //         code.parent().addClass("has-success");
+        //         code_flag = true;
+        //     }
+        // }
+
+        username.blur(function () {
+            username_type();
+        })
+        password.blur(function () {
+            password_type();
+        })
+        // code.blur(function () {
+        //     code_type();
+        // })
+        //用户登录
+        $(".user_login").click(function () {
+            var login_type = $("input[name=login_type]").val();
+            username_type();
+            password_type();
+            // code_type();
+            if (username_flag && password_flag
+                // &&code_flag
+            ) {
+                $.ajax({
+                    url: "/user/login",
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        loginType: login_type,
+                        username: username.val(),
+                        password: password.val()
+                    }, success: function (data) {
+                        if (data.result == "1") {
+                            alert("密码不正确，请重新输入")
+                        } else if (data.result == "0") {
+                            alert("账号不存在，请注册")
+                        } else if (data.result == "2") {
+                            window.location.href = "/user/toIndex";
+                        }
+                    }
+                })
+            } else {
+                alert("请先填写账号密码")
+            }
+        })
+    })
+</script>
+</body>
+</html>

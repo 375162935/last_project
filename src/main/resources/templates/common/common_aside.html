@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>aside</title>
+</head>
+<aside class="layout-sidebar">
+
+    <!-- logo -->
+    <div id="logo" class="sidebar-header">
+        <a href="/login.html" th:href="@{/login.html}">
+            <img src="/images/logo-sidebar.png" title="" alt=""/>
+        </a>
+    </div>
+    <div class="layout-sidebar-scroll">
+
+        <!-- 侧边导航栏 -->
+        <nav class="sidebar-main">
+            <ul class="nav nav-drawer">
+                <li class="nav-item  active"><a href="/user/toIndex"><i class="mdi mdi-home"></i>主页</a></li>
+                <li id="user_all" th:if="${session.user_type=='2'}">
+                    <a href="" th:href="@{/user/findAllVip}">
+                        <i class="mdi mdi-voice"></i>会员总览</a></li>
+                <li id="my_order" th:if="${session.user_type!='2'&&session.user_type!='0'}">
+                    <a href="" th:href="@{/order/getOrderByUsername(userId=${session.user.userId})}">
+                        <i class="mdi mdi-voice"></i>我的消费记录</a></li>
+                <li class="nav-item nav-item-has-subnav">
+                    <a href="javascript:void(0)"><i class="mdi mdi-shopping"></i>购物</a>
+                    <ul class="nav nav-subnav">
+                        <li id="shop_car">
+                            <a href=""
+                               th:href="@{/shopCar/toShopCommodityCar}">
+                                购物车<span class="badge"
+                                         th:text="${session.car_number==null}?'0':${session.car_number}"
+                            >0</span></a>
+                        </li>
+                        <li id="shop_all"><a href="" th:href="@{/shopCar/toShopCommodity}">
+                            商品选购</a></li>
+                        <li class="nav-item nav-item-has-subnav commodity_type">
+                            <a href="#!">商品分类选取</a>
+                            <ul class="nav nav-subnav" th:each="commodityType : ${session.commodityTypes}">
+                                <li th:class="commodityType+${commodityType.commodityTypeId}">
+                                    <a href="#"
+                                       th:href="@{/commodity/findCommodityByType
+                                       (commodityTypeId=${commodityType.commodityTypeId},
+                                       typeName=${commodityType.commodityTypeName})}"
+                                       th:text="${commodityType.commodityTypeName}">商品类别</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item nav-item-has-subnav" th:if="${session.user_type=='2'||session.user_type=='3'}">
+                    <a href="javascript:void(0)"><i class="mdi mdi-package-variant"></i> 商品</a>
+                    <ul class="nav nav-subnav">
+                        <li id="supplier_all"><a href="" th:href="@{/supplier/findAllSupplier}">供应商总览</a></li>
+                        <li id="commodity_all"><a href="/commodity/findAllCommodity">商品管理</a></li>
+                    </ul>
+                </li>
+                <li id="register_user"
+                    th:if="${session.user_type=='0'||session.user_type=='2'}">
+                    <a href="#" th:href="@{/user/toAddUser}"><i
+                            class="mdi mdi-account-check"></i>注册会员</a></li>
+                <li id="register_supplier"
+                    th:if="${session.user_type=='0'||session.user_type=='2'}">
+                    <a href="#" th:href="@{/supplier/toAddSupplier}"><i
+                            class="mdi mdi-account-check"></i>注册供应商</a></li>
+            </ul>
+        </nav>
+
+    </div>
+
+</aside>
+</html>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.yyn.last_project.dao.CommodityDao">
+
+    <resultMap id="commodity_list" type="cn.yyn.last_project.bean.Commodity">
+        <id column="commodity_id" property="commodityId"/>
+        <result column="commodity_name" property="commodityName"/>
+        <result column="commodity_parameter" property="commodityParameter"/>
+        <result column="commodity_purchase" property="commodityPurchase"/>
+        <result column="commodity_sell" property="commoditySell"/>
+        <result column="commodity_stock" property="commodityStock"/>
+        <result column="commodity_img" property="commodityImg"/>
+        <result column="c_type_id" property="commodityTypeId"/>
+        <result column="supplier_id" property="supplierId"/>
+        <association property="commodityType" javaType="cn.yyn.last_project.bean.CommodityType">
+            <id column="commodity_type_id" property="commodityTypeId"/>
+            <result column="commodity_type_name" property="commodityTypeName"/>
+        </association>
+        <association property="supplier" javaType="cn.yyn.last_project.bean.Supplier">
+            <id column="supplier_id" property="supplierId"/>
+            <result column="supplier_name" property="supplierName"/>
+            <result column="supplier_address" property="supplierAddress"/>
+            <result column="user_id" property="userId"/>
+            <association property="user" javaType="cn.yyn.last_project.bean.UserInfo">
+                <id column="user_id" property="userId"/>
+                <result column="username" property="username"/>
+                <result column="password" property="password"/>
+                <result column="name" property="name"/>
+                <result column="gender" property="gender"/>
+                <result column="birthday" property="birthday"/>
+                <result column="integral" property="integral"/>
+                <result column="user_type" property="userType"/>
+                <result column="user_phone" property="userPhone"/>
+                <result column="ali_code" property="aliCode"/>
+            </association>
+        </association>
+    </resultMap>
+
+    <select id="findAllCommodity" resultMap="commodity_list">
+        select *
+        from commodity a,commodity_type b,supplier c,user d
+        where a.commodity_type_id=b.commodity_type_id
+        and a.supplier_id=c.supplier_id
+        and c.user_id=d.user_id
+        order by commodity_id
+    </select>
+
+    <select id="findCommodityById" parameterType="Integer" resultMap="commodity_list">
+        select *
+        from commodity a,commodity_type b,supplier c,user d
+        where a.commodity_type_id=b.commodity_type_id
+        and a.supplier_id=c.supplier_id
+        and c.user_id=d.user_id
+        and a.commodity_id=#{commodityId}
+        order by commodity_id
+    </select>
+
+    <select id="findCommodityByType" parameterType="Integer" resultMap="commodity_list">
+        select *
+        from commodity a,commodity_type b,supplier c,user d
+        where a.commodity_type_id=b.commodity_type_id
+        and a.supplier_id=c.supplier_id
+        and c.user_id=d.user_id
+        and a.commodity_type_id=#{commodityTypeId}
+    </select>
+
+    <select id="findCommodityBySupplier" parameterType="Integer" resultMap="commodity_list">
+        select *
+        from commodity a,commodity_type b,supplier c,user d
+        where a.commodity_type_id=b.commodity_type_id
+        and a.supplier_id=c.supplier_id
+        and c.user_id=d.user_id
+        and a.supplier_id=#{supplierId}
+    </select>
+
+    <select id="findCommodityByKeyword" parameterType="String" resultMap="commodity_list">
+        select *
+        from commodity a,commodity_type b,supplier c,user d
+        where a.commodity_type_id=b.commodity_type_id
+        and a.supplier_id=c.supplier_id
+        and c.user_id=d.user_id
+        and a.commodity_name LIKE concat('%',#{keyword},'%')
+        OR a.commodity_parameter LIKE concat('%',#{keyword},'%')
+        or c.supplier_name like concat('%',#{keyword},'%')
+    </select>
+
+    <select id="findCommodityByName" parameterType="String" resultType="cn.yyn.last_project.bean.Commodity">
+        select * from commodity where commodity_name=#{commodityName}
+    </select>
+
+    <select id="findAllCommodityType" resultType="cn.yyn.last_project.bean.CommodityType">
+        select * from commodity_type
+    </select>
+
+    <delete id="delCommodity" parameterType="Integer">
+        delete from commodity where commodity_id=#{commodityId}
+    </delete>
+
+    <insert id="addCommodity" parameterType="cn.yyn.last_project.bean.Commodity">
+        INSERT INTO commodity(commodity_name,commodity_parameter,commodity_purchase,commodity_sell,commodity_Stock,commodity_type_id,supplier_id,commodity_img)
+        VALUE(#{commodityName},#{commodityParameter},#{commodityPurchase},#{commoditySell},#{commodityStock},#{commodityTypeId},#{supplierId},#{commodityImg})
+    </insert>
+
+    <update id="updCommodityStock" parameterType="cn.yyn.last_project.bean.Commodity">
+        update commodity set commodity_stock=#{commodityStock} where commodity_id=#{commodityId}
+    </update>
+
+    <update id="updCommodity" parameterType="cn.yyn.last_project.bean.Commodity">
+        update commodity
+        set commodity_name=#{commodityName},
+        commodity_parameter=#{commodityParameter},
+        commodity_type_id=#{commodityTypeId},
+        commodity_purchase=#{commodityPurchase},
+        commodity_sell=#{commoditySell},
+        commodity_stock=#{commodityStock},
+        supplier_id=#{supplierId},
+        commodity_img=#{commodityImg}
+        where commodity_id=#{commodityId}
+    </update>
+    <!--    <update id="updPassword" parameterType="cn.yyn.last_project.bean.UserInfo">-->
+    <!--        update user set password=#{password} where user_id=#{userId}-->
+    <!--    </update>-->
+
+    <!--    <update id="updDetail" parameterType="cn.yyn.last_project.bean.UserInfo">-->
+    <!--        update user-->
+    <!--        set name=#{name},gender=#{gender},-->
+    <!--        birthday=#{birthday},userPhone=#{userPhone}-->
+    <!--        where username=#{username}-->
+    <!--    </update>-->
+
+
+</mapper>

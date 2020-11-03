@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>修改用户信息 -- 前端</title>
+    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/ordinary/dependencies/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/ordinary/dependencies/meanmenu/css/meanmenu.min.css">
+    <link rel="stylesheet" href="/ordinary/dependencies/animate.css/css/animate.min.css">
+    <link rel="stylesheet" href="/ordinary/dependencies/magnific-popup/css/magnific-popup.css">
+    <link rel="stylesheet" href="/ordinary/dependencies/jquery-animated-headlines/css/jquery.animatedheadline.css">
+    <link rel="stylesheet" href="/ordinary/dependencies/owl.carousel/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="/ordinary/dependencies/owl.carousel/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/ordinary/dependencies/flaticon/flaticon.css">
+
+    <!--    <link href="/css/bootstrap.min.css" rel="stylesheet"-->
+    <!--          th:href="@{/css/bootstrap.min.css}">-->
+    <link href="/css/style.css" rel="stylesheet"
+          th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="/ordinary/dependencies/fontawesome/css/all.min.css">
+
+    <style>
+
+        #dropdown a:hover {
+            background-color: #eee;
+        }
+    </style>
+</head>
+
+<body class="sticky-header">
+<!--[if lte IE 9]>
+<p class="browserupgrade">您使用的浏览器已<strong>过时</strong>。请
+    <a href="https://browsehappy.com/">升级您的浏览器</a>以改善体验和安全性</p>
+<![endif]-->
+<!-- ScrollUp Start Here -->
+<a href="#wrapper" data-type="section-switch" class="scrollup">
+    <i class="fas fa-angle-double-up"></i>
+</a>
+<!-- ScrollUp End Here -->
+<!-- Preloader Start Here -->
+<div id="preloader"></div>
+<!-- Preloader End Here -->
+<div id="wrapper" class="wrapper">
+    <!--=====================================-->
+    <!--=            Header Start           =-->
+    <!--=====================================-->
+    <div th:replace="front/common/front_header :: .front_header"></div>
+    <!--=====================================-->
+    <!--=          Search Box Start         =-->
+    <!--=====================================-->
+    <section class="inner-page-banner" data-bg-image="/ordinary/media/banner/banner1.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumbs-area">
+                        <h1>个人信息</h1>
+                        <ul>
+                            <li>
+                                <a href="/user/toUpdUserDetail">个人信息</a>
+                            </li>
+                            <li>修改个人信息</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--=====================================-->
+    <!--=        Account Page Start      	=-->
+    <!--=====================================-->
+    <section class="section-padding-equal-70">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 sidebar-break-sm sidebar-widget-area mt-0">
+                    <div class="widget-bottom-margin widget-account-menu widget-light-bg">
+                        <div th:replace="front/common/front_aside :: .front_aside"></div>
+                    </div>
+                </div>
+                <div class="col-lg-9" th:if="${session.user!=null}">
+                    <div class="tab-content">
+                        <div id="accout-detail" role="tabpanel">
+                            <div class="light-shadow-bg post-ad-box-layout1 myaccount-store-settings myaccount-detail">
+                                <div class="light-box-content">
+                                    <form method="post" action="/user/updPassword" th:action="@{/user/updPassword}"
+                                          class="site-form">
+                                        <input type="hidden" value="1">
+                                        <div class="form-group" id="pwd1">
+                                            <label for="old-password" id="oldpwd_text">旧密码</label>
+                                            <input type="password" class="form-control" name="oldpwd" id="old-password"
+                                                   placeholder="输入账号的原登录密码">
+                                        </div>
+                                        <div class="form-group" id="pwd2">
+                                            <label for="new-password" id="newpwd_text">新密码</label>
+                                            <input type="password" class="form-control" name="newpwd" id="new-password"
+                                                   placeholder="输入新的密码">
+                                        </div>
+                                        <div class="form-group" id="pwd3">
+                                            <label for="confirm-password" id="confirmpwd_text">确认新密码</label>
+                                            <input type="password" class="form-control" name="confirmpwd" id="confirm-password"
+                                                   placeholder="请再次输入新密码">
+                                        </div>
+                                        <button type="button" class="btn btn-primary btn_update">修改密码</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+<script src="/ordinary/dependencies/jquery/js/jquery.min.js"></script>
+<script src="/ordinary/dependencies/popper.js/js/popper.min.js"></script>
+<script src="/ordinary/dependencies/bootstrap/js/bootstrap.min.js"></script>
+<script src="/ordinary/dependencies/waypoints/js/jquery.waypoints.min.js"></script>
+<script src="/ordinary/dependencies/jquery.counterup/js/jquery.counterup.min.js"></script>
+<script src="/ordinary/dependencies/owl.carousel/js/owl.carousel.min.js"></script>
+<script src="/ordinary/dependencies/imagesloaded/js/imagesloaded.pkgd.min.js"></script>
+<script src="/ordinary/dependencies/isotope-layout/js/isotope.pkgd.min.js"></script>
+<script src="/ordinary/dependencies/jquery-animated-headlines/js/jquery.animatedheadline.min.js"></script>
+<script src="/ordinary/dependencies/magnific-popup/js/jquery.magnific-popup.min.js"></script>
+<script src="/ordinary/dependencies/elevatezoom/js/jquery.elevateZoom-2.2.3.min.js"></script>
+<script src="/ordinary/dependencies/bootstrap-validator/js/validator.min.js"></script>
+<script src="/ordinary/dependencies/meanmenu/js/jquery.meanmenu.min.js"></script>
+<script src="/ordinary/assets/js/app.js"></script>
+<script src="https://ditu.google.cn/maps/api/js?key=AIzaSyBtmXSwv4YmAKtcZyyad9W7D4AC08z0Rb4"></script>
+<script>
+    $(function () {
+        $(".active").removeClass("active");
+        $(".front_update_pwd").addClass("active");
+
+        var oldpwd = $("input[name=oldpwd]");
+        var newpwd = $("input[name=newpwd]");
+        var confirmpwd = $("input[name=confirmpwd]");
+        var oldpwd_flag = false;
+        var newpwd_flag = false;
+        var confirmpwd_flag = false;
+        oldpwd.blur(function () {
+            $("#oldpwd_i").remove()
+            oldpwd_flag = false
+            if (oldpwd.val() == "") {
+                $("#oldpwd_text").after("<i id='oldpwd_i' style='color: red'>-----旧密码不能为空-----<i/>")
+                $("#pwd1").removeClass("has-success").addClass("has-warning")
+            } else {
+                $.ajax({
+                    url: "/user/judgmentPsd",
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        oldpwd: oldpwd.val()
+                    }, success: function (data) {
+                        if (data.result == "0") {
+                            $("#oldpwd_text").after("<i id='oldpwd_i' style='color: red'>-----旧密码不正确-----<i/>")
+                            $("#pwd1").removeClass("has-success").addClass("has-warning")
+                        } else {
+                            $("#pwd1").removeClass("has-warning").addClass("has-success")
+                            oldpwd_flag = true
+                        }
+                    }
+                })
+            }
+        })
+        newpwd.blur(function () {
+            $("#newpwd_i").remove()
+            newpwd_flag = false
+            if (newpwd.val() == "") {
+                $("#newpwd_text").after("<i id='newpwd_i' style='color: red'>-----新密码不能为空-----<i/>")
+                $("#pwd2").removeClass("has-success").addClass("has-warning")
+            } else if (newpwd.val() == oldpwd.val()) {
+                $("#newpwd_text").after("<i id='newpwd_i' style='color: red'>-----新密码与旧密码相同-----<i/>")
+                $("#pwd2").removeClass("has-success").addClass("has-warning")
+            }else {
+                $("#pwd2").removeClass("has-warning").addClass("has-success")
+                newpwd_flag = true
+            }
+        })
+        confirmpwd.blur(function () {
+            $("#confirmpwd_i").remove()
+            confirmpwd_flag = false
+            if (confirmpwd.val() == "") {
+                $("#confirmpwd_text").after("<i id='confirmpwd_i' style='color: red'>-----确认密码不能为空-----<i/>")
+                $("#pwd3").removeClass("has-success").addClass("has-warning")
+            } else if (confirmpwd.val() != newpwd.val()) {
+                $("#confirmpwd_text").after("<i id='confirmpwd_i' style='color: red'>-----新密码与确认密码不同-----<i/>")
+                $("#pwd3").removeClass("has-success").addClass("has-warning")
+            } else {
+                $("#pwd3").removeClass("has-warning").addClass("has-success")
+                confirmpwd_flag = true
+            }
+        })
+        $(".btn_update").click(function () {
+            console.log(oldpwd_flag)
+            console.log(newpwd_flag)
+            console.log(confirmpwd_flag)
+            if (oldpwd_flag && newpwd_flag && confirmpwd_flag) {
+                $(".site-form").submit();
+            } else {
+                alert("请先完善信息")
+            }
+        })
+    })
+</script>
+</html>

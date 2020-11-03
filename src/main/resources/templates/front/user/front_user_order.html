@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>用户信息 -- 前端</title>
+    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/ordinary/dependencies/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/ordinary/dependencies/meanmenu/css/meanmenu.min.css">
+    <link rel="stylesheet" href="/ordinary/dependencies/animate.css/css/animate.min.css">
+    <link rel="stylesheet" href="/ordinary/dependencies/magnific-popup/css/magnific-popup.css">
+    <link rel="stylesheet" href="/ordinary/dependencies/jquery-animated-headlines/css/jquery.animatedheadline.css">
+    <link rel="stylesheet" href="/ordinary/dependencies/owl.carousel/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="/ordinary/dependencies/owl.carousel/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/ordinary/dependencies/flaticon/flaticon.css">
+
+    <!--    <link href="/css/bootstrap.min.css" rel="stylesheet"-->
+    <!--          th:href="@{/css/bootstrap.min.css}">-->
+    <link href="/css/style.css" rel="stylesheet"
+          th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="/ordinary/dependencies/fontawesome/css/all.min.css">
+
+    <style>
+
+        #dropdown a:hover {
+            background-color: #eee;
+        }
+    </style>
+</head>
+
+<body class="sticky-header">
+<!--[if lte IE 9]>
+<p class="browserupgrade">您使用的浏览器已<strong>过时</strong>。请
+    <a href="https://browsehappy.com/">升级您的浏览器</a>以改善体验和安全性</p>
+<![endif]-->
+<!-- ScrollUp Start Here -->
+<a href="#wrapper" data-type="section-switch" class="scrollup">
+    <i class="fas fa-angle-double-up"></i>
+</a>
+<!-- ScrollUp End Here -->
+<!-- Preloader Start Here -->
+<div id="preloader"></div>
+<!-- Preloader End Here -->
+<div id="wrapper" class="wrapper">
+    <!--=====================================-->
+    <!--=            Header Start           =-->
+    <!--=====================================-->
+    <div th:replace="front/common/front_header :: .front_header"></div>
+    <!--=====================================-->
+    <!--=          Search Box Start         =-->
+    <!--=====================================-->
+    <section class="inner-page-banner" data-bg-image="/ordinary/media/banner/banner1.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumbs-area">
+                        <h1>个人信息</h1>
+                        <ul>
+                            <li>
+                                <a href="#">个人</a>
+                            </li>
+                            <li>个人信息</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--=====================================-->
+    <!--=        Account Page Start      	=-->
+    <!--=====================================-->
+
+    <section class="section-padding-equal-70">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 sidebar-break-sm sidebar-widget-area mt-0">
+                    <div class="widget-bottom-margin widget-account-menu widget-light-bg">
+                        <div th:replace="front/common/front_aside :: .front_aside"></div>
+                    </div>
+                </div>
+                <div class="col-lg-9" th:if="${session.user!=null}">
+                    <div class="tab-content">
+                        <div id="payment" role="tabpanel">
+                            <div class="myaccount-payment light-shadow-bg">
+                                <div class="light-box-content">
+                                    <div class="table-responsive">
+                                        <h1 th:if="${payOrder.size()==0}">没有消费记录</h1>
+                                        <table class="table table-bordered table-striped"
+                                        th:if="${payOrder.size()>0}">
+                                            <thead>
+                                            <tr>
+                                                <th>订单编号</th>
+                                                <th>订单总价</th>
+                                                <th>商品信息</th>
+                                                <th>日期</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="order:${payOrder}">
+                                                <td th:text="${order.orderId}">订单编号</td>
+                                                <td th:text="${order.orderPrice}">订单总价</td>
+                                                <td>
+                                                    <table class="table table-bordered">
+                                                        <tr>
+                                                            <th>商品名称</th>
+                                                            <th>单价</th>
+                                                            <th>单位</th>
+                                                            <th>数量</th>
+                                                            <th>合计</th>
+                                                        </tr>
+                                                        <tr th:each="order_sub : ${order.subOrderList}" class="success">
+                                                            <td th:text="${order_sub.commodity.commodityName}">商品名称</td>
+                                                            <td th:text="${order_sub.commodity.commoditySell}">单价</td>
+                                                            <td th:text="${order_sub.commodity.commodityParameter}">单位</td>
+                                                            <td th:text="${order_sub.commodityQuantity}">数量</td>
+                                                            <td th:text="${order_sub.totalPrice}">合计</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td th:text="${#dates.format(order.orderCreateTime,'yyyy-MM-dd')}">订单日期</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pagination-layout1" th:if="false">
+                                <div class="btn-prev disabled">
+                                    <a href="#"><i class="fas fa-angle-double-left"></i>Previous</a>
+                                </div>
+                                <div class="page-number">
+                                    <a href="#" class="active">1</a>
+                                    <a href="#">2</a>
+                                </div>
+                                <div class="btn-next">
+                                    <a href="#">Next<i class="fas fa-angle-double-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+<script src="/ordinary/dependencies/jquery/js/jquery.min.js"></script>
+<script src="/ordinary/dependencies/popper.js/js/popper.min.js"></script>
+<script src="/ordinary/dependencies/bootstrap/js/bootstrap.min.js"></script>
+<script src="/ordinary/dependencies/waypoints/js/jquery.waypoints.min.js"></script>
+<script src="/ordinary/dependencies/jquery.counterup/js/jquery.counterup.min.js"></script>
+<script src="/ordinary/dependencies/owl.carousel/js/owl.carousel.min.js"></script>
+<script src="/ordinary/dependencies/imagesloaded/js/imagesloaded.pkgd.min.js"></script>
+<script src="/ordinary/dependencies/isotope-layout/js/isotope.pkgd.min.js"></script>
+<script src="/ordinary/dependencies/jquery-animated-headlines/js/jquery.animatedheadline.min.js"></script>
+<script src="/ordinary/dependencies/magnific-popup/js/jquery.magnific-popup.min.js"></script>
+<script src="/ordinary/dependencies/elevatezoom/js/jquery.elevateZoom-2.2.3.min.js"></script>
+<script src="/ordinary/dependencies/bootstrap-validator/js/validator.min.js"></script>
+<script src="/ordinary/dependencies/meanmenu/js/jquery.meanmenu.min.js"></script>
+<script src="/ordinary/assets/js/app.js"></script>
+<script src="https://ditu.google.cn/maps/api/js?key=AIzaSyBtmXSwv4YmAKtcZyyad9W7D4AC08z0Rb4"></script>
+<script>
+    $(function () {
+        $(".active").removeClass("active");
+        $(".front_order").addClass("active");
+
+
+    })
+</script>
+</html>

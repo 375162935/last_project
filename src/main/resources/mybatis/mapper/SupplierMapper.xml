@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.yyn.last_project.dao.SupplierDao">
+
+    <resultMap id="supplier_list" type="cn.yyn.last_project.bean.Supplier">
+        <id column="supplier_id" property="supplierId"/>
+        <result column="supplier_name" property="supplierName"/>
+        <result column="supplier_address" property="supplierAddress"/>
+        <result column="supplier_ceo" property="supplierCEO"/>
+        <result column="supplier_phone" property="supplierPhone"/>
+        <result column="supplier_country" property="supplierCountry"/>
+        <result column="user_id" property="userId"/>
+        <association property="user" javaType="cn.yyn.last_project.bean.UserInfo">
+            <id column="user_id" property="userId"/>
+            <result column="name" property="name"/>
+            <result column="gender" property="gender"/>
+            <result column="birthday" property="birthday"/>
+            <result column="user_phone" property="userPhone"/>
+            <result column="user_type" property="userType"/>
+        </association>
+    </resultMap>
+
+    <select id="findAllSupplier" resultMap="supplier_list">
+        select *
+        from supplier a,user b
+        where a.user_id=b.user_id
+    </select>
+
+    <select id="findSupplierByName" parameterType="String" resultType="cn.yyn.last_project.bean.Supplier">
+        select * from supplier where supplier_name=#{supplierName}
+    </select>
+
+    <select id="findSupplierById" parameterType="Integer" resultType="cn.yyn.last_project.bean.Supplier">
+        select * from supplier where supplier_id=#{supplierId}
+    </select>
+
+    <insert id="addSupplier" parameterType="cn.yyn.last_project.bean.Supplier">
+        INSERT INTO supplier(supplier_name,user_id,supplier_address,supplier_ceo,supplier_phone,supplier_country)
+        VALUE(#{supplierName},#{userId},#{supplierAddress},#{supplierCEO},#{supplierPhone},#{supplierCountry})
+    </insert>
+
+    <update id="updSupplier" parameterType="cn.yyn.last_project.bean.Supplier">
+        update supplier
+        set user_id=#{userId},
+        supplier_address=#{supplierAddress},
+        supplier_ceo=#{supplierCEO},
+        supplier_chone=@{supplierPhone},
+        supplier_country=#{supplierCountry}
+        where supplier_id=#{supplierId}
+    </update>
+
+    <delete id="delSupplier" parameterType="Integer">
+        delete from supplier where supplier_id=#{supplierId}
+    </delete>
+
+</mapper>

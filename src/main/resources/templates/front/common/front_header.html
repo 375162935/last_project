@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>前端主页头部</title>
+</head>
+<body>
+<header class="header front_header">
+    <div id="rt-sticky-placeholder"></div>
+    <div id="header-menu" class="header-menu menu-layout2">
+        <div class="container">
+            <div class="row d-flex align-items-center">
+                <div class="col-lg-2">
+                    <div class="logo-area">
+                        <a href="" class="temp-logo">
+                            <img src="/ordinary/media/logo-dark.png" alt="logo" class="img-fluid">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-7 d-flex justify-content-end">
+                    <nav id="dropdown" class="template-main-menu">
+                        <!--顶部导航栏-->
+                        <ul>
+                            <!--                            <li><a href="/user/toIndex">首页</a></li>-->
+                            <li><a href="/commodity/findAllCommodity"
+                                   th:href="@{/commodity/findAllCommodity}">所有商品</a></li>
+                            <li><a href="/user/close"
+                                   th:href="@{/user/close}">退出系统</a></li>
+                            <li><a href="/user/closeUser"
+                                   th:href="@{/user/closeUser}"
+                                   th:if="${session.user_type=='0'}">点击登录</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-lg-3 d-flex justify-content-end">
+                    <div class="header-action-layout1">
+                        <ul>
+                            <li class="header-login-icon">
+                                <a href="" class="color-primary" data-toggle="tooltip"
+                                   data-placement="top"
+                                   th:title="${session.user_type=='1'}?'个人信息':'注册'"
+                                   th:href="@{/user/toUpdUserDetail}">
+                                    <i class="far fa-user"></i>
+                                </a>
+                            </li>
+                            <li class="header-btn">
+                                <a href="" class="item-btn"
+                                   th:href="@{/shopCar/toShopCommodityCar}">
+                                    <i class="fas fa-shopping-cart"></i>购物车
+                                    <span class="badge"
+                                          th:text="${session.car_number==null}?'0':${session.car_number}">
+                                    </span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+</body>
+</html>

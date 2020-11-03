@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>500</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet"
+          th:href="@{/css/bootstrap.min.css}">
+    <link href="/css/materialdesignicons.min.css" rel="stylesheet"
+          th:href="@{/css/materialdesignicons.min.css}">
+    <link href="/css/style.css" rel="stylesheet"
+          th:href="@{/css/style.css}">
+    <style>
+        body{
+            background-color: #fff;
+        }
+        .error-page {
+            height: 100%;
+            position: fixed;
+            width: 100%;
+        }
+        .error-body {
+            padding-top: 5%;
+        }
+        .error-body h1 {
+            font-size: 210px;
+            font-weight: 700;
+            text-shadow: 4px 4px 0 #f5f6fa, 6px 6px 0 #33cabb;
+            line-height: 210px;
+            color: #33cabb;
+        }
+        .error-body h4 {
+            margin: 30px 0px;
+        }
+    </style>
+</head>
+
+<body data-logobg="color_8" data-sidebarbg="color_8">
+<section class="error-page">
+    <div class="error-box">
+        <div class="error-body text-center">
+            <h1>500</h1>
+            <h4>很抱歉，服务器发生错误，请检查是否已登录。</h4>
+            <a th:if="${session.user==null}" href="/login.html"
+               th:href="@{/login.html}" class="btn btn-primary">返回首页</a>
+            <a th:if="${session.user!=null}" href="/user/toIndex"
+               th:href="@{/user/toIndex}" class="btn btn-primary">返回首页</a>
+        </div>
+    </div>
+</section>
+<script type="text/javascript" src="/js/jquery.min.js"
+        th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"
+        th:src="@{/js/bootstrap.min.js}"></script>
+<script type="text/javascript">;</script>
+</html>

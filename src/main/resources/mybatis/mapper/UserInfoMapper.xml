@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.yyn.last_project.dao.UserDao">
+
+    <select id="findUserByPhone" parameterType="String" resultType="cn.yyn.last_project.bean.UserInfo">
+        select * from user where user_phone=#{userPhone}
+    </select>
+
+    <select id="findByUsername" parameterType="String" resultType="cn.yyn.last_project.bean.UserInfo">
+        select * from user where username=#{username}
+    </select>
+
+    <select id="findAdminByUsername" parameterType="String" resultType="cn.yyn.last_project.bean.UserInfo">
+        select * from admin where username=#{username}
+    </select>
+
+    <select id="findSupplierByUsername" parameterType="String" resultType="cn.yyn.last_project.bean.UserInfo">
+        select * from user where user_type="2" and username=#{username}
+    </select>
+
+    <select id="findAllSupplier" resultType="cn.yyn.last_project.bean.UserInfo">
+        select * from user where user_type="2"
+    </select>
+
+    <select id="findAllUser" resultType="cn.yyn.last_project.bean.UserInfo">
+        select * from user where user_type="1"
+    </select>
+
+    <update id="updPassword" parameterType="cn.yyn.last_project.bean.UserInfo">
+        update user set password=#{password} where user_id=#{userId}
+    </update>
+
+    <update id="updAdminPassword" parameterType="cn.yyn.last_project.bean.UserInfo">
+        update admin set password=#{password} where user_id=#{userId}
+    </update>
+
+    <update id="updDetail" parameterType="cn.yyn.last_project.bean.UserInfo">
+        update user
+        set name=#{name},gender=#{gender},
+        birthday=#{birthday},userPhone=#{userPhone}
+        where username=#{username}
+    </update>
+
+    <update id="updAdminDetail" parameterType="cn.yyn.last_project.bean.UserInfo">
+        update admin
+        set name=#{name},gender=#{gender},
+        birthday=#{birthday},userPhone=#{userPhone}
+        where username=#{username}
+    </update>
+
+    <insert id="addUser" parameterType="cn.yyn.last_project.bean.UserInfo">
+        INSERT INTO user(username,password,name,gender,birthday,user_type,user_phone)
+        VALUE(#{username},#{password},#{name},#{gender},#{birthday},#{userType},#{userPhone})
+    </insert>
+
+    <update id="updUserIntegral" parameterType="cn.yyn.last_project.bean.UserInfo">
+        update user set integral=#{integral} where user_id=#{userId}
+    </update>
+
+    <!--    <resultMap id="user_role" type="cn.yyn.last_project.bean.UserInfo">-->
+    <!--        <id column="user_id" property="userId"/>-->
+    <!--        <result column="username" property="username"/>-->
+    <!--        <result column="password" property="password"/>-->
+    <!--        <result column="true_name" property="trueName"/>-->
+    <!--        <result column="email" property="email"/>-->
+    <!--        <result column="phone" property="phone"/>-->
+    <!--        <result column="message" property="message"/>-->
+    <!--        <result column="country" property="country"/>-->
+    <!--        <result column="gender" property="gender"/>-->
+    <!--        <result column="birthday" property="birthday"/>-->
+    <!--        <result column="create_time" property="createTime"/>-->
+    <!--        <association property="role"  javaType="cn.yyn.bigwork.bean.Role">-->
+    <!--            <id column="role_id" property="roleId"/>-->
+    <!--            <result column="role_name" property="roleName"/>-->
+    <!--            <result column="comment" property="comment"/>-->
+    <!--        </association>-->
+    <!--    </resultMap>-->
+
+
+    <!--    <update id="updUserInfo" parameterType="cn.yyn.bigwork.bean.UserInfo">-->
+    <!--        update order_user-->
+    <!--        set true_name=#{trueName},email=#{email},-->
+    <!--        phone=#{phone},password=#{password},-->
+    <!--        message=#{message},country=#{country}-->
+    <!--        where user_id=#{userId}-->
+    <!--    </update>-->
+
+</mapper>

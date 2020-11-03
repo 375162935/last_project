@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品查找</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet"
+          th:href="@{/css/bootstrap.min.css}">
+    <link href="/css/materialdesignicons.min.css" rel="stylesheet"
+          th:href="@{/css/materialdesignicons.min.css}">
+    <link href="/css/style.css" rel="stylesheet"
+          th:href="@{/css/style.css}">
+    <!--对话框-->
+<!--    <link rel="stylesheet" href="/css/jquery-confirm.min.css"-->
+<!--          th:href="@{/css/jquery-confirm.min.css}">-->
+</head>
+
+<body data-logobg="color_8" data-sidebarbg="color_8">
+<!--侧面导航栏-->
+<div th:replace="common/common_aside :: .layout-sidebar"></div>
+<!--End 左侧导航-->
+
+<!--头部信息-->
+<div th:replace="common/common_header :: .layout-header"></div>
+<!--顶部信息栏-->
+
+<!--主页面-->
+<main class="layout-content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-toolbar clearfix">
+                        <form class="pull-right search-bar" method="get" action="#!" role="form">
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <input type="hidden" name="search_field" id="search-field" value="title">
+                                    <button class="btn btn-default dropdown-toggle" id="search-btn"
+                                            data-toggle="dropdown" type="button" aria-haspopup="true"
+                                            aria-expanded="false">
+                                        商品名称 <span class="caret"></span>
+                                    </button>
+                                </div>
+                                <input type="text" class="form-control find_keyword" value="" name="keyword"
+                                       th:value="${session.keyword!=null}?${session.keyword}:''"
+                                       placeholder="请输入英文(不支持中文)">
+                            </div>
+                        </form>
+                        <div class="toolbar-btn-action">
+                            <a class="btn btn-primary m-r-5" href="/commodity/toAddCommodity"><i
+                                    class="mdi mdi-plus"></i> 添加商品</a>
+                            <!--                            <a class="btn btn-success m-r-5" href="#!"><i class="mdi mdi-check"></i> 启用</a>-->
+                            <!--                            <a class="btn btn-warning m-r-5" href="#!"><i class="mdi mdi-block-helper"></i> 禁用</a>-->
+                            <!--                            <a class="btn btn-danger" href="#!"><i class="mdi mdi-window-close"></i> 删除</a>-->
+                        </div>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>商品编号</th>
+                                    <th>商品名称</th>
+                                    <th>商品进价</th>
+                                    <th>商品售价</th>
+                                    <th>商品库存</th>
+                                    <th>商品类型</th>
+                                    <th>供应商名称</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody th:each="commodity : ${session.find_commodity}">
+                                <tr>
+                                    <td th:text="${commodity.commodityId}" class="commodityId">商品编号</td>
+                                    <td th:text="${commodity.commodityName}">商品名称</td>
+                                    <td th:text="${commodity.commodityPurchase}">商品进价</td>
+                                    <td th:text="${commodity.commoditySell}">商品售价</td>
+                                    <td th:text="${commodity.commodityStock}">商品库存</td>
+                                    <td th:text="${commodity.commodityType.commodityTypeName}">商品类型</td>
+                                    <td th:text="${commodity.supplier.supplierName}">供应商名称</td>
+                                    <td>
+                                        <font class="text-success"
+                                              th:if="${commodity.commodityStock>10}">正常</font>
+                                        <font class="text-warning"
+                                              th:if="${commodity.commodityStock<=10&&
+                                              commodity.commodityStock>0}">库存不足</font>
+                                        <font class="text-danger" th:if="${commodity.commodityStock==0}">已售完</font>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a class="btn btn-xs btn-default" href="#!" title="编辑"
+                                               th:href="@{/commodity/toUpdCommodity(commodityId=${commodity.commodityId})}"
+                                               data-toggle="tooltip"><i class="mdi mdi-pencil"></i></a>
+                                            <a class="btn btn-xs btn-default" href="#!" title="详情"
+                                               th:href="@{/commodity/findCommodityById(commodityId=${commodity.commodityId})}"
+                                               data-toggle="tooltip"><i class="mdi mdi-comment-text-outline"></i></a>
+                                            <a class="btn btn-xs btn-default del_a" href="#" title="删除"
+                                               data-toggle="tooltip"><i class="mdi mdi-window-close"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</main>
+<!--主页面-->
+
+</body>
+<script type="text/javascript" src="/js/jquery.min.js"
+        th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"
+        th:src="@{/js/bootstrap.min.js}"></script>
+<script type="text/javascript" src="/js/perfect-scrollbar.min.js"
+        th:src="@{/js/perfect-scrollbar.min.js}"></script>
+<script type="text/javascript" src="/js/main.js"
+        th:src="@{/js/main.js}"></script>
+<!--图表插件-->
+<script type="text/javascript" src="/js/Chart.js"
+        th:href="@{/js/Chart.js}"></script>
+<!--对话框-->
+<!--<script type="text/javascript" src="/js/jquery-confirm.min.js"-->
+<!--        th:src="@{/js/jquery-confirm.min.js}"></script>-->
+<script>
+    $(function () {
+        //当前标签页高亮
+        $(".layout-sidebar").find(".active").removeClass("active");
+        $("#commodity_all").addClass("active");
+
+        //当前页面导航栏下拉
+        $navHasSubnav = $("#commodity_all").parent().parent();
+        $navHasSubnav.siblings().find('.nav-subnav:visible').slideUp(500).parent().removeClass('open');
+        $navHasSubnav.toggleClass('open');
+
+        var k=$("input[name=keyword]").val();
+        $("input[name=keyword]").val("").focus().val(k);
+        $(".find_keyword").bind("input", function () {
+            var keyword = $(".find_keyword").val();
+            $.ajax({
+                url: "/commodity/findCommodityByName",
+                type: "post",
+                dataType: "json",
+                data: {
+                    keyword: keyword
+                }, success: function (data) {
+                    if (data.result == "1") {
+                        window.location.href = "/commodity/findAllCommodity";
+                    } else if (data.result == "2") {
+                        window.location.href = "/commodity/toCommodityFind";
+                    }
+                }
+            })
+        })
+        $('.del_a').on('click', function () {
+            var commodityId = $(this).parent().parent().parent().children(".commodityId").text();
+            $.alert({
+                title: '你要删除这个商品吗',
+                content: '',
+                buttons: {
+                    confirm: {
+                        text: '确认',
+                        btnClass: 'btn-primary',
+                        action: function () {
+                            window.location.href = "/commodity/delCommodity?commodityId=" + commodityId;
+                        }
+                    },
+                    cancel: {
+                        text: '取消',
+                        action: function () {
+                        }
+                    }
+                }
+            });
+        });
+    })
+</script>
+
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品详情</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet"
+          th:href="@{/css/bootstrap.min.css}">
+    <link href="/css/materialdesignicons.min.css" rel="stylesheet"
+          th:href="@{/css/materialdesignicons.min.css}">
+    <link href="/css/style.css" rel="stylesheet"
+          th:href="@{/css/style.css}">
+    <!--对话框-->
+    <!--    <link rel="stylesheet" href="/css/jquery-confirm.min.css"-->
+    <!--          th:href="@{/css/jquery-confirm.min.css}">-->
+</head>
+
+<body data-logobg="color_8" data-sidebarbg="color_8">
+<!--侧面导航栏-->
+<div th:replace="common/common_aside :: .layout-sidebar"></div>
+<!--End 左侧导航-->
+
+<!--头部信息-->
+<div th:replace="common/common_header :: .layout-header"></div>
+<!--顶部信息栏-->
+
+<!--主页面-->
+<main class="layout-content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <!----------------------------------------------------------------------->
+                        <form action="#" method="post" class="row">
+                            <div class="form-group col-md-12 ">
+                                <label for="commodityName">商品名称</label>
+                                <input type="text" class="form-control" id="commodityName" name="commodityName"
+                                       th:value="${commodity.commodityName}"
+                                       disabled="disabled"/>
+                            </div>
+                            <div class="form-group col-md-12 ">
+                                <label for="commodityImg">商品图片</label>
+                                <p th:if="${commodity.commodityImg==null}">图片未上传</p>
+                                <img src="" id="commodityImg" name="commodityImg"
+                                     th:if="${commodity.commodityImg!=null}"
+                                     th:src="@{'http://qilpqdaxg.hd-bkt.clouddn.com/'+${commodity.commodityImg}}"/>
+                                <!--                                <input type="text" class="form-control" id="commodityImg"-->
+                                <!--                                       name="commodityImg"-->
+                                <!--                                       th:value="${commodity.commodityParameter}"-->
+                                <!--                                       disabled="disabled"/>-->
+                            </div>
+                            <div class="form-group col-md-12 ">
+                                <label for="commodityParameter">商品参数</label>
+                                <input type="text" class="form-control" id="commodityParameter"
+                                       name="commodityParameter"
+                                       th:value="${commodity.commodityParameter}"
+                                       disabled="disabled"/>
+                            </div>
+                            <div class="form-group col-md-12 ">
+                                <label for="commodityTypeId">商品类别</label>
+                                <input type="text" class="form-control" id="commodityTypeId" name="commodityTypeId"
+                                       th:value="${commodity.commodityType.commodityTypeName}"
+                                       disabled="disabled"/>
+                            </div>
+                            <div class="form-group col-md-12 ">
+                                <label for="commodityPurchase">商品进价</label>
+                                <input type="text" class="form-control" id="commodityPurchase" name="commodityPurchase"
+                                       th:value="${commodity.commodityPurchase}"
+                                       disabled="disabled"/>
+                            </div>
+                            <div class="form-group col-md-12 ">
+                                <label for="commoditySell">商品售价</label>
+                                <input type="text" class="form-control" id="commoditySell" name="commoditySell"
+                                       th:value="${commodity.commoditySell}"
+                                       disabled="disabled"/>
+                            </div>
+                            <div class="form-group col-md-12 ">
+                                <label for="commodityStock">商品库存</label>
+                                <input type="text" class="form-control" id="commodityStock" name="commodityStock"
+                                       th:value="${commodity.commodityStock}"
+                                       disabled="disabled"/>
+                            </div>
+                            <div class="form-group col-md-12 ">
+                                <label for="supplierId">供应商名称</label>
+                                <input type="text" class="form-control" id="supplierId" name="supplierId"
+                                       th:value="${commodity.supplier.supplierName}"
+                                       disabled="disabled"/>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <button type="button" class="btn btn-default"
+                                        onclick="javascript:history.back(-1);return false;">返 回
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</main>
+<!--主页面-->
+
+</body>
+<script type="text/javascript" src="/js/jquery.min.js"
+        th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"
+        th:src="@{/js/bootstrap.min.js}"></script>
+<script type="text/javascript" src="/js/perfect-scrollbar.min.js"
+        th:src="@{/js/perfect-scrollbar.min.js}"></script>
+<script type="text/javascript" src="/js/main.js"
+        th:src="@{/js/main.js}"></script>
+<!--图表插件-->
+<script type="text/javascript" src="/js/Chart.js"
+        th:href="@{/js/Chart.js}"></script>
+<!--对话框-->
+<!--<script type="text/javascript" src="/js/jquery-confirm.min.js"-->
+<!--        th:src="@{/js/jquery-confirm.min.js}"></script>-->
+<script>
+    $(function () {
+        //当前标签页高亮
+        $(".layout-sidebar").find(".active").removeClass("active");
+        $("#commodity_all").addClass("active");
+
+        //当前页面导航栏下拉
+        $navHasSubnav = $("#commodity_all").parent().parent();
+        $navHasSubnav.siblings().find('.nav-subnav:visible').slideUp(500).parent().removeClass('open');
+        $navHasSubnav.toggleClass('open');
+
+        var commodityId = $("input[name=commodityId]");
+        var commodityName = $("input[name=commodityName]");
+        var commodityParameter = $("input[name=commodityParameter]");
+        var commodityTypeId = $("select[name=commodityTypeId]");
+        var commodityPurchase = $("input[name=commodityPurchase]");
+        var commoditySell = $("input[name=commoditySell]");
+        var commodityStock = $("input[name=commodityStock]");
+        var supplierId = $("select[name=supplierId]");
+        var commodityName_flag = false;
+        var commodityParameter_flag = false;
+        var commodityPurchase_flag = false;
+        var commoditySell_flag = false;
+        var commodityStock_flag = false;
+        commodityName.blur(function () {
+            $("#commodityName_i").remove();
+            if (commodityName.val() == "") {
+                $("#commodityName_text").after("<i id='commodityName_i' style='color: red'>-----商品名称不能为空-----<i/>");
+                $(".commodityName_add").removeClass("has-success").addClass("has-warning");
+                commodityName_flag = false;
+            } else {
+                $(".commodityName_add").removeClass("has-warning").addClass("has-success");
+                commodityName_flag = true;
+            }
+        })
+        commodityParameter.blur(function () {
+            $("#commodityParameter_i").remove();
+            if (commodityParameter.val() == "") {
+                $("#commodityParameter_text").after("<i id='commodityParameter_i' style='color: red'>-----商品参数不能为空-----<i/>");
+                $(".commodityParameter_add").removeClass("has-success").addClass("has-warning");
+                commodityParameter_flag = false;
+            } else {
+                $(".commodityParameter_add").removeClass("has-warning").addClass("has-success");
+                commodityParameter_flag = true;
+            }
+        })
+        commodityPurchase.blur(function () {
+            $("#commodityPurchase_i").remove();
+            if (commodityPurchase.val().replace(/\s+/g, "") == "" || commodityPurchase.val() == null) {
+                $("#commodityPurchase_text").after("<i id='commodityPurchase_i' style='color: red'>-----商品进价不能为空-----<i/>");
+                $(".commodityPurchase_add").removeClass("has-success").addClass("has-warning");
+                commodityPurchase_flag = false;
+            } else {
+                if (isNaN(commodityPurchase.val())) {
+                    $("#commodityPurchase_text").after("<i id='commodityPurchase_i' style='color: red'>-----请输入数字-----<i/>");
+                    $(".commodityPurchase_add").removeClass("has-success").addClass("has-warning");
+                    commodityPurchase_flag = false;
+                } else {
+                    $(".commodityPurchase_add").removeClass("has-warning").addClass("has-success");
+                    commodityPurchase_flag = true;
+                }
+            }
+        })
+        commoditySell.blur(function () {
+            $("#commoditySell_i").remove();
+            if (commoditySell.val().replace(/\s+/g, "") == "" || commoditySell.val() == null) {
+                $("#commoditySell_text").after("<i id='commoditySell_i' style='color: red'>-----商品售价不能为空-----<i/>");
+                $(".commoditySell_add").removeClass("has-success").addClass("has-warning");
+                commoditySell_flag = false;
+            } else {
+                if (isNaN(commoditySell.val())) {
+                    $("#commoditySell_text").after("<i id='commoditySell_i' style='color: red'>-----请输入数字-----<i/>");
+                    $(".commoditySell_add").removeClass("has-success").addClass("has-warning");
+                    commoditySell_flag = false;
+                } else {
+                    $(".commoditySell_add").removeClass("has-warning").addClass("has-success");
+                    commoditySell_flag = true;
+                }
+            }
+        })
+        commodityStock.blur(function () {
+            $("#commodityStock_i").remove();
+            if (commodityStock.val().replace(/\s+/g, "") == "" || commodityStock.val() == null) {
+                $("#commodityStock_text").after("<i id='commodityStock_i' style='color: red'>-----商品库存不能为空-----<i/>");
+                $(".commodityStock_add").removeClass("has-success").addClass("has-warning");
+                commodityStock_flag = false;
+            } else {
+                if (isNaN(commodityStock.val())) {
+                    $("#commodityStock_text").after("<i id='commodityStock_i' style='color: red'>-----请输入数字-----<i/>");
+                    $(".commodityStock_add").removeClass("has-success").addClass("has-warning");
+                    commodityStock_flag = false;
+                } else {
+                    $(".commodityStock_add").removeClass("has-warning").addClass("has-success");
+                    commodityStock_flag = true;
+                }
+            }
+        })
+        $(".ajax-post").click(function () {
+            if (commodityName_flag ||
+                commodityParameter_flag ||
+                commodityPurchase_flag ||
+                commoditySell_flag ||
+                commodityStock_flag) {
+                $.ajax({
+                    url: "/commodity/updCommodity",
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        commodityId: commodityId.val(),
+                        commodityName: commodityName.val(),
+                        commodityParameter: commodityParameter.val(),
+                        commodityPurchase: commodityPurchase.val().replace(/\s+/, "").replace(/[-]/g, "").replace(/[+]/g, ""),
+                        commoditySell: commoditySell.val().replace(/\s+/, "").replace(/[-]/g, "").replace(/[+]/g, ""),
+                        commodityStock: commodityStock.val().replace(/\s+/, "").replace(/[-]/g, "").replace(/[+]/g, ""),
+                        commodityTypeId: commodityTypeId.val(),
+                        supplierId: supplierId.val()
+                    }, success: function (data) {
+                        if (data.result == "0") {
+                            alert("修改失败")
+                        } else {
+                            alert("修改成功")
+                            window.location.href = "/commodity/findAllCommodity"
+                        }
+                    }
+                })
+            } else {
+                alert("请先完善信息")
+            }
+        })
+    })
+</script>
+
+</html>

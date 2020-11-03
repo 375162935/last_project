@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>购物车</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet"
+          th:href="@{/css/bootstrap.min.css}">
+    <link href="/css/materialdesignicons.min.css" rel="stylesheet"
+          th:href="@{/css/materialdesignicons.min.css}">
+    <link href="/css/style.css" rel="stylesheet"
+          th:href="@{/css/style.css}">
+    <!--对话框-->
+    <!--    <link rel="stylesheet" href="/css/jquery-confirm.min.css"-->
+    <!--          th:href="@{/css/jquery-confirm.min.css}">-->
+    <style>
+        .card-body {
+            height: 720px;
+        }
+
+        ul, li {
+            list-style: none;
+        }
+
+        .table-responsive {
+            height: 100%;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: #add;
+        }
+
+        /*底部信息栏*/
+        .bottom_pay {
+            width: 100%;
+            height: 15%;
+            /*background-color: rgb(124, 245, 124);*/
+            background-color: #abc;
+            position: absolute;
+            bottom: 0;
+        }
+
+        /**/
+        /*底部左侧信息*/
+        .bottom_left {
+            float: left;
+            display: inline-block;
+            height: 100%;
+            width: 70%;
+            background-color: #abc;
+        }
+
+        .bottom_left_ul, .bottom_left_ul li {
+            display: inline-block;
+        }
+
+        /*底部左侧信息顶部信息区*/
+        .bottom_left_top_ul {
+            float: right;
+        }
+
+        .bottom_ul_title {
+            font-size: 25px;
+            margin-left: 20px;
+        }
+
+        .bottom_left_top_ul span {
+            color: #66f;
+        }
+
+        .bottom_ul_last span {
+            color: #f33;
+        }
+
+        .bottom_ul_body {
+            font-size: 20px;
+        }
+
+        /*底部左侧信息底部功能栏*/
+        .bottom_left_bottom {
+            position: absolute;
+            display: inline-block;
+            bottom: 0;
+        }
+
+        .bottom_left_bottom_ul > li {
+            width: 150px;
+            margin-left: 25px;
+        }
+
+        .bottom_left_bottom_ul > li > .btn {
+            width: 100%;
+        }
+
+        .bottom_pay a {
+            color: white;
+            display: block;
+        }
+
+        /*底部左侧信息*/
+        /**/
+
+        /**/
+        /*底部右侧信息*/
+        .bottom_right {
+            float: left;
+            display: inline-block;
+            height: 100%;
+            width: 17.4%;
+            background-color: #bcd;
+        }
+
+        .bottom_right > .btn {
+            height: 100%;
+            width: 100%;
+            -webkit-border-radius: 3rem;
+        }
+
+        /*底部右侧信息*/
+        /**/
+    </style>
+</head>
+
+<body data-logobg="color_8" data-sidebarbg="color_8">
+<!--侧面导航栏-->
+<div th:replace="common/common_aside :: .layout-sidebar"></div>
+<!--End 左侧导航-->
+
+<!--头部信息-->
+<div th:replace="common/common_header :: .layout-header"></div>
+<!--顶部信息栏-->
+
+<!--主页面-->
+<main class="layout-content"
+      th:style="${orderSubList==null||orderSubList.size()==0}?'height:100%':
+      (${orderSubList.size()>8}?'height:auto':'height:100%')">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-toolbar clearfix" th:if="${session.car_number!=null&&session.car_number>0}">
+                        <form class="pull-right search-bar" method="get" action="#" role="form"
+                              th:if="${session.buy_user==null}">
+                            <div class="input-group">
+                                <input type="text" class="form-control find_keyword" value="" name="userPhone"
+                                       autofocus="autofocus" placeholder="请输入会员手机号">
+                                <div class="input-group-btn">
+                                    <input type="hidden" name="search_field" id="search-field" value="title">
+                                    <button class="btn btn-default dropdown-toggle find_phone" id="search-btn"
+                                            data-toggle="dropdown" type="button" aria-haspopup="true"
+                                            aria-expanded="false">搜索
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <h1 th:if="${orderSubList==null||orderSubList.size()==0}" align="center">还没有添加商品<br>
+                                <a href="/shopCar/toShopCommodity" style="color: red">点击前往选购</a>
+                            </h1>
+                            <table class="table table-bordered table-hover"
+                                   th:if="${orderSubList!=null && orderSubList.size()>0}">
+                                <thead>
+                                <tr th:if="${session.buy_user!=null}">
+                                    <th colspan="2" th:text="'姓名:'+${session.buy_user.name}">a</th>
+                                    <th colspan="2" th:text="'电话:'+${session.buy_user.userPhone}">a</th>
+                                    <th colspan="2" th:text="'积分:'+${session.buy_user.integral}">a</th>
+                                    <th colspan="2">
+                                        <button class="btn btn-w-md btn-round btn-primary del_phone">清除</button>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>商品编号</th>
+                                    <th>商品名称</th>
+                                    <th>售价</th>
+                                    <th>单位</th>
+                                    <th>供应商名称</th>
+                                    <th>商品数量</th>
+                                    <th>商品总价</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="ordersub : ${orderSubList}">
+                                    <td th:text="${ordersub.commodity.commodityId}" class="commodityId">商品编号</td>
+                                    <td th:text="${ordersub.commodity.commodityName}">商品名称</td>
+                                    <td th:text="${ordersub.commodity.commoditySell}">售价</td>
+                                    <td th:text="${ordersub.commodity.commodityParameter}">单位</td>
+                                    <td th:text="${ordersub.commodity.supplier.supplierName}">供应商名称</td>
+                                    <td>
+                                        <input type="hidden" class="commodity_stock"
+                                               th:value="${ordersub.commodity.commodityStock}"/>
+                                        <input type="hidden" class="commodity_id"
+                                               th:value="${ordersub.commodityId}"/>
+                                        <input type="hidden" class="commodity_sell"
+                                               th:value="${ordersub.commodity.commoditySell}"/>
+                                        <div class="btn-group btn-group-round">
+                                            <button class="btn btn-default number_cut">-</button>
+                                            <input type="text" class="btn btn-default number_input"
+                                                   th:value="${ordersub.commodityQuantity}"/>
+                                            <!--                                            disabled-->
+                                            <button class="btn btn-default number_add">+</button>
+                                        </div>
+                                    </td>
+                                    <td th:text="${#numbers.formatDecimal(ordersub.totalPrice*100/100,1,2)}"
+                                        class="totalPrice">商品小计
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <input type="hidden" th:value="${ordersub.commodityId}" class="del_id"/>
+                                            <button class="btn btn-label btn-danger btn_del" type="button">
+                                                <label><i class="mdi mdi-close"></i></label> 删除该商品
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="bottom_pay">
+        <div class="bottom_left">
+            <!--            th:if="${orderSubList!=null && orderSubList.size()>0}"-->
+            <div class="bottom_left_top">
+                <ul class="bottom_left_ul bottom_left_top_ul">
+                    <li class="bottom_ul_title">总数量:</li>
+                    <li class="bottom_ul_body">
+                        <span id="all_number">1</span>
+                    </li>
+                    <li class="bottom_ul_title">订单总价:</li>
+                    <li class="bottom_ul_body">
+                        <span>￥</span>
+                        <span id="all_price">111</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="bottom_left_bottom">
+                <ul class="bottom_left_ul bottom_left_bottom_ul">
+                    <li th:if="${orderSubList!=null&&orderSubList.size()>0&&session.user!=null}">
+                        <button class="btn btn-w-md btn-round btn-primary">
+                            <a href="#" th:href="@{/order/pendingOrder}">挂单</a>
+                        </button>
+                    </li>
+                    <li th:if="${orderSubList!=null&&orderSubList.size()>0}">
+                        <button class="btn btn-w-md btn-round btn-primary">
+                            <a href="#" th:href="@{/order/closeShopCar}">清空订单</a>
+                        </button>
+                    </li>
+                    <li th:if="${session.orderList!=null && session.orderList.size()>0 && session.user!=null}">
+                        <button class="btn btn-w-md btn-round btn-primary">
+                            <a href="#" th:href="@{/order/getPendingOrderList}">取单</a></button>
+                    </li>
+                    <!--                    <li>-->
+                    <!--                        <button class="btn btn-w-md btn-round btn-primary">添加无码商品</button>-->
+                    <!--                    </li>-->
+                    <!--                    <li>-->
+                    <!--                        <button class="btn btn-w-md btn-round btn-primary">打开钱箱</button>-->
+                    <!--                    </li>-->
+                </ul>
+            </div>
+        </div>
+        <div class="bottom_right">
+            <!--            th:if="${orderSubList!=null && orderSubList.size()>0}"-->
+            <button class="btn btn-w-md btn-round btn-primary pay_button">
+                <span>确认订单</span>
+            </button>
+        </div>
+    </div>
+</main>
+<!--主页面-->
+
+</body>
+<script type="text/javascript" src="/js/jquery.min.js"
+        th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"
+        th:src="@{/js/bootstrap.min.js}"></script>
+<script type="text/javascript" src="/js/perfect-scrollbar.min.js"
+        th:src="@{/js/perfect-scrollbar.min.js}"></script>
+<script type="text/javascript" src="/js/main.js"
+        th:src="@{/js/main.js}"></script>
+<!--图表插件-->
+<script type="text/javascript" src="/js/Chart.js"
+        th:href="@{/js/Chart.js}"></script>
+<!--对话框-->
+<!--<script type="text/javascript" src="/js/jquery-confirm.min.js"-->
+<!--        th:src="@{/js/jquery-confirm.min.js}"></script>-->
+<script>
+    $(function () {
+        $(".del_phone").click(function (){
+            window.location.href="/user/closeBuyUser";
+        })
+
+        $(".find_phone").click(function () {
+            var userPhone = $("input[name=userPhone]").val();
+            $.ajax({
+                url: "/user/getUserByPhone",
+                type: "post",
+                dataType: "json",
+                data: {
+                    userPhone: userPhone
+                }, success: function (data) {
+                    if (data.result == "0") {
+                        alert("手机号不存在")
+                    } else if (data.result == "1") {
+                        alert("手机号不可用")
+                    } else {
+                        alert("添加成功")
+                        location.reload();
+                    }
+                }
+            })
+        })
+
+        var flag = true;
+        $(".aside-toggler").bind('click', function () {
+            if (flag) {
+                $(".bottom_left").css("width", "82.6%");
+                flag = false;
+            } else {
+                $(".bottom_left").css("width", "70%");
+                flag = true;
+            }
+        })
+
+        //订单总数
+        function get_all_num() {
+            var num_i = 0;
+            if ($(".commodity_id").length > 0) {
+                for (var i = 0; i < $(".commodity_id").length; i++) {
+                    num_i += parseInt($(".commodity_id").eq(i).next().next().children(".number_input").val());
+                }
+            }
+            $("#all_number").html(num_i);
+        }
+
+        //计算商品总价
+        function get_all_price() {
+            var totalPrice_all = $(".totalPrice");
+            var all_price = 0;
+            for (var i = 0; i < totalPrice_all.length; i++) {
+                all_price += parseFloat(totalPrice_all.eq(i).html())
+            }
+            $("#all_price").html(all_price.toFixed(2))
+        }
+
+        //调整数字框大小
+        function change_size() {
+            var number_input_size = 46;
+            for (var i = 0; i < $(".number_input").length; i++) {
+                if ($(".number_input").eq(i).val() != undefined) {
+                    number_input_size = parseInt($(".number_input").eq(i).val().length) * 10 + 36;
+                    $(".number_input").eq(i).css("width", number_input_size + "px");
+                }
+            }
+        }
+
+        //当前标签页高亮
+        function page_light() {
+            $(".layout-sidebar").find(".active").removeClass("active");
+            $("#shop_car").addClass("active");
+        }
+
+        //展开当前页面所属的下拉框
+        function change_num_input() {
+            $navHasSubnav = $("#shop_car").parent().parent();
+            $navHasSubnav.siblings().find('.nav-subnav:visible').slideUp(500).parent().removeClass('open');
+            $navHasSubnav.toggleClass('open');
+        }
+
+        function add_ban() {
+            var number_input_list = $(".number_input");
+            for (var i = 0; i < number_input_list.size(); i++) {
+                var commodity_stock = number_input_list.eq(i).parent().prev().prev().prev().val();
+                var commodity_num = number_input_list.eq(i).val();
+                if (commodity_num == commodity_stock) {
+                    number_input_list.eq(i).next().addClass("disabled");
+                }
+            }
+        }
+
+        //修改session中的购物车商品参数
+        function change_commodity_car(obj, totalPrice, all_price, all_number, c_id, c_num) {
+            obj.parent().parent().next().html(totalPrice.toFixed(2));            //修改调整后的商品总价
+            $("#all_price").html(all_price.toFixed(2));                          //修改调整后的订单总价
+            $("#all_number").html(all_number);                                   //修改调整后的订单总数
+            //调整订单参数
+            $.ajax({
+                url: "/shopCar/addCarCommodity",
+                type: "post",
+                dataType: "json",
+                data: {
+                    c_id: c_id,
+                    num: c_num
+                }, success: function (data) {
+                }
+            })
+        }
+
+        get_all_num();
+        get_all_price();
+        change_size();
+        page_light();
+        change_num_input();
+        add_ban();
+
+        //动态调整数字框大小
+        $('.number_input').bind('input propertychange', function () {
+            var $this = $(this);
+            var text_length = $this.val().length;//获取当前文本框的长度
+            if (text_length == "") {
+                var current_width = 46;//该16是改变前的宽度除以当前字符串的长度,算出每个字符的长度
+            } else {
+                var current_width = parseInt(text_length) * 10 + 36;//该16是改变前的宽度除以当前字符串的长度,算出每个字符的长度
+            }
+            $this.css("width", current_width + "px");
+        });
+
+        //购物车内删除商品
+        $(".btn_del").click(function () {
+            var del_id = $(this).prev().val();
+            // var totalPrice = parseFloat($(this).parent().parent().prev().html());
+            // var all_price = parseFloat($("#all_price").html());
+            // all_price = (all_price - totalPrice).toFixed(2);
+            $.ajax({
+                url: "/shopCar/addCarCommodity",
+                type: "post",
+                dataType: "json",
+                data: {
+                    c_id: del_id,
+                    num: 0
+                }, success: function (data) {
+                    if (data.result != "0" || data.result != 0) {
+                        $("#car_num").html(data.result)
+                    } else {
+                        $("#car_num").html("0")
+                    }
+                    // $("#all_price").html(all_price)                             //修改删除后的订单总价
+                    location.reload();                                          //刷新页面
+                }
+            })
+        })
+
+        $(".number_cut").click(function () {
+            var c_id = $(this).parent().prev().prev().val();
+            var number = parseInt($(this).next().val())
+            var c_num = number - 1;
+            var c_sell = parseFloat($(this).parent().prev().val());
+            var totalPrice = parseFloat(c_num * c_sell);
+            var all_price = parseFloat($("#all_price").html());
+            var all_number = parseInt($("#all_number").html());
+            if (c_num == 0) {
+                $(this).addClass("disabled")                                        //修改调整后的按钮状态
+            }
+            all_number -= 1;
+            all_price = all_price - c_sell;
+            $(this).next().next().removeClass("disabled");                      //修改调整后的按钮状态
+            if (c_num >= 0) {
+                $(this).next().val(c_num)
+                change_commodity_car($(this), totalPrice, all_price, all_number, c_id, c_num);
+            }
+        })
+
+        $(".number_add").click(function () {
+            var c_stock = $(this).parent().prev().prev().prev().val();
+            var c_id = $(this).parent().prev().prev().val();
+            var number = parseInt($(this).prev().val())
+            var c_num = number + 1;
+            var c_sell = parseFloat($(this).parent().prev().val());
+            var totalPrice = parseFloat(c_num * c_sell);
+            var all_price = parseFloat($("#all_price").html());
+            var all_number = parseInt($("#all_number").html());
+            if (c_num == c_stock) {//当前数量为库存最大值时
+                $(this).addClass("disabled")                                            //修改调整后的按钮状态
+            }
+            all_price += c_sell;
+            all_number += 1;
+            if (c_num <= c_stock) {//判断商品数量是否超过库存
+                if (number == 0) {
+                    $(this).prev().prev().removeClass("disabled");                      //修改调整后的按钮状态
+                }
+                $(this).prev().val(c_num)                                               //修改调整后的商品数量
+                change_commodity_car($(this), totalPrice, all_price, all_number, c_id, c_num);
+            }
+        })
+
+        //修改数字框
+        $(".number_input").bind('input propertychange', function () {
+            var parent = $(this).parent().parent().parent();
+            var c_sell = parseFloat(parent.find(".commodity_sell").val());
+            var totalPrice = parseFloat(parent.find(".totalPrice").html());
+            var all_price = parseFloat($("#all_price").html());
+            var old_num = parseInt(totalPrice / c_sell);
+            var all_number = parseInt($("#all_number").html());
+            var c_id = parent.find(".commodity_id").val();
+            var stock = parseInt(parent.find(".commodity_stock").val());//当前商品库存
+            var num = $(this).val().replace(/[^0-9]/ig, "");//去掉特殊字符后当前数字框的值
+            if (num.length > 1) {//数字框长度大于1时去前面的0
+                num = num.replace(/\b(0+)/gi, "");//去字符前的0
+            }
+            if (num > 999999999999999) {//超出范围时
+                num = 999999999999999;
+            }
+            if (num > stock) {//数字大于库存时
+                num = stock;
+                parent.find(".number_add").addClass("disabled")
+            } else if (num.length == 0) {//去字符后长度为0时
+                num = 0;
+                parent.find(".number_cut").addClass("disabled")
+            } else {
+                10
+                parent.find(".number_cut").removeClass("disabled")
+                parent.find(".number_add").removeClass("disabled")
+            }
+            all_number = all_number - old_num + parseInt(num)
+            all_price -= totalPrice;
+            totalPrice = num * c_sell;
+            all_price += totalPrice
+            $(this).val(num);
+            change_commodity_car($(this), totalPrice, all_price, all_number, c_id, num)
+        })
+
+        $(".pay_button").click(function () {
+            var userId = 1;
+            window.location.href = "/order/toPayOrder";
+        })
+    })
+
+</script>
+
+</html>

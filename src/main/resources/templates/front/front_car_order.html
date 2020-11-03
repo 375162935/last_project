@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>首页 -- 前端</title>
+    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/ordinary/dependencies/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/ordinary/dependencies/meanmenu/css/meanmenu.min.css">
+    <link rel="stylesheet" href="/ordinary/dependencies/animate.css/css/animate.min.css">
+    <link rel="stylesheet" href="/ordinary/dependencies/magnific-popup/css/magnific-popup.css">
+    <link rel="stylesheet" href="/ordinary/dependencies/jquery-animated-headlines/css/jquery.animatedheadline.css">
+    <link rel="stylesheet" href="/ordinary/dependencies/owl.carousel/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="/ordinary/dependencies/owl.carousel/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/ordinary/dependencies/flaticon/flaticon.css">
+
+    <!--    <link href="/css/bootstrap.min.css" rel="stylesheet"-->
+    <!--          th:href="@{/css/bootstrap.min.css}">-->
+    <link href="/css/style.css" rel="stylesheet"
+          th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="/ordinary/dependencies/fontawesome/css/all.min.css">
+
+    <style>
+        .img_a {
+            height: 290px;
+        }
+
+        .number_input {
+            width: 46px;
+        }
+
+        #dropdown a:hover {
+            background-color: #eee;
+        }
+    </style>
+</head>
+
+<body class="sticky-header">
+<!--[if lte IE 9]>
+<p class="browserupgrade">您使用的浏览器已<strong>过时</strong>。请
+    <a href="https://browsehappy.com/">升级您的浏览器</a>以改善体验和安全性</p>
+<![endif]-->
+<!-- ScrollUp Start Here -->
+<a href="#wrapper" data-type="section-switch" class="scrollup">
+    <i class="fas fa-angle-double-up"></i>
+</a>
+<!-- ScrollUp End Here -->
+<!-- Preloader Start Here -->
+<div id="preloader"></div>
+<!-- Preloader End Here -->
+<div id="wrapper" class="wrapper">
+    <!--=====================================-->
+    <!--=            Header Start           =-->
+    <!--=====================================-->
+    <div th:replace="front/common/front_header :: .front_header"></div>
+    <!--=====================================-->
+    <!--=          Search Box Start         =-->
+    <!--=====================================-->
+
+    <section class="inner-page-banner" data-bg-image="/ordinary/media/banner/banner1.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumbs-area">
+                        <h1>确认订单</h1>
+                        <ul>
+                            <li>
+                                <a href="index.html">购物车</a>
+                            </li>
+                            <li>确认订单</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding-equal-70">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3 class="ordering-controller">商品总数：
+                        <span id="all_number" th:text="${order.allNum}">0</span></h3>
+                </div>
+                <div class="col-md-8 d-flex justify-content-md-end justify-content-center">
+                    <h3 class="layout-switcher">总价：$
+                        <span id="all_price" th:text="${order.orderPrice}">0</span></h3>
+                    <button type="button" class="btn btn-w-md btn-primary"
+                            onclick="javascript:history.back(-1);return false;">返 回
+                    </button>
+                    <button class="btn btn-success btn_alipay">支付宝支付</button>
+                    <button class="btn btn-success btn_money_pay">现金支付支付</button>
+                </div>
+                <div class="col-lg-12">
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="favourite" role="tabpanel">
+                            <div class="myaccount-listing">
+                                <div class="list-view-layout3" th:each="ordersub : ${order.subOrderList}">
+                                    <div class="product-box-layout3">
+                                        <div class="item-img">
+                                            <a href="">
+                                                <img th:if="${ordersub.commodity.commodityImg!=null}"
+                                                     th:src="@{'http://qilpqdaxg.hd-bkt.clouddn.com/'+${ordersub.commodity.commodityImg}}"
+                                                     width="600" height="300"/>
+                                                <img th:if="${ordersub.commodity.commodityImg==null}"
+                                                     src="/images/nullImg.jpg"
+                                                     th:alt="${ordersub.commodity.commodityName}">
+                                            </a>
+                                        </div>
+                                        <div class="product-info">
+                                            <div class="item-content">
+                                                <h3 class="item-title">
+                                                    <a href=""
+                                                       th:text="${ordersub.commodity.commodityName}">商品名称</a><span>New</span>
+                                                </h3>
+                                                <div class="item-tag">
+                                                    <i class="fas fa-angle-double-right"></i>
+                                                    <span th:text="${ordersub.commodity.supplier.supplierName}">供应商名称</span>
+                                                </div>
+                                                <ul class="entry-meta">
+                                                    <li>
+                                                        <i class="fas fa-map-marker-alt"></i>
+                                                        <span th:text="${ordersub.commodity.supplier.supplierAddress}">供应商地址</span>
+                                                    </li>
+                                                </ul>
+                                                <div class="item-action">
+                                                    <i class="fas fa-align-justify"></i>
+                                                    <span th:text="${ordersub.commodity.commodityType.commodityTypeName}">商品类别</span>
+                                                </div>
+                                            </div>
+                                            <div class="item-right">
+                                                <div class="item-price">
+                                                    <span class="currency-symbol">$</span>
+                                                    <span th:text="${ordersub.totalPrice}"
+                                                          class="totalPrice">单品总价</span>
+                                                </div>
+                                                <div class="text-center">
+                                                    <div class="btn-group btn-group-round">
+                                                        <span th:text="${ordersub.commodityQuantity}"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+<script type="text/javascript" src="/js/jquery.min.js"
+        th:src="@{/js/jquery.min.js}"></script>
+<script src="/ordinary/dependencies/popper.js/js/popper.min.js"></script>
+<script src="/ordinary/dependencies/bootstrap/js/bootstrap.min.js"></script>
+<script src="/ordinary/dependencies/waypoints/js/jquery.waypoints.min.js"></script>
+<script src="/ordinary/dependencies/jquery.counterup/js/jquery.counterup.min.js"></script>
+<script src="/ordinary/dependencies/owl.carousel/js/owl.carousel.min.js"></script>
+<script src="/ordinary/dependencies/imagesloaded/js/imagesloaded.pkgd.min.js"></script>
+<script src="/ordinary/dependencies/isotope-layout/js/isotope.pkgd.min.js"></script>
+<script src="/ordinary/dependencies/jquery-animated-headlines/js/jquery.animatedheadline.min.js"></script>
+<script src="/ordinary/dependencies/magnific-popup/js/jquery.magnific-popup.min.js"></script>
+<script src="/ordinary/dependencies/elevatezoom/js/jquery.elevateZoom-2.2.3.min.js"></script>
+<script src="/ordinary/dependencies/bootstrap-validator/js/validator.min.js"></script>
+<script src="/ordinary/dependencies/meanmenu/js/jquery.meanmenu.min.js"></script>
+<script src="/ordinary/assets/js/app.js"></script>
+<script src="https://ditu.google.cn/maps/api/js?key=AIzaSyBtmXSwv4YmAKtcZyyad9W7D4AC08z0Rb4"></script>
+<script>
+    $(function () {
+
+        $(".btn_alipay").click(function () {
+            window.location.href = "/Alipay/AliPay"
+        })
+        $(".btn_money_pay").click(function(){
+            window.location.href = "/order/payOrder?payType=1"
+        })
+
+        //调整数字框大小
+        // function change_size() {
+        //     var number_input_size = 46;
+        //     for (var i = 0; i < $(".number_input").length; i++) {
+        //         if ($(".number_input").eq(i).val() != undefined) {
+        //             number_input_size = parseInt($(".number_input").eq(i).val().length) * 10 + 36;
+        //             $(".number_input").eq(i).css("width", number_input_size + "px");
+        //         }
+        //     }
+        // }
+        // change_size();
+        //动态调整数字框大小
+        // $('.number_input').bind('input propertychange', function () {
+        //     var $this = $(this);
+        //     var text_length = $this.val().length;//获取当前文本框的长度
+        //     if (text_length == "") {
+        //         var current_width = 46;//该16是改变前的宽度除以当前字符串的长度,算出每个字符的长度
+        //     } else {
+        //         var current_width = parseInt(text_length) * 10 + 36;//该16是改变前的宽度除以当前字符串的长度,算出每个字符的长度
+        //     }
+        //     $this.css("width", current_width + "px");
+        // });
+
+    })
+</script>
+</html>

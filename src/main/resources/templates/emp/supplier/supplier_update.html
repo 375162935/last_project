@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>供应商修改</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet"
+          th:href="@{/css/bootstrap.min.css}">
+    <link href="/css/materialdesignicons.min.css" rel="stylesheet"
+          th:href="@{/css/materialdesignicons.min.css}">
+    <link href="/css/style.css" rel="stylesheet"
+          th:href="@{/css/style.css}">
+    <!--对话框-->
+    <!--    <link rel="stylesheet" href="/css/jquery-confirm.min.css"-->
+    <!--          th:href="@{/css/jquery-confirm.min.css}">-->
+    <!--  移动端城市选择-->
+    <link rel="stylesheet" type="text/css" href="/css/city/phone/jquery-weui.min.css"
+          th:href="@{/css/city/phone/jquery-weui.min.css}"/>
+    <!--  移动端城市选择-->
+<!--    &lt;!&ndash;  PC端城市选择  &ndash;&gt;-->
+<!--    <link href="/css/city/pc/city.css" rel="stylesheet"-->
+<!--          th:href="@{/css/city/pc/city.css}">-->
+<!--    &lt;!&ndash;  PC端城市选择  &ndash;&gt;-->
+
+</head>
+
+<body data-logobg="color_8" data-sidebarbg="color_8">
+<!--侧面导航栏-->
+<div th:replace="common/common_aside :: .layout-sidebar"></div>
+<!--End 左侧导航-->
+
+<!--头部信息-->
+<div th:replace="common/common_header :: .layout-header"></div>
+<!--顶部信息栏-->
+
+<!--主页面-->
+<main class="layout-content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <!----------------------------------------------------------------------->
+                        <form action="#" method="post" class="row">
+                            <input type="hidden" th:value="${supplier.supplierId}" name="supplierId">
+                            <div class="form-group col-md-12 commodityName_add">
+                                <label for="supplierName" id="supplierName_text">供应商名称</label>
+                                <input type="text" class="form-control" id="supplierName" name="supplierName"
+                                       th:value="${supplier.supplierName}" placeholder="请输入供应商名称"/>
+                            </div>
+                            <div class="form-group col-md-12 has-success">
+                                <label for="userId">供应商业务员</label>
+                                <div class="form-controls">
+                                    <select name="userId" class="form-control" id="userId">
+                                        <option th:each="user : ${userInfos}"
+                                                th:text="${user.name}+','+${user.userPhone}"
+                                                th:value="${user.userId}"
+                                                th:selected="${supplier.userId==user.userId}">
+                                            业务员名称
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12 supplierAddress_add">
+                                <label for="supplierAddress" id="supplierAddress_text">供应商地址</label>
+                                <!--移动端-->
+                                <input type="text" class="form-control" id="supplierAddress" name="supplierAddress"
+                                       th:value="${supplier.supplierAddress}" placeholder="请选择省市区县"/>
+                                <!--移动端-->
+                                <!--PC端-->
+<!--                                <input type="text" class="form-control city" name="supplierAddress" id="supplierAddress"-->
+<!--                                       th:value="${supplier.supplierAddress}" placeholder="请选择"-->
+                                       autocomplete="off" readonly="true"/>
+                                <!--PC端-->
+                            </div>
+                            <div class="form-group col-md-12 supplierCEO_add">
+                                <label for="supplierCEO" id="supplierCEO_text">供应商董事长名称</label>
+                                <input type="text" class="form-control" id="supplierCEO" name="supplierCEO"
+                                       th:value="${supplier.supplierCEO}" placeholder="请输入供应商董事长名称"/>
+                            </div>
+                            <div class="form-group col-md-12 supplierPhone_add">
+                                <label for="supplierPhone" id="supplierPhone_text">供应商客服电话</label>
+                                <input type="text" class="form-control" id="supplierPhone" name="supplierPhone"
+                                       th:value="${supplier.supplierPhone}" placeholder="请输入供应商客服电话"/>
+                            </div>
+                            <div class="form-group col-md-12 supplierCountry_add">
+                                <label for="supplierCountry" id="supplierCountry_text">供应商所属国家</label>
+                                <input type="text" class="form-control" id="supplierCountry" name="supplierCountry"
+                                       th:value="${supplier.supplierCountry}" placeholder="请输入供应商所属国家"/>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <button type="button" class="btn btn-primary ajax-post" target-form="add-form">确 定
+                                </button>
+                                <button type="button" class="btn btn-default"
+                                        onclick="javascript:history.back(-1);return false;">返 回
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</main>
+<!--主页面-->
+
+</body>
+<script type="text/javascript" src="/js/jquery.min.js"
+        th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"
+        th:src="@{/js/bootstrap.min.js}"></script>
+<script type="text/javascript" src="/js/perfect-scrollbar.min.js"
+        th:src="@{/js/perfect-scrollbar.min.js}"></script>
+<script type="text/javascript" src="/js/main.js"
+        th:src="@{/js/main.js}"></script>
+<!--移动端城市选择-->
+<script type="text/javascript" src="/js/city/phone/jquery-weui.min.js"
+        th:src="@{/js/city/phone/jquery-weui.min.js}"></script>
+<script type="text/javascript" src="/js/city/phone/city-picker.min.js"
+        th:src="@{/js/city/phone/city-picker.min.js}"></script>
+<!--移动端城市选择-->
+<!--PC端城市选择-->
+<!--<script type="text/javascript" src="/js/city/pc/Popt.js"-->
+<!--        th:src="@{/js/city/pc/Popt.js}"></script>-->
+<!--<script type="text/javascript" src="/js/city/pc/city.json.js"-->
+<!--        th:src="@{/js/city/pc/city.json.js}"></script>-->
+<!--<script type="text/javascript" src="/js/city/pc/citySet.js"-->
+<!--        th:src="@{/js/city/pc/citySet.js}"></script>-->
+<!--PC端城市选择-->
+<!--图表插件-->
+<script type="text/javascript" src="/js/Chart.js"
+        th:href="@{/js/Chart.js}"></script>
+<!--对话框-->
+<!--<script type="text/javascript" src="/js/jquery-confirm.min.js"-->
+<!--        th:src="@{/js/jquery-confirm.min.js}"></script>-->
+<script>
+    $(function () {
+        //移动端选择城市
+        $("#supplierAddress").cityPicker({
+            title: "选择省市区/县",
+            onChange: function (picker, values, displayValues) {
+                console.log(values, displayValues);
+            }
+        });
+        //移动端选择城市
+        // //PC端选择城市
+        // $(".city").click(function (e) {
+        //     SelCity(this, e);
+        // });
+        // $("s").click(function (e) {
+        //     SelCity($(".city"), e);
+        // });
+        // //PC端选择城市
+
+        //当前标签页高亮
+        $(".layout-sidebar").find(".active").removeClass("active");
+        $("#commodity_all").addClass("active");
+
+        //当前页面导航栏下拉
+        $navHasSubnav = $("#commodity_all").parent().parent();
+        $navHasSubnav.siblings().find('.nav-subnav:visible').slideUp(500).parent().removeClass('open');
+        $navHasSubnav.toggleClass('open');
+
+        var supplierName = $("input[name=supplierName]");
+        var userId = $("select[name=userId]");
+        var supplierAddress = $("input[name=supplierAddress]");
+        var supplierCEO = $("input[name=supplierCEO]");
+        var supplierPhone = $("input[name=supplierPhone]");
+        var supplierCountry = $("input[name=supplierCountry]");
+        var supplierName_flag = true;
+        var userId_flag = true;
+        var supplierAddress_flag = true;
+        var supplierCEO_flag = true;
+        var supplierPhone_flag = true;
+        var supplierCountry_flag = true;
+        supplierName.blur(function () {
+            $("#supplierName_i").remove();
+            if (supplierName.val() == "" || supplierName.val() == null) {
+                $("#supplierName_text").after("<i id='supplierName_i' style='color: red'>-----供应商名称不能为空-----<i/>");
+                $(".supplierName_add").removeClass("has-success").addClass("has-warning");
+                supplierName_flag = false;
+            } else {
+                $(".commodityName_add").removeClass("has-warning").addClass("has-success");
+                supplierName_flag = true;
+            }
+        })
+        userId.blur(function () {
+            $("#userId_i").remove();
+            if (userId.val() == "" || userId.val() == null) {
+                $("#userId_text").after("<i id='userId_i' style='color: red'>-----商品售价不能为空-----<i/>");
+                $(".userId_add").removeClass("has-success").addClass("has-warning");
+                userId_flag = false;
+            } else {
+                if (isNaN(userId.val())) {
+                    $("#userId_text").after("<i id='userId_i' style='color: red'>-----请输入数字-----<i/>");
+                    $(".userId_add").removeClass("has-success").addClass("has-warning");
+                    userId_flag = false;
+                } else {
+                    $(".userId_add").removeClass("has-warning").addClass("has-success");
+                    userId_flag = true;
+                }
+            }
+        })
+        supplierAddress.blur(function () {
+            $("#supplierAddress_i").remove();
+            if (supplierAddress.val() == "" || supplierAddress.val() == null) {
+                $("#supplierAddress_text").after("<i id='supplierAddress_i' style='color: red'>-----供应商地址不能为空-----<i/>");
+                $(".supplierAddress_add").removeClass("has-success").addClass("has-warning");
+                supplierAddress_flag = false;
+            } else {
+                $(".supplierAddress_add").removeClass("has-warning").addClass("has-success");
+                supplierAddress_flag = true;
+            }
+        })
+        supplierCEO.blur(function () {
+            $("#supplierCEO_i").remove();
+            if (supplierCEO.val() == "" || supplierCEO.val() == null) {
+                $("#supplierCEO_text").after("<i id='supplierCEO_i' style='color: red'>-----供应商董事长名称不能为空-----<i/>");
+                $(".supplierCEO_add").removeClass("has-success").addClass("has-warning");
+                supplierCEO_flag = false;
+            } else {
+                $(".supplierCEO_add").removeClass("has-warning").addClass("has-success");
+                supplierCEO_flag = true;
+            }
+        })
+        supplierPhone.blur(function () {
+            $("#supplierPhone_i").remove();
+            if (supplierPhone.val() == "" || supplierPhone.val() == null) {
+                $("#supplierPhone_text").after("<i id='supplierPhone_i' style='color: red'>-----供应商客服电话不能为空-----<i/>");
+                $(".supplierPhone_add").removeClass("has-success").addClass("has-warning");
+                supplierPhone_flag = false;
+            } else {
+                $(".supplierPhone_add").removeClass("has-warning").addClass("has-success");
+                supplierPhone_flag = true;
+            }
+        })
+        supplierCountry.blur(function () {
+            $("#supplierCountry_i").remove();
+            if (supplierCountry.val() == "" || supplierCountry.val() == null) {
+                $("#supplierCountry_text").after("<i id='supplierCountry_i' style='color: red'>-----供应商所属国家不能为空-----<i/>");
+                $(".supplierCountry_add").removeClass("has-success").addClass("has-warning");
+                supplierCountry_flag = false;
+            } else {
+                $(".supplierCountry_add").removeClass("has-warning").addClass("has-success");
+                supplierCountry_flag = true;
+            }
+        })
+        $(".ajax-post").click(function () {
+            var supplierId = $("input[name=supplierId]").val();
+            if (supplierName_flag &&
+                userId_flag &&
+                supplierAddress_flag) {
+                $.ajax({
+                    url: "/supplier/updSupplier",
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        supplierId: supplierId,
+                        supplierName: supplierName.val(),
+                        userId: userId.val(),
+                        supplierAddress: supplierAddress.val()
+                        // supplierAddress: supplierAddress.val().replace(new RegExp("/", "g"), " ")
+                    }, success: function (data) {
+                        if (data.result == "0") {
+                            alert("修改成功")
+                            window.location.href = "/supplier/findAllSupplier";
+                        } else if (data.result == "1") {
+                            alert("修改失败")
+                        } else {
+                            alert("并未修改")
+                        }
+                    }
+                })
+            } else {
+                alert("请先完善信息")
+            }
+        })
+    })
+</script>
+
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>供应商列表</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet"
+          th:href="@{/css/bootstrap.min.css}">
+    <link href="/css/materialdesignicons.min.css" rel="stylesheet"
+          th:href="@{/css/materialdesignicons.min.css}">
+    <link href="/css/style.css" rel="stylesheet"
+          th:href="@{/css/style.css}">
+    <!--对话框-->
+    <!--    <link rel="stylesheet" href="/css/jquery-confirm.min.css"-->
+    <!--          th:href="@{/css/jquery-confirm.min.css}">-->
+</head>
+
+<body data-logobg="color_8" data-sidebarbg="color_8">
+<!--侧面导航栏-->
+<div th:replace="common/common_aside :: .layout-sidebar"></div>
+<!--End 左侧导航-->
+
+<!--头部信息-->
+<div th:replace="common/common_header :: .layout-header"></div>
+<!--顶部信息栏-->
+
+<!--主页面-->
+<main class="layout-content">
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-toolbar clearfix">
+<!--                        <form class="pull-right search-bar" method="get" action="#!" role="form">-->
+<!--                            <input type="hidden" name="pageNum" th:value="${pageInfo.pageNum}" id="pageNum">-->
+<!--                            <div class="input-group">-->
+<!--                                <div class="input-group-btn">-->
+<!--                                    <input type="hidden" name="search_field" id="search-field" value="title">-->
+<!--                                    <button class="btn btn-default dropdown-toggle" id="search-btn"-->
+<!--                                            data-toggle="dropdown" type="button" aria-haspopup="true"-->
+<!--                                            aria-expanded="false">-->
+<!--                                        供应商名称 <span class="caret"></span>-->
+<!--                                    </button>-->
+<!--                                </div>-->
+<!--                                <input type="text" class="form-control find_keyword" value="" name="vip_keyword"-->
+<!--                                       th:value="${session.vip_keyword==null}?'':${session.vip_keyword}"-->
+<!--                                       placeholder="请输入供应商名称">-->
+<!--                            </div>-->
+<!--                        </form>-->
+                        <div class="toolbar-btn-action">
+                            <a class="btn btn-primary m-r-5" href="#"
+                               th:href="@{/supplier/toAddSupplier}"><i
+                                    class="mdi mdi-plus"></i> 添加供应商</a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>供应商id</th>
+                                    <th>供应商名称</th>
+                                    <th>供应商业务员姓名</th>
+                                    <th>供应商业务员性别</th>
+                                    <th>供应商业务员电话</th>
+                                    <th>供应商地址</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody th:each="supplier : ${pageInfo.list}">
+                                <tr>
+                                    <td th:text="${supplier.supplierId}" class="supplierId">供应商id</td>
+                                    <td th:text="${supplier.supplierName}">供应商名称</td>
+                                    <td th:text="${supplier.user.name}">供应商业务员姓名</td>
+                                    <td th:text="${supplier.user.gender=='2'}?'未知': (${supplier.user.gender=='0'}?'女':'男')">
+                                        供应商业务员性别
+                                    </td>
+                                    <td th:text="${supplier.user.userPhone}">供应商业务员电话</td>
+                                    <td th:text="${supplier.supplierAddress}">供应商地址</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a class="btn btn-xs btn-default" href="#!" title="修改供应商"
+                                               th:href="@{/supplier/toUpdSupplier(supplierId=${supplier.supplierId})}"
+                                               data-toggle="tooltip"><i class="mdi mdi-pencil"></i></a>
+                                            <!--                                            <a class="btn btn-xs btn-default" href="#!" title="公司产品"-->
+                                            <!--                                               th:href="@{/commodity/findCommodityById(commodityId=${commodity.commodityId})}"-->
+                                            <!--                                               data-toggle="tooltip"><i class="mdi mdi-comment-text-outline"></i></a>-->
+                                            <a class="btn btn-xs btn-default del_a" href="#" title="删除供应商"
+                                               data-toggle="tooltip"><i class="mdi mdi-window-close"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <ul class="pagination" th:if="${pageInfo.pages>1}">
+                            <li th:class="${pageInfo.pageNum==1}?'disabled':''">
+                                <a href="#"
+                                   th:href="@{/supplier/findAllSupplier(page=1,size=10)}">«</a>
+                            </li>
+                            <li th:class="${pageInfo.pageNum==1}?'disabled':''">
+                                <a href="#"
+                                   th:href="@{/supplier/findAllSupplier(page=${pageInfo.pageNum !=1}?${pageInfo.pageNum -1}:1,size=10)}"
+                                >上一页</a>
+                            </li>
+                            <li th:each="pageNums :${#numbers.sequence(1,pageInfo.pages)}"
+                                th:class="${pageNums==pageInfo.pageNum}?'active':''">
+                                <a href="#" th:text="${pageNums}"
+                                   th:href="@{/supplier/findAllSupplier(page=${pageNums},size=10)}">1</a>
+                            </li>
+                            <li th:class="${pageInfo.pageNum==pageInfo.pages}?'disabled':''">
+                                <a href="#"
+                                   th:href="@{/supplier/findAllSupplier(page=${pageInfo.pageNum !=pageInfo.pages}?${pageInfo.pageNum +1}:${pageInfo.pages},size=10)}"
+                                >下一页</a>
+                            </li>
+                            <li th:class="${pageInfo.pageNum==pageInfo.pages}?'disabled':''">
+                                <a href="#"
+                                   th:href="@{/supplier/findAllSupplier(page=${pageInfo.pages},size=10)}">»</a>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</main>
+<!--主页面-->
+
+</body>
+<script type="text/javascript" src="/js/jquery.min.js"
+        th:href="@{/js/jquery.min.js}"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"
+        th:href="@{/js/bootstrap.min.js}"></script>
+<script type="text/javascript" src="/js/main.js"
+        th:href="@{/js/main.js}"></script>
+<script type="text/javascript" src="/js/perfect-scrollbar.min.js"
+        th:src="@{/js/perfect-scrollbar.min.js}"></script>
+<!--图表插件-->
+<script type="text/javascript" src="/js/Chart.js"
+        th:href="@{/js/Chart.js}"></script>
+<!--对话框-->
+<!--<script type="text/javascript" src="/js/jquery-confirm.min.js"-->
+<!--        th:src="@{/js/jquery-confirm.min.js}"></script>-->
+<script>
+    $(function () {
+        //当前标签页高亮
+        $(".layout-sidebar").find(".active").removeClass("active");
+        $("#supplier_all").addClass("active");
+
+        //展开当前页面所属的下拉框
+        $navHasSubnav = $("#supplier_all").parent().parent();
+        $navHasSubnav.siblings().find('.nav-subnav:visible').slideUp(500).parent().removeClass('open');
+        $navHasSubnav.toggleClass('open');
+
+        var pageNum = $("#pageNum").val();
+        var k = $("input[name=vip_keyword]").val();
+        $("input[name=vip_keyword]").val("").focus().val(k);
+        // $(".find_keyword").bind("input", function () {
+        //     var keyword = $(".find_keyword").val();
+        //     $.ajax({
+        //         url: "/user/findVipByUsername",
+        //         type: "post",
+        //         dataType: "json",
+        //         data: {
+        //             keyword: keyword
+        //         }, success: function (data) {
+        //             if (data.result == "1") {
+        //                 window.location.href = "/user/findAllVip";
+        //             } else if (data.result == "0") {
+        //                 window.location.href = "/user/toFindVipByUsername";
+        //             }
+        //         }
+        //     })
+        // })
+        $('.del_a').on('click', function () {
+            var supplierId = $(this).parent().parent().parent().children(".supplierId").text();
+            $.alert({
+                title: '你要删除这个供应商吗',
+                content: '',
+                buttons: {
+                    confirm: {
+                        text: '确认',
+                        btnClass: 'btn-primary',
+                        action: function () {
+                            window.location.href = "/supplier/delSupplier?supplierId=" + supplierId + "&pageNum=" + pageNum;
+                        }
+                    },
+                    cancel: {
+                        text: '取消',
+                        action: function () {
+                        }
+                    }
+                }
+            });
+        });
+    })
+</script>
+
+</html>

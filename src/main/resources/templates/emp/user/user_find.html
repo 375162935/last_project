@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>查找用户</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet"
+          th:href="@{/css/bootstrap.min.css}">
+    <link href="/css/materialdesignicons.min.css" rel="stylesheet"
+          th:href="@{/css/materialdesignicons.min.css}">
+    <link href="/css/style.css" rel="stylesheet"
+          th:href="@{/css/style.css}">
+    <!--对话框-->
+<!--    <link rel="stylesheet" href="/css/jquery-confirm.min.css"-->
+<!--          th:href="@{/css/jquery-confirm.min.css}">-->
+</head>
+
+<body data-logobg="color_8" data-sidebarbg="color_8">
+<!--侧面导航栏-->
+<div th:replace="common/common_aside :: .layout-sidebar"></div>
+<!--End 左侧导航-->
+
+<!--头部信息-->
+<div th:replace="common/common_header :: .layout-header"></div>
+<!--顶部信息栏-->
+
+<!--主页面-->
+<main class="layout-content">
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-toolbar clearfix">
+                        <form class="pull-right search-bar" method="get" action="#!" role="form">
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <input type="hidden" name="search_field" id="search-field" value="title">
+                                    <button class="btn btn-default dropdown-toggle" id="search-btn"
+                                            data-toggle="dropdown" type="button" aria-haspopup="true"
+                                            aria-expanded="false">
+                                        会员账号 <span class="caret"></span>
+                                    </button>
+                                </div>
+                                <input type="text" class="form-control find_keyword" value="" name="vip_keyword"
+                                       th:value="${session.vip_keyword==null}?'':${session.vip_keyword}"
+                                       placeholder="请输入会员账号">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>会员账号</th>
+                                    <th>会员姓名</th>
+                                    <th>会员性别</th>
+                                    <th>会员生日</th>
+                                    <th>会员积分</th>
+                                    <th>会员电话</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody th:each="user : ${session.find_vip}" >
+                                <tr>
+                                    <td th:text="${user.username}">会员账号</td>
+                                    <td th:text="${user.name}">会员姓名</td>
+                                    <td th:text="${user.gender=='2'}?'未知': (${user.gender=='0'}?'女':'男')">会员姓名</td>
+                                    <td th:text="${#dates.format(user.birthday,'yyyy-MM-dd')}">会员生日</td>
+                                    <td th:text="${user.integral}">会员积分</td>
+                                    <td th:text="${user.userPhone}">会员电话</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a th:href="@{/order/getOrderByUsername(userId=${user.userId})}" href="">
+                                                <button class="btn btn-info btn-w-md" type="button">查看消费记录</button>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</main>
+<!--主页面-->
+
+</body>
+<script type="text/javascript" src="/js/jquery.min.js"
+        th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"
+        th:src="@{/js/bootstrap.min.js}"></script>
+<script type="text/javascript" src="/js/perfect-scrollbar.min.js"
+        th:src="@{/js/perfect-scrollbar.min.js}"></script>
+<script type="text/javascript" src="/js/main.js"
+        th:src="@{/js/main.js}"></script>
+<!--图表插件-->
+<script type="text/javascript" src="/js/Chart.js"
+        th:href="@{/js/Chart.js}"></script>
+<!--对话框-->
+<!--<script type="text/javascript" src="/js/jquery-confirm.min.js"-->
+<!--        th:src="@{/js/jquery-confirm.min.js}"></script>-->
+<script>
+    $(function () {
+        //当前标签页高亮
+        $(".layout-sidebar").find(".active").removeClass("active");
+        $("#user_all").addClass("active");
+
+        var k=$("input[name=vip_keyword]").val();
+        $("input[name=vip_keyword]").val("").focus().val(k);
+        $(".find_keyword").bind("input", function () {
+            var keyword = $(".find_keyword").val();
+            $.ajax({
+                url: "/user/findVipByUsername",
+                type: "post",
+                dataType: "json",
+                data: {
+                    keyword: keyword
+                }, success: function (data) {
+                    if (data.result == "1") {
+                        window.location.href = "/user/findAllVip";
+                    } else if (data.result == "0") {
+                        window.location.href = "/user/toFindVipByUsername";
+                    }
+                }
+            })
+        })
+    })
+</script>
+
+</html>

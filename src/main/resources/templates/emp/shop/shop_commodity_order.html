@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>确认订单</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet"
+          th:href="@{/css/bootstrap.min.css}">
+    <link href="/css/materialdesignicons.min.css" rel="stylesheet"
+          th:href="@{/css/materialdesignicons.min.css}">
+    <link href="/css/style.css" rel="stylesheet"
+          th:href="@{/css/style.css}">
+    <!--对话框-->
+<!--    <link rel="stylesheet" href="/css/jquery-confirm.min.css"-->
+<!--          th:href="@{/css/jquery-confirm.min.css}">-->
+    <style>
+        .card-body {
+            height: 720px;
+        }
+
+        ul, li {
+            list-style: none;
+        }
+
+        .table-responsive {
+            height: 100%;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: #add;
+        }
+
+        /*底部信息栏*/
+        .bottom_pay {
+            width: 100%;
+            height: 15%;
+            /*background-color: rgb(124, 245, 124);*/
+            background-color: #abc;
+            position: absolute;
+            bottom: 0;
+        }
+
+        /**/
+        /*底部左侧信息*/
+        .bottom_left {
+            float: left;
+            display: inline-block;
+            height: 100%;
+            width: 63.5%;
+            background-color: #abc;
+        }
+
+        .bottom_left_ul, .bottom_left_ul li {
+            display: inline-block;
+        }
+
+        /*底部左侧信息顶部信息区*/
+        .bottom_left_top_ul {
+            float: right;
+        }
+
+        .bottom_ul_title {
+            font-size: 25px;
+            margin-left: 20px;
+        }
+
+        .bottom_left_top_ul span {
+            color: #66f;
+        }
+
+        .bottom_ul_last span {
+            color: #f33;
+        }
+
+        .bottom_ul_body {
+            font-size: 20px;
+        }
+
+        /*底部左侧信息底部功能栏*/
+        .bottom_left_bottom {
+            position: absolute;
+            display: inline-block;
+            bottom: 0;
+        }
+
+        .bottom_left_bottom_ul > li {
+            width: 150px;
+            margin-left: 25px;
+        }
+
+        .bottom_left_bottom_ul > li > .btn {
+            width: 100%;
+        }
+
+        .bottom_pay a {
+            color: white;
+            display: block;
+        }
+
+        /*底部左侧信息*/
+        /**/
+
+        /**/
+        /*底部右侧信息*/
+        .bottom_right {
+            float: left;
+            display: inline-block;
+            height: 100%;
+            width: 36%;
+            background-color: #bcd;
+        }
+
+        .bottom_right > .btn {
+            height: 100%;
+            width: 32.93%;
+            -webkit-border-radius: 3rem;
+        }
+
+        /*底部右侧信息*/
+        /**/
+
+        .false_integral {
+            display: none;
+        }
+    </style>
+</head>
+
+<body data-logobg="color_8" data-sidebarbg="color_8">
+<!--侧面导航栏-->
+<div th:replace="common/common_aside :: .layout-sidebar"></div>
+<!--End 左侧导航-->
+
+<!--头部信息-->
+<div th:replace="common/common_header :: .layout-header"></div>
+<!--顶部信息栏-->
+
+<!--主页面-->
+<main class="layout-content"
+      th:style="${orderSubList==null||orderSubList.size()==0}?'height:100%':
+      (${orderSubList.size()>8}?'height:auto':'height:100%')">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <h1 th:if="${order==null||order.subOrderList.size()==0}" align="center">还没有添加商品<br>
+                                <a href="/shopCar/toShopCommodity" style="color: red">点击前往选购</a>
+                            </h1>
+                            <table class="table table-bordered table-hover"
+                                   th:if="${order!=null && order.subOrderList.size()>0}">
+                                <thead>
+                                <tr>
+                                    <th colspan="7" th:text="'订单编号：'+${order.orderId}">订单编号</th>
+                                </tr>
+                                <tr>
+                                    <th>商品编号</th>
+                                    <th>商品名称</th>
+                                    <th>售价</th>
+                                    <th>单位</th>
+                                    <th>供应商名称</th>
+                                    <th>商品数量</th>
+                                    <th>商品总价</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="ordersub : ${order.subOrderList}">
+                                    <td th:text="${ordersub.commodity.commodityId}" class="commodityId">商品编号</td>
+                                    <td th:text="${ordersub.commodity.commodityName}">商品名称</td>
+                                    <td th:text="${ordersub.commodity.commoditySell}">售价</td>
+                                    <td th:text="${ordersub.commodity.commodityParameter}">单位</td>
+                                    <td th:text="${ordersub.commodity.supplier.supplierName}">供应商名称</td>
+                                    <td th:text="${ordersub.commodityQuantity}" class="commodity_num">商品数量</td>
+                                    <td th:text="${#numbers.formatDecimal(ordersub.totalPrice*100/100,1,2)}"
+                                        class="totalPrice">商品小计
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="bottom_pay">
+        <div class="bottom_left">
+            <!--            th:if="${orderSubList!=null && orderSubList.size()>0}"-->
+            <div class="bottom_left_top">
+                <ul class="bottom_left_ul bottom_left_top_ul">
+                    <li class="bottom_ul_title">总数量:</li>
+                    <li class="bottom_ul_body">
+                        <span id="all_number" th:text="${order.allNum}">1</span>
+                    </li>
+                    <li class="bottom_ul_title">订单总价:</li>
+                    <li class="bottom_ul_body">
+                        <span>￥</span>
+                        <span id="all_price" th:text="${#numbers.formatDecimal(order.orderPrice*100/100,1,2)}">111</span>
+                    </li>
+                    <!--                    <li class="bottom_ul_title">优惠:</li>-->
+                    <!--                    <li class="bottom_ul_body">-->
+                    <!--                        <span>￥</span>-->
+                    <!--                        <span id="cut_price">0.00</span>-->
+                    <!--                    </li>-->
+                    <!--                    <li class="bottom_ul_title">还应支付:</li>-->
+                    <!--                    <li class="bottom_ul_body bottom_ul_last">-->
+                    <!--                        <span>￥</span>-->
+                    <!--                        <span id="last_price">0.00</span>-->
+                    <!--                    </li>-->
+                </ul>
+            </div>
+            <div class="bottom_left_bottom">
+                <ul class="bottom_left_ul bottom_left_bottom_ul">
+                    <li>
+                        <button type="button" class="btn btn-w-md btn-round btn-primary"
+                                onclick="javascript:history.back(-1);return false;">返 回
+                        </button>
+                    </li>
+                    <li th:if="${session.user!=null&&session.user.userId>1&&integral>0}">
+                        <button class="btn btn-w-md btn-round btn-primary true_integral">
+                            <a href="#">使用积分</a>
+                        </button>
+                        <button class="btn btn-w-md btn-round btn-primary false_integral">
+                            <a href="#">使用积分</a>
+                        </button>
+                    </li>
+                </ul>
+                <!--                        <button class="btn btn-w-md btn-round btn-primary">主色按钮</button>-->
+                <!--                        <button class="btn btn-w-md btn-round btn-secondary">次色按钮</button>-->
+                <!--                        <button class="btn btn-w-md btn-round btn-success">绿色按钮</button>-->
+                <!--                        <button class="btn btn-w-md btn-round btn-info">信息按钮</button>-->
+                <!--                        <button class="btn btn-w-md btn-round btn-warning">橙色按钮</button>-->
+                <!--                        <button class="btn btn-w-md btn-round btn-danger">红色按钮</button>-->
+            </div>
+        </div>
+        <div class="bottom_right">
+            <button class="btn btn-w-md btn-round btn-primary pay_button">
+                <span>现金支付</span>
+            </button>
+            <button class="btn btn-w-md btn-round btn-secondary ali_pay_button">
+                <span>支付宝网页支付</span>
+            </button>
+<!--            <button class="btn btn-w-md btn-round btn-success wx_pay_button">-->
+<!--                <span>微信支付</span>-->
+<!--            </button>-->
+        </div>
+    </div>
+</main>
+<!--主页面-->
+
+</body>
+<script type="text/javascript" src="/js/jquery.min.js"
+        th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"
+        th:src="@{/js/bootstrap.min.js}"></script>
+<script type="text/javascript" src="/js/perfect-scrollbar.min.js"
+        th:src="@{/js/perfect-scrollbar.min.js}"></script>
+<script type="text/javascript" src="/js/main.js"
+        th:src="@{/js/main.js}"></script>
+<!--图表插件-->
+<script type="text/javascript" src="/js/Chart.js"
+        th:href="@{/js/Chart.js}"></script>
+<!--对话框-->
+<!--<script type="text/javascript" src="/js/jquery-confirm.min.js"-->
+<!--        th:src="@{/js/jquery-confirm.min.js}"></script>-->
+<script>
+    $(function () {
+        var flag = true;
+        $(".aside-toggler").bind('click', function () {
+            if (flag) {
+                $(".bottom_left").css("width", "64%");
+                flag=false;
+            } else {
+                $(".bottom_left").css("width", "51.4%");
+                flag=true;
+            }
+        })
+
+        //调整数字框大小
+        function change_size() {
+            var number_input_size = 46;
+            if ($(".number_input").val() != undefined) {
+                number_input_size = parseInt($(".number_input").val().length) * 16 + 30;
+                $(".number_input").css("width", number_input_size + "px");
+            }
+        }
+
+        //当前标签页高亮
+        function page_light() {
+            $(".layout-sidebar").find(".active").removeClass("active");
+            $("#shop_car").addClass("active");
+        }
+
+        //展开当前页面所属的下拉框
+        function change_num_input() {
+            $navHasSubnav = $("#shop_car").parent().parent();
+            $navHasSubnav.siblings().find('.nav-subnav:visible').slideUp(500).parent().removeClass('open');
+            $navHasSubnav.toggleClass('open');
+        }
+
+        change_size();
+        page_light();
+        change_num_input();
+
+        $(".true_integral").click(function () {
+            $(".false_integral").css("display", "none");
+            $(".true_integral").css("display", "block");
+        })
+
+        $(".pay_button").click(function () {
+            // alert("现金")
+            alert("支付成功")
+            window.location.href = "/order/payOrder?payType=1"
+        })
+        $(".ali_pay_button").click(function () {
+            // alert("支付宝")
+            window.location.href = "/Alipay/AliPay"
+        })
+        $(".wx_pay_button").click(function () {
+            // alert("微信")
+            window.location.href = "/order/payOrder?payType=3"
+        })
+    })
+
+</script>
+
+</html>

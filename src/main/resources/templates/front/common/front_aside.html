@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<aside class="front_aside">
+    <h3 class="widget-border-title">功能栏</h3>
+    <ul class="nav nav-tabs flex-column" role="tablist">
+        <li class="nav-item" th:if="${session.user_type=='1'}">
+            <a class="nav-link front_dental active"
+               th:href="@{/user/toUpdUserDetail}">个人信息</a>
+            <!--               data-toggle="tab" href="" role="tab"-->
+            <!--               aria-selected="true"-->
+        </li>
+        <li class="nav-item">
+            <a class="nav-link front_order"
+            th:href="@{/order/getOPayOrder}">购物记录</a>
+        </li>
+        <li class="nav-item" th:if="${session.user_type=='1'}">
+            <a class="nav-link front_update"
+               th:href="@{/user/toUpdateUser}">修改信息</a>
+        </li>
+        <li class="nav-item" th:if="${session.user_type=='1'}">
+            <a class="nav-link front_update_pwd"
+               th:href="@{/user/toUpdPassword}">修改密码</a>
+        </li>
+        <li class="nav-item" th:if="${session.user_type=='0'}">
+            <a class="nav-link front_register"
+            th:href="@{/user/toAddUser}">注册</a>
+        </li>
+    </ul>
+</aside>
+</body>
+</html>

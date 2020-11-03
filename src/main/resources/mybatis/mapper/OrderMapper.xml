@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.yyn.last_project.dao.OrderDao">
+
+    <resultMap id="order_all" type="cn.yyn.last_project.bean.Order">
+        <id column="order_id" property="orderId"/>
+        <result column="order_price" property="orderPrice"/>
+        <result column="order_create_time" property="orderCreateTime"/>
+        <result column="user_id" property="userId"/>
+        <association property="userInfo" javaType="cn.yyn.last_project.bean.UserInfo">
+            <id column="user_id" property="userId"/>
+            <result column="username" property="username"/>
+            <result column="name" property="name"/>
+            <result column="gender" property="gender"/>
+            <result column="birthday" property="birthday"/>
+            <result column="user_phone" property="userPhone"/>
+        </association>
+        <collection property="subOrderList" ofType="cn.yyn.last_project.bean.OrderSub">
+            <id column="commodity_id" property="commodityId"/>
+            <result column="order_id" property="orderId"/>
+            <result column="commodity_quantity" property="commodityQuantity"/>
+            <result column="total_price" property="totalPrice"/>
+            <association property="commodity" javaType="cn.yyn.last_project.bean.Commodity">
+                <id column="commodity_id" property="commodityId"/>
+                <result column="commodity_name" property="commodityName"/>
+                <result column="commodity_parameter" property="commodityParameter"/>
+                <result column="commodity_purchase" property="commodityPurchase"/>
+                <result column="commodity_sell" property="commoditySell"/>
+                <result column="commodity_stock" property="commodityStock"/>
+                <result column="c_type_id" property="commodityTypeId"/>
+                <result column="supplier_id" property="supplierId"/>
+                <association property="commodityType" javaType="cn.yyn.last_project.bean.CommodityType">
+                    <id column="commodity_type_id" property="commodityTypeId"/>
+                    <result column="commodity_type_name" property="commodityTypeName"/>
+                </association>
+                <association property="supplier" javaType="cn.yyn.last_project.bean.Supplier">
+                    <id column="supplier_id" property="supplierId"/>
+                    <result column="supplier_name" property="supplierName"/>
+                    <result column="user_id" property="userId"/>
+                </association>
+            </association>
+        </collection>
+    </resultMap>
+
+    <select id="findOrderByUsername" parameterType="Integer" resultMap="order_all">
+                    select *
+                    from order_all a,order_sub b,commodity c,commodity_type d,supplier e,user f
+                    where a.user_id=#{userId}
+                    and a.user_id=f.user_id
+                    and a.order_id =b.order_id
+                    and b.commodity_id=c.commodity_id
+                    and c.commodity_type_id=d.commodity_type_id
+                    and c.supplier_id=e.supplier_id
+    </select>
+
+    <insert id="addOrder" parameterType="cn.yyn.last_project.bean.Order">
+        insert into order_all(order_id,order_price,order_create_time,user_id,order_profit,order_year,order_month,order_day,order_week,order_week_day)
+        value(#{orderId},#{orderPrice},#{orderCreateTime},#{userId},#{orderProfit},#{orderYear},#{orderMonth},#{orderDay},#{orderWeek},#{orderWeekDay})
+    </insert>
+
+    <insert id="addOrderSub" parameterType="cn.yyn.last_project.bean.OrderSub">
+        insert into order_sub(order_id,commodity_id,commodity_quantity,total_price)
+        value(#{orderId},#{commodityId},#{commodityQuantity},#{totalPrice})
+    </insert>
+
+    <delete id="delOrderSubById" parameterType="String">
+        delete from order_sub where order_id=#{orderId}
+    </delete>
+
+    <delete id="delOrderById" parameterType="String">
+        delete from order_all where order_id=#{orderId}
+    </delete>
+
+    <select id="findOrderAll" resultType="cn.yyn.last_project.bean.Order">
+        select * from order_all
+    </select>
+
+    <select id="findOrderByYear" parameterType="cn.yyn.last_project.bean.Order" resultType="cn.yyn.last_project.bean.Order">
+        select * from order_all
+        where order_year=#{orderYear}
+    </select>
+
+    <select id="findOrderByMonth" parameterType="cn.yyn.last_project.bean.Order" resultType="cn.yyn.last_project.bean.Order">
+        select * from order_all
+        where order_year=#{orderYear}
+        and order_month=#{orderMonth}
+    </select>
+
+    <select id="findOrderByWeek" parameterType="cn.yyn.last_project.bean.Order" resultType="cn.yyn.last_project.bean.Order">
+        select * from order_all
+        where order_year=#{orderYear}
+        and order_month=#{orderMonth}
+        and order_week=#{orderWeek}
+    </select>
+
+    <select id="findOrderByDay" parameterType="cn.yyn.last_project.bean.Order" resultType="cn.yyn.last_project.bean.Order">
+        select * from order_all
+        where order_year=#{orderYear}
+        and order_month=#{orderMonth}
+        and order_week=#{orderWeek}
+        and order_day=#{orderDay}
+    </select>
+
+
+</mapper>

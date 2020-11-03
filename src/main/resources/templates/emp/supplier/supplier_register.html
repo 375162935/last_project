@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册供应商</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet"
+          th:href="@{/css/bootstrap.min.css}">
+    <link href="/css/materialdesignicons.min.css" rel="stylesheet"
+          th:href="@{/css/materialdesignicons.min.css}">
+    <link href="/css/style.css" rel="stylesheet"
+          th:href="@{/css/style.css}">
+    <!--  移动端城市选择-->
+    <link rel="stylesheet" type="text/css" href="/css/city/phone/jquery-weui.min.css"
+          th:href="@{/css/city/phone/jquery-weui.min.css}"/>
+    <!--  移动端城市选择-->
+<!--    &lt;!&ndash;  PC端城市选择  &ndash;&gt;-->
+<!--    <link href="/css/city/pc/city.css" rel="stylesheet"-->
+<!--          th:href="@{/css/city/pc/city.css}">-->
+<!--    &lt;!&ndash;  PC端城市选择  &ndash;&gt;-->
+</head>
+
+<body data-logobg="color_8" data-sidebarbg="color_8">
+<!--侧面导航栏-->
+<div th:replace="common/common_aside :: .layout-sidebar"></div>
+<!--End 左侧导航-->
+
+<!--头部信息-->
+<div th:replace="common/common_header :: .layout-header"></div>
+<!--顶部信息栏-->
+
+<!--主页面-->
+<main class="layout-content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <form method="post" action="#" class="site-form">
+                            <div class="form-group register_supplierName">
+                                <label for="supplierName" id="supplier_text">供应商公司名称</label>
+                                <input type="text" class="form-control" name="supplierName" id="supplierName"
+                                       placeholder="请输入供应商公司名称"/>
+                            </div>
+                            <div class="form-group supplierAddress_add">
+                                <label for="supplierAddress" id="supplierAddress_text">供应商地址</label>
+                                <!--移动端-->
+                                <input type="text" class="form-control city-picker" id="supplierAddress"
+                                        name="supplierAddress" placeholder="请选择省市区县"/>
+                                <!--移动端-->
+                                <!--PC端-->
+<!--                                <input type="text" class="form-control city" name="supplierAddress" id="supplierAddress"-->
+<!--                                       placeholder="请选择" autocomplete="off" readonly="true"/>-->
+                                <!--PC端-->
+                            </div>
+                            <div class="form-group register_supplierCEO">
+                                <label for="supplierCEO" id="supplierCEO_text">供应商董事长名称</label>
+                                <input type="text" class="form-control" name="supplierCEO" id="supplierCEO"
+                                       placeholder="请输入供应商董事长名称"/>
+                            </div>
+                            <div class="form-group register_supplierPhone">
+                                <label for="supplierPhone" id="supplierPhone_text">供应商客服电话</label>
+                                <input type="text" class="form-control" name="supplierPhone" id="supplierPhone"
+                                       placeholder="请输入供应商客服电话"/>
+                            </div>
+                            <div class="form-group register_supplierCountry">
+                                <label for="supplierCountry" id="supplierCountry_text">供应商所属国家</label>
+                                <input type="text" class="form-control" name="supplierCountry" id="supplierCountry"
+                                       placeholder="请输入供应商所属国家"/>
+                            </div>
+                            <div class="form-group register_username">
+                                <label for="username" id="username_text">业务员用户名</label>
+                                <input type="text" class="form-control" name="username" id="username"
+                                       placeholder="请输入您的账号"/>
+                            </div>
+                            <div class="form-group register_password">
+                                <label for="password" id="password_text">账号密码</label>
+                                <input type="text" class="form-control" name="password" id="password"
+                                       placeholder="请输入您的账号密码"/>
+                            </div>
+                            <div class="form-group detail_name">
+                                <label for="name" id="name_text">业务员姓名</label>
+                                <input type="text" class="form-control" name="name" id="name" placeholder="输入您的姓名">
+                            </div>
+                            <div class="form-group gender_form">
+                                <label for="gender">业务员性别</label>
+                                <div class="gender_form_div">
+                                    <select class="form-control" id="gender" name="gender" size="1">
+                                        <option value="2">请选择</option>
+                                        <option value="0">女</option>
+                                        <option value="1">男</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group detail_phone">
+                                <label for="userPhone" id="phone_text">业务员联系方式</label>
+                                <input type="text" class="form-control" name="userPhone" id="userPhone"
+                                       placeholder="输入业务员联系方式">
+                            </div>
+                            <button type="button" class="btn btn-primary btn_login">保存</button>
+                            <button type="button" class="btn btn-default"
+                                    onclick="javascript:history.back(-1);return false;">返 回
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</main>
+<!--主页面-->
+
+</body>
+<script type="text/javascript" src="/js/jquery.min.js"
+        th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"
+        th:src="@{/js/bootstrap.min.js}"></script>
+<script type="text/javascript" src="/js/perfect-scrollbar.min.js"
+        th:src="@{/js/perfect-scrollbar.min.js}"></script>
+<script type="text/javascript" src="/js/main.js"
+        th:src="@{/js/main.js}"></script>
+<!--移动端城市选择-->
+<script type="text/javascript" src="/js/city/phone/jquery-weui.min.js"
+        th:src="@{/js/city/phone/jquery-weui.min.js}"></script>
+<script type="text/javascript" src="/js/city/phone/city-picker.min.js"
+        th:src="@{/js/city/phone/city-picker.min.js}"></script>
+<!--移动端城市选择-->
+<!--PC端城市选择-->
+<!--<script type="text/javascript" src="/js/city/pc/Popt.js"-->
+<!--        th:src="@{/js/city/pc/Popt.js}"></script>-->
+<!--<script type="text/javascript" src="/js/city/pc/city.json.js"-->
+<!--        th:src="@{/js/city/pc/city.json.js}"></script>-->
+<!--<script type="text/javascript" src="/js/city/pc/citySet.js"-->
+<!--        th:src="@{/js/city/pc/citySet.js}"></script>-->
+<!--PC端城市选择-->
+<script>
+    $(function () {
+        //移动端选择城市
+        $("#supplierAddress").cityPicker({
+            title: "选择省市区/县",
+            onChange: function (picker, values, displayValues) {
+                console.log(values, displayValues);
+            }
+        });
+        //移动端选择城市
+        // //PC端选择城市
+        // $(".city").click(function (e) {
+        //     SelCity(this, e);
+        // });
+        // $("s").click(function (e) {
+        //     SelCity($(".city"), e);
+        // });
+        // //PC端选择城市
+
+        //当前标签页高亮
+        $(".layout-sidebar").find(".active").removeClass("active");
+        $("#register_supplier").addClass("active");
+
+        var supplierName = $("input[name=supplierName]");
+        var supplierAddress = $("input[name=supplierAddress]");
+        var supplierCEO = $("input[name=supplierCEO]");
+        var supplierPhone = $("input[name=supplierPhone]");
+        var supplierCountry = $("input[name=supplierCountry]");
+        var username = $("input[name=username]");
+        var password = $("input[name=password]");
+        var name = $("input[name=name]");
+        var gender = $("select[name=gender]");
+        var userPhone = $("input[name=userPhone]");
+        var supplierName_flag = false;
+        var supplierAddress_flag = true;
+        var supplierCEO_flag = true;
+        var supplierPhone_flag = true;
+        var supplierCountry_flag = true;
+        var username_flag = false;
+        var password_flag = false;
+        var name_flag = false;
+        var userPhone_flag = false;
+        supplierName.blur(function () {
+            $("#supplierName_i").remove();
+            if (supplierName.val() == "") {
+                $("#supplier_text").after("<i id='supplierName_i' style='color: red'>-----供应商公司不能为空-----<i/>");
+                $(".register_supplierName").removeClass("has-success").addClass("has-warning");
+                supplierName_flag = false;
+            } else {
+                $.ajax({
+                    url: "/supplier/judgeSupplier",
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        supplierName: supplierName.val()
+                    }, success: function (data) {
+                        if (data.result == "0") {
+                            $("#supplier_text").after("<i id='supplierName_i' style='color: red'>-----该公司已存在-----<i/>");
+                            $(".register_supplierName").removeClass("has-success").addClass("has-warning");
+                            supplierName_flag = false;
+                        } else {
+                            $(".register_supplierName").removeClass("has-warning").addClass("has-success");
+                            supplierName_flag = true;
+                        }
+                    }
+                })
+            }
+        })
+        supplierAddress.blur(function () {
+            $("#supplierAddress_i").remove();
+            if (supplierAddress.val() == "" || supplierAddress.val() == null) {
+                $("#supplierAddress_text").after("<i id='supplierAddress_i' style='color: red'>-----供应商地址不能为空-----<i/>");
+                $(".supplierAddress_add").removeClass("has-success").addClass("has-warning");
+                supplierAddress_flag = false;
+            } else {
+                $(".supplierAddress_add").removeClass("has-warning").addClass("has-success");
+                supplierAddress_flag = true;
+            }
+        })
+        supplierCEO.blur(function () {
+            $("#supplierCEO_i").remove();
+            if (supplierCEO.val() == "" || supplierCEO.val() == null) {
+                $("#supplierCEO_text").after("<i id='supplierCEO_i' style='color: red'>-----供应商董事长名称不能为空-----<i/>");
+                $(".supplierCEO_add").removeClass("has-success").addClass("has-warning");
+                supplierCEO_flag = false;
+            } else {
+                $(".supplierCEO_add").removeClass("has-warning").addClass("has-success");
+                supplierCEO_flag = true;
+            }
+        })
+        supplierPhone.blur(function () {
+            $("#supplierPhone_i").remove();
+            if (supplierPhone.val() == "" || supplierPhone.val() == null) {
+                $("#supplierPhone_text").after("<i id='supplierPhone_i' style='color: red'>-----供应商客服电话不能为空-----<i/>");
+                $(".supplierPhone_add").removeClass("has-success").addClass("has-warning");
+                supplierPhone_flag = false;
+            } else {
+                $(".supplierPhone_add").removeClass("has-warning").addClass("has-success");
+                supplierPhone_flag = true;
+            }
+        })
+        supplierCountry.blur(function () {
+            $("#supplierCountry_i").remove();
+            if (supplierCountry.val() == "" || supplierCountry.val() == null) {
+                $("#supplierCountry_text").after("<i id='supplierCountry_i' style='color: red'>-----供应商所属国家不能为空-----<i/>");
+                $(".supplierCountry_add").removeClass("has-success").addClass("has-warning");
+                supplierCountry_flag = false;
+            } else {
+                $(".supplierCountry_add").removeClass("has-warning").addClass("has-success");
+                supplierCountry_flag = true;
+            }
+        })
+        username.blur(function () {
+            $("#username_i").remove();
+            if (username.val() == "") {
+                $("#username_text").after("<i id='username_i' style='color: red'>-----账号不能为空-----<i/>");
+                $(".register_username").removeClass("has-success").addClass("has-warning");
+                username_flag = false;
+            } else {
+                $.ajax({
+                    url: "/user/judgeUsername",
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        username: username.val()
+                    }, success: function (data) {
+                        if (data.result == "0") {
+                            $("#username_text").after("<i id='username_i' style='color: red'>-----此账号已注册-----<i/>");
+                            $(".register_username").removeClass("has-success").addClass("has-warning");
+                            username_flag = false;
+                        } else {
+                            $(".register_username").removeClass("has-warning").addClass("has-success");
+                            username_flag = true;
+                        }
+                    }
+                })
+            }
+        })
+        password.blur(function () {
+            $("#password_i").remove();
+            if (password.val() == "") {
+                $("#password_text").after("<i id='password_i' style='color: red'>-----账号密码不能为空-----<i/>");
+                $(".register_password").removeClass("has-success").addClass("has-warning");
+                password_flag = false;
+            } else {
+                $(".register_password").removeClass("has-warning").addClass("has-success");
+                password_flag = true;
+            }
+        })
+        name.blur(function () {
+            $("#name_i").remove();
+            if (name.val() == "") {
+                $("#name_text").after("<i id='name_i' style='color: red'>-----您的姓名不能为空-----<i/>");
+                $(".register_name").removeClass("has-success").addClass("has-warning");
+                name_flag = false;
+            } else {
+                $(".register_name").removeClass("has-warning").addClass("has-success");
+                name_flag = true;
+            }
+        })
+        userPhone.blur(function () {
+            $("#phone_i").remove();
+            if (userPhone.val() == "") {
+                $("#phone_text").after("<i id='phone_i' style='color: red'>-----请填写您的联系方式-----<i/>");
+                $(".register_phone").removeClass("has-success").addClass("has-warning");
+                userPhone_flag = false;
+            } else {
+                $(".register_phone").removeClass("has-warning").addClass("has-success");
+                userPhone_flag = true;
+            }
+        })
+        $(".btn_login").click(function () {
+            if (supplierName_flag &&
+                supplierAddress_flag &&
+                username_flag &&
+                password_flag &&
+                name_flag &&
+                userPhone_flag) {
+                console.log(supplierName.val())
+                console.log(username.val())
+                console.log(password.val())
+                console.log(name.val())
+                console.log(gender.val())
+                console.log(userPhone.val())
+                $.ajax({
+                    url: "/supplier/addSupplier",
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        supplierName: supplierName.val(),
+                        // supplierAddress: supplierAddress.val().replace(new RegExp("/", "g"), " "),
+                        supplierAddress: supplierAddress.val(),
+                        username: username.val(),
+                        password: password.val(),
+                        name: name.val(),
+                        gender: gender.val(),
+                        userPhone: userPhone.val()
+                    }, success: function (data) {
+                        if (data.result == "0") {
+                            alert("注册失败")
+                        } else {
+                            alert("返回主页登录")
+                            window.location.href = "/login.html";
+                        }
+                    }
+                })
+            } else {
+                alert("请先完善信息")
+            }
+        })
+    })
+</script>
+</html>
