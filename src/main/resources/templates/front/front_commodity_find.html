@@ -112,12 +112,14 @@
                         <div class="col-xl-4 col-md-6" th:each="commodity:${commodityList}" th:if="${commodityList!=null&&commodityList.size()>0}">
                             <div class="product-box-layout1">
                                 <div class="item-img">
-                                    <a href="" class="item-trending">
-                                        <img th:if="${commodity.commodityImg!=null}"
-                                             th:src="@{'http://qilpqdaxg.hd-bkt.clouddn.com/'+${commodity.commodityImg}}"
+                                    <a href="#" class="item-trending" th:if="${commodity.commodityImg!=null}" target="_blank"
+                                       th:href="@{'http://qilpqdaxg.hd-bkt.clouddn.com/'+${commodity.commodityImg}}">
+                                        <img th:src="@{'http://qilpqdaxg.hd-bkt.clouddn.com/'+${commodity.commodityImg}}"
                                              width="600" height="300"/>
-                                        <img th:if="${commodity.commodityImg==null}"
-                                             src="/images/nullImg.jpg" th:alt="${commodity.commodityName}"></a>
+                                    </a>
+                                    <a href="#" class="img_a" th:if="${commodity.commodityImg==null}">
+                                        <img src="/images/nullImg.jpg" th:alt="${commodity.commodityName}">
+                                    </a>
                                 </div>
                                 <div class="item-content">
                                     <div class="item-tag">

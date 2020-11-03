@@ -25,17 +25,21 @@
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right">
-                        <li th:if="${session.user!=null&&session.user.userId>1}">
+                        <li th:if="${session.user!=null&&session.user_type=='1'
+                        ||session.user_type=='2'||session.user_type=='3'}">
                             <a href="#" th:href="@{/user/toUpdUserDetail}">
                                 <i class="mdi mdi-account"></i>个人信息</a></li>
-                        <li th:if="${session.user!=null&&session.user.userId>1}">
+                        <li th:if="${session.user!=null&&session.user_type=='1'
+                        ||session.user_type=='2'||session.user_type=='3'}">
                             <a href="#" th:href="@{/user/toUpdPassword}">
                                 <i class="mdi mdi-lock-outline"></i> 修改密码</a></li>
-                        <li th:if="${session.user!=null&&session.user.userId>1}">
+                        <li th:if="${session.user!=null&&session.user_type=='1'||session.user_type=='2'}">
                             <a href="#" th:href="@{/order/getOrderByUsername(userId=${session.user.userId})}">
                                 <i class="mdi mdi-delete"></i>查看消费记录</a></li>
-                        <li th:if="${session.user!=null&&session.user.userId>1}" class="divider"></li>
-                        <li th:if="${session.user==null||session.user.userId==1}">
+                        <li th:if="${session.user!=null&&session.user_type=='1'
+                        ||session.user_type=='2'||session.user_type=='3'}"
+                            class="divider"></li>
+                        <li th:if="${session.user==null||session.user_type=='1'}">
                             <a href="#" th:href="@{/user/closeUser}">
                                 <i class="mdi mdi-human-greeting"></i>账号登录</a></li>
                         <li><a href="/user/close" th:href="@{/user/close}"><i class="mdi mdi-logout-variant"></i>

@@ -21,9 +21,10 @@
 
     <style>
         .form-group .form-control {
-            border: none;!important;
+            border: none;
+        !important;
         }
-        
+
         .number_input {
             width: 46px;
         }
@@ -152,6 +153,22 @@
                             </div>
                         </div>
                     </div>
+                    <div class="pagination-layout1">
+                        <div th:class="${pageInfo.pageNum==1}?'disabled btn-prev':'btn-prev'">
+                            <a th:href="@{/commodity/findAllCommodity(page=1,size=15)}"
+                               href="#"><i class="fas fa-angle-double-left"></i>Home</a>
+                        </div>
+                        <div class="page-number">
+                            <a href="" th:text="${pageNums}"
+                               th:href="@{/commodity/findAllCommodity(page=${pageNums},size=15)}"
+                               th:each="pageNums :${#numbers.sequence(1,pageInfo.pages)}"
+                               th:class="${pageNums==pageInfo.pageNum}?'active'">1</a>
+                        </div>
+                        <div th:class="${pageInfo.pageNum==pageInfo.pages}?'disabled btn-next':'btn-next'">
+                            <a th:href="@{/commodity/findAllCommodity(page=${pageInfo.pages},size=15)}"
+                               href="#">End<i class="fas fa-angle-double-right"></i></a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -233,6 +250,7 @@
                 }
             })
         }
+
         //动态调整数字框大小
         $('.number_input').bind('input propertychange', function () {
             var $this = $(this);

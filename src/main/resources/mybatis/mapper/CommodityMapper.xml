@@ -90,10 +90,6 @@
         select * from commodity where commodity_name=#{commodityName}
     </select>
 
-    <select id="findAllCommodityType" resultType="cn.yyn.last_project.bean.CommodityType">
-        select * from commodity_type
-    </select>
-
     <delete id="delCommodity" parameterType="Integer">
         delete from commodity where commodity_id=#{commodityId}
     </delete>
@@ -119,6 +115,22 @@
         commodity_img=#{commodityImg}
         where commodity_id=#{commodityId}
     </update>
+
+    <select id="findAllCommodityType" resultType="cn.yyn.last_project.bean.CommodityType">
+        select * from commodity_type
+    </select>
+
+    <insert id="addCommodityType" parameterType="cn.yyn.last_project.bean.CommodityType">
+        insert into commodity_type(commodity_type_name) values(#{commodityTypeName})
+    </insert>
+
+    <update id="updCommodityType" parameterType="cn.yyn.last_project.bean.CommodityType">
+        update commodity_type set commodity_type_name=#{commodityTypeName} where commodity_type_id=#{commodityTypeId}
+    </update>
+
+    <delete id="delCommodityType" parameterType="Integer">
+        delete from commodity_type where commodity_type_id=#{commodityTypeId}
+    </delete>
     <!--    <update id="updPassword" parameterType="cn.yyn.last_project.bean.UserInfo">-->
     <!--        update user set password=#{password} where user_id=#{userId}-->
     <!--    </update>-->

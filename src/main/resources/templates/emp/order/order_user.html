@@ -54,7 +54,8 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-bordered">
+                            <h1 th:if="${pageInfo==null||pageInfo.size==0}">您还没有消费</h1>
+                            <table class="table table-bordered" th:if="${pageInfo!=null&&pageInfo.size>0}">
                                 <thead>
                                 <tr>
                                     <th>订单编号</th>

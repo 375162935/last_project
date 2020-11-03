@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品分类列表</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet"
+          th:href="@{/css/bootstrap.min.css}">
+    <link href="/css/materialdesignicons.min.css" rel="stylesheet"
+          th:href="@{/css/materialdesignicons.min.css}">
+    <link href="/css/style.css" rel="stylesheet"
+          th:href="@{/css/style.css}">
+    <!--对话框-->
+    <!--    <link rel="stylesheet" href="/css/jquery-confirm.min.css"-->
+    <!--          th:href="@{/css/jquery-confirm.min.css}">-->
+    <style>
+        .save_type_name, .ctn_input {
+            display: none;
+        }
+    </style>
+</head>
+
+<body data-logobg="color_8" data-sidebarbg="color_8">
+<!--侧面导航栏-->
+<div th:replace="common/common_aside :: .layout-sidebar"></div>
+<!--End 左侧导航-->
+
+<!--头部信息-->
+<div th:replace="common/common_header :: .layout-header"></div>
+<!--顶部信息栏-->
+
+<!--主页面-->
+<main class="layout-content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-toolbar clearfix">
+                        <form class="pull-right" method="get" action="#" role="form">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="commodityTypeName"
+                                       id="commodityTypeName" autofocus="autofocus" value=""
+                                       placeholder="请输入要添加的商品类别名称">
+                                <div class="input-group-btn">
+                                    <input type="hidden" name="search_field" id="search-field" value="title">
+                                    <button class="btn btn-default dropdown-toggle" id="add_ct_btn"
+                                            data-toggle="dropdown" type="button" aria-haspopup="true"
+                                            aria-expanded="false">添加商品类别名称
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <input type="hidden" name="pageNum" th:value="${pageInfo.pageNum}" id="pageNum">
+                                <thead>
+                                <tr>
+                                    <th>商品类别id</th>
+                                    <th>商品类别名称</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody th:each="commodityType : ${pageInfo.list}">
+                                <tr>
+                                    <td th:text="${commodityType.commodityTypeId}" class="commodityTypeId">商品类别编号</td>
+                                    <td class="commodityTypeName">
+                                        <span th:text="${commodityType.commodityTypeName}" class="ctn_span"></span>
+                                        <input type="text" th:value="${commodityType.commodityTypeName}"
+                                               class="ctn_input"/>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a class="btn btn-xs btn-default upd_type_name" href="#!" title="编辑"
+                                               data-toggle="tooltip"><i class="mdi mdi-pencil"></i></a>
+                                            <a class="btn btn-xs btn-default save_type_name" href="#!" title="保存"
+                                               data-toggle="tooltip"><i class="mdi mdi-sale"></i></a>
+<!--                                                                                        <a class="btn btn-xs btn-default del_type" href="#" title="删除"-->
+<!--                                                                                           data-toggle="tooltip"><i class="mdi mdi-window-close"></i></a>-->
+                                            <a class="btn btn-xs btn-default del_type" href="#" title="删除"
+                                               th:href="@{/commodity/delCommodityType(commodityTypeId=${commodityType.commodityTypeId})}"
+                                               data-toggle="tooltip"><i class="mdi mdi-window-close"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <ul class="pagination">
+                            <li th:class="${pageInfo.pageNum==1}?'disabled':''">
+                                <a href="#"
+                                   th:href="@{/commodity/findAllCommodityType(page=1,size=15)}">«</a>
+                            </li>
+                            <li th:class="${pageInfo.pageNum==1}?'disabled':''">
+                                <a href="#"
+                                   th:href="@{/commodity/findAllCommodityType(page=${pageInfo.pageNum !=1}?${pageInfo.pageNum -1}:1,size=15)}"
+                                >上一页</a>
+                            </li>
+                            <li th:each="pageNums :${#numbers.sequence(1,pageInfo.pages)}"
+                                th:class="${pageNums==pageInfo.pageNum}?'active'">
+                                <input type="hidden" th:value="${pageNums}">
+                                <input type="hidden" th:value="${pageInfo.pageNum}">
+                                <a href="#" th:text="${pageNums}"
+                                   th:href="@{/commodity/findAllCommodityType(page=${pageNums},size=15)}">1</a>
+                            </li>
+                            <li th:class="${pageInfo.pageNum==pageInfo.pages}?'disabled':''">
+                                <a href="#"
+                                   th:href="@{/commodity/findAllCommodityType(page=${pageInfo.pageNum !=pageInfo.pages}?${pageInfo.pageNum +1}:${pageInfo.pages},size=15)}"
+                                >下一页</a>
+                            </li>
+                            <li th:class="${pageInfo.pageNum==pageInfo.pages}?'disabled':''">
+                                <a href="#"
+                                   th:href="@{/commodity/findAllCommodityType(page=${pageInfo.pages},size=15)}">»</a>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</main>
+<!--主页面-->
+
+</body>
+<script type="text/javascript" src="/js/jquery.min.js"
+        th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"
+        th:src="@{/js/bootstrap.min.js}"></script>
+<script type="text/javascript" src="/js/perfect-scrollbar.min.js"
+        th:src="@{/js/perfect-scrollbar.min.js}"></script>
+<script type="text/javascript" src="/js/main.js"
+        th:src="@{/js/main.js}"></script>
+<!--图表插件-->
+<script type="text/javascript" src="/js/Chart.js"
+        th:href="@{/js/Chart.js}"></script>
+<!--对话框-->
+<!--<script type="text/javascript" src="/js/jquery-confirm.min.js"-->
+<!--        th:src="@{/js/jquery-confirm.min.js}"></script>-->
+<script>
+    $(function () {
+        //当前标签页高亮
+        $(".layout-sidebar").find(".active").removeClass("active");
+        $("#commodity_all").addClass("active");
+
+        //当前页面导航栏下拉
+        $navHasSubnav = $("#commodity_all").parent().parent();
+        $navHasSubnav.siblings().find('.nav-subnav:visible').slideUp(500).parent().removeClass('open');
+        $navHasSubnav.toggleClass('open');
+
+        //前往编辑分类信息
+        $(".upd_type_name").click(function () {
+            $(this).next().css("display", "inline-block").prev().css("display", "none").parent().parent()
+                .prev().find(".ctn_input").css("display", "inline-block").siblings().css("display", "none");
+        })
+        //修改分类名称
+        $(".save_type_name").click(function () {
+            var commodityTypeId = $(this).parent().parent().prev().prev().html();
+            var commodityTypeName = $(this).parent().parent().prev().find(".ctn_input").val();
+            $.ajax({
+                url: "/commodity/updCommodityType",
+                type: "post",
+                dataType: "json",
+                data: {
+                    commodityTypeId: commodityTypeId,
+                    commodityTypeName: commodityTypeName
+                }, success: function (data) {
+                    if (data.result == "1") {
+                        alert("修改成功")
+                        location.reload();
+                    } else if (data.result == "0") {
+                        alert("修改失败")
+                    }
+                }
+            })
+        })
+        $("#add_ct_btn").click(function () {
+            var commodityTypeName = $("input[name=commodityTypeName]").val();
+            if (commodityTypeName.length > 0) {
+                $.ajax({
+                    url: "/commodity/addCommodityType",
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        commodityTypeName: commodityTypeName
+                    }, success: function (data) {
+                        if (data.result == "2") {
+                            alert("添加成功")
+                            location.reload();
+                        } else if (data.result == "1") {
+                            alert("添加失败")
+                        } else {
+                            alert("该类别名称已存在")
+                        }
+                    }
+                })
+            }
+        })
+    })
+
+    jQuery(document).ready(function($){
+        $(function () {
+            $(".del_type").click(function () {
+                var commodityTypeId = $(this).parent().parent().parent().find(".commodityTypeId").text();
+                $.alert({
+                    title: '你要删除这个商品类别吗',
+                    content: '',
+                    buttons: {
+                        confirm: {
+                            text: '确认',
+                            btnClass: 'btn-primary',
+                            action: function () {
+                                alert("删除成功")
+                                window.location.href = "/commodity/delCommodityType?commodityTypeId=" + commodityTypeId;
+                            }
+                        },
+                        cancel: {
+                            text: '取消',
+                            action: function () {
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    });
+</script>
+
+</html>

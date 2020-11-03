@@ -62,6 +62,7 @@
                                 <tr>
                                     <th>商品编号</th>
                                     <th>商品名称</th>
+                                    <th>商品单位</th>
                                     <th>商品进价</th>
                                     <th>商品售价</th>
                                     <th>商品库存</th>
@@ -75,6 +76,7 @@
                                 <tr>
                                     <td th:text="${commodity.commodityId}" class="commodityId">商品编号</td>
                                     <td th:text="${commodity.commodityName}">商品名称</td>
+                                    <td th:text="${commodity.commodityParameter}">商品单位</td>
                                     <td th:text="${commodity.commodityPurchase}">商品进价</td>
                                     <td th:text="${commodity.commoditySell}">商品售价</td>
                                     <td th:text="${commodity.commodityStock}">商品库存</td>
@@ -105,11 +107,11 @@
                         <ul class="pagination">
                             <li th:class="${pageInfo.pageNum==1}?'disabled':''">
                                 <a href="#"
-                                   th:href="@{/commodity/findAllCommodity(page=1,size=10)}">«</a>
+                                   th:href="@{/commodity/findAllCommodity(page=1,size=15)}">«</a>
                             </li>
                             <li th:class="${pageInfo.pageNum==1}?'disabled':''">
                                 <a href="#"
-                                   th:href="@{/commodity/findAllCommodity(page=${pageInfo.pageNum !=1}?${pageInfo.pageNum -1}:1,size=10)}"
+                                   th:href="@{/commodity/findAllCommodity(page=${pageInfo.pageNum !=1}?${pageInfo.pageNum -1}:1,size=15)}"
                                 >上一页</a>
                             </li>
                             <li th:each="pageNums :${#numbers.sequence(1,pageInfo.pages)}"
@@ -117,16 +119,16 @@
                                 <input type="hidden" th:value="${pageNums}">
                                 <input type="hidden" th:value="${pageInfo.pageNum}">
                                 <a href="#" th:text="${pageNums}"
-                                   th:href="@{/commodity/findAllCommodity(page=${pageNums},size=10)}">1</a>
+                                   th:href="@{/commodity/findAllCommodity(page=${pageNums},size=15)}">1</a>
                             </li>
                             <li th:class="${pageInfo.pageNum==pageInfo.pages}?'disabled':''">
                                 <a href="#"
-                                   th:href="@{/commodity/findAllCommodity(page=${pageInfo.pageNum !=pageInfo.pages}?${pageInfo.pageNum +1}:${pageInfo.pages},size=10)}"
+                                   th:href="@{/commodity/findAllCommodity(page=${pageInfo.pageNum !=pageInfo.pages}?${pageInfo.pageNum +1}:${pageInfo.pages},size=15)}"
                                 >下一页</a>
                             </li>
                             <li th:class="${pageInfo.pageNum==pageInfo.pages}?'disabled':''">
                                 <a href="#"
-                                   th:href="@{/commodity/findAllCommodity(page=${pageInfo.pages},size=10)}">»</a>
+                                   th:href="@{/commodity/findAllCommodity(page=${pageInfo.pages},size=15)}">»</a>
                             </li>
                         </ul>
 

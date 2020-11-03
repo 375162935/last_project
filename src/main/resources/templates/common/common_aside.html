@@ -21,10 +21,10 @@
                 <li id="user_all" th:if="${session.user_type=='2'}">
                     <a href="" th:href="@{/user/findAllVip}">
                         <i class="mdi mdi-voice"></i>会员总览</a></li>
-                <li id="my_order" th:if="${session.user_type!='2'&&session.user_type!='0'}">
+                <li id="my_order" th:if="${session.user_type!='2'&&session.user_type!='0'&&session.user_type!='3'}">
                     <a href="" th:href="@{/order/getOrderByUsername(userId=${session.user.userId})}">
                         <i class="mdi mdi-voice"></i>我的消费记录</a></li>
-                <li class="nav-item nav-item-has-subnav">
+                <li class="nav-item nav-item-has-subnav" th:if="${session.user_type == '2'}">
                     <a href="javascript:void(0)"><i class="mdi mdi-shopping"></i>购物</a>
                     <ul class="nav nav-subnav">
                         <li id="shop_car">
@@ -52,8 +52,12 @@
                 <li class="nav-item nav-item-has-subnav" th:if="${session.user_type=='2'||session.user_type=='3'}">
                     <a href="javascript:void(0)"><i class="mdi mdi-package-variant"></i> 商品</a>
                     <ul class="nav nav-subnav">
-                        <li id="supplier_all"><a href="" th:href="@{/supplier/findAllSupplier}">供应商总览</a></li>
-                        <li id="commodity_all"><a href="/commodity/findAllCommodity">商品管理</a></li>
+                        <li id="supplier_all">
+                            <a href="" th:href="@{/supplier/findAllSupplier}">供应商总览</a></li>
+                        <li id="commodity_all">
+                            <a href="" th:href="@{/commodity/findAllCommodity}">商品管理</a></li>
+                        <li id="commodity_type_all">
+                            <a href="" th:href="@{/commodity/findAllCommodityType}">商品种类管理</a></li>
                     </ul>
                 </li>
                 <li id="register_user"

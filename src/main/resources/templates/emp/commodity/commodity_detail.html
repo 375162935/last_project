@@ -45,7 +45,7 @@
                                 <label for="commodityImg">商品图片</label>
                                 <p th:if="${commodity.commodityImg==null}">图片未上传</p>
                                 <img src="" id="commodityImg" name="commodityImg"
-                                     th:if="${commodity.commodityImg!=null}"
+                                     th:if="${commodity.commodityImg!=null}" height="400px"
                                      th:src="@{'http://qilpqdaxg.hd-bkt.clouddn.com/'+${commodity.commodityImg}}"/>
                                 <!--                                <input type="text" class="form-control" id="commodityImg"-->
                                 <!--                                       name="commodityImg"-->

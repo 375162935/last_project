@@ -83,9 +83,9 @@
                             <div class="myaccount-payment light-shadow-bg">
                                 <div class="light-box-content">
                                     <div class="table-responsive">
-                                        <h1 th:if="${payOrder.size()==0}">没有消费记录</h1>
+                                        <h1 th:if="${pageInfo.size==0}">没有消费记录</h1>
                                         <table class="table table-bordered table-striped"
-                                        th:if="${payOrder.size()>0}">
+                                        th:if="${pageInfo.size>0}">
                                             <thead>
                                             <tr>
                                                 <th>订单编号</th>
@@ -95,7 +95,7 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr th:each="order:${payOrder}">
+                                            <tr th:each="order:${pageInfo.list}">
                                                 <td th:text="${order.orderId}">订单编号</td>
                                                 <td th:text="${order.orderPrice}">订单总价</td>
                                                 <td>
@@ -123,16 +123,20 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="pagination-layout1" th:if="false">
-                                <div class="btn-prev disabled">
-                                    <a href="#"><i class="fas fa-angle-double-left"></i>Previous</a>
+                            <div class="pagination-layout1">
+                                <div th:class="${pageInfo.pageNum==1}?'disabled btn-prev':'btn-prev'">
+                                    <a th:href="@{/order/getOPayOrder(page=1,size=10)}"
+                                       href="#"><i class="fas fa-angle-double-left"></i>Home</a>
                                 </div>
                                 <div class="page-number">
-                                    <a href="#" class="active">1</a>
-                                    <a href="#">2</a>
+                                    <a href="" th:text="${pageNums}"
+                                       th:href="@{/order/getOPayOrder(page=${pageNums},size=10)}"
+                                       th:each="pageNums :${#numbers.sequence(1,pageInfo.pages)}"
+                                       th:class="${pageNums==pageInfo.pageNum}?'active'">1</a>
                                 </div>
-                                <div class="btn-next">
-                                    <a href="#">Next<i class="fas fa-angle-double-right"></i></a>
+                                <div th:class="${pageInfo.pageNum==pageInfo.pages}?'disabled btn-next':'btn-next'">
+                                    <a th:href="@{/order/getOPayOrder(page=${pageInfo.pages},size=10)}"
+                                       href="#">End<i class="fas fa-angle-double-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -160,9 +164,8 @@
 <script src="https://ditu.google.cn/maps/api/js?key=AIzaSyBtmXSwv4YmAKtcZyyad9W7D4AC08z0Rb4"></script>
 <script>
     $(function () {
-        $(".active").removeClass("active");
+        $(".flex-column").find(".active").removeClass("active");
         $(".front_order").addClass("active");
-
 
     })
 </script>

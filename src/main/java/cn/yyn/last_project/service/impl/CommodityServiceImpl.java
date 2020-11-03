@@ -25,6 +25,27 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
+    public Integer addCommodityType(CommodityType commodityType) {
+        return commodityDao.addCommodityType(commodityType);
+    }
+
+    @Override
+    public Integer updCommodityType(CommodityType commodityType) {
+        return commodityDao.updCommodityType(commodityType);
+    }
+
+    @Override
+    public Integer delCommodityType(Integer commodityTypeId) {
+        return commodityDao.delCommodityType(commodityTypeId);
+    }
+
+    @Override
+    public Integer delCommodityType(Integer page, Integer size, Integer commodityTypeId) {
+        PageHelper.startPage(page, size);
+        return commodityDao.delCommodityType(commodityTypeId);
+    }
+
+    @Override
     public List<Commodity> findAllCommodity(Integer page, Integer size) {
         PageHelper.startPage(page, size);
         return commodityDao.findAllCommodity();
@@ -46,6 +67,12 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
+    public List<CommodityType> findAllCommodityType(Integer page, Integer size) {
+        PageHelper.startPage(page, size);
+        return commodityDao.findAllCommodityType();
+    }
+
+    @Override
     public Integer delCommodity(Integer commodityId) {
         return commodityDao.delCommodity(commodityId);
     }
@@ -57,6 +84,12 @@ public class CommodityServiceImpl implements CommodityService {
 
     @Override
     public List<Commodity> findCommodityBySupplier(Integer supplierId) {
+        return commodityDao.findCommodityBySupplier(supplierId);
+    }
+
+    @Override
+    public List<Commodity> findCommodityBySupplier(Integer page, Integer size, Integer supplierId) {
+        PageHelper.startPage(page, size);
         return commodityDao.findCommodityBySupplier(supplierId);
     }
 

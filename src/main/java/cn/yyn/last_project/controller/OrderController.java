@@ -170,7 +170,9 @@ public class OrderController {
 
     //-----购物记录-----
     @RequestMapping("/getOPayOrder")
-    public ModelAndView getOPayOrder(HttpSession session) {
+    public ModelAndView getOPayOrder(@RequestParam(defaultValue = "1") Integer page,
+                                     @RequestParam(defaultValue = "10") Integer size,
+                                     HttpSession session) {
         ModelAndView mv = new ModelAndView();
         UserInfo userInfo = (UserInfo) session.getAttribute("user");
         List<Order> payOrder = (List<Order>) session.getAttribute("payOrder");
@@ -178,9 +180,10 @@ public class OrderController {
             payOrder = new ArrayList<>();
         }
         if (userInfo.getUserType().equals("1")) {
-            payOrder = orderService.findOrderByUsername(userInfo.getUserId());
+            payOrder = orderService.findOrderByUsername(page,size,userInfo.getUserId());
         }
-        mv.addObject("payOrder", payOrder);
+        PageInfo<Order> pageInfo=new PageInfo<>(payOrder);
+        mv.addObject("pageInfo", pageInfo);
         mv.setViewName("front/user/front_user_order");
         return mv;
     }

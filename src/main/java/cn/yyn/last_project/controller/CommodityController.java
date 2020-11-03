@@ -83,12 +83,12 @@ public class CommodityController {
 
     //-----用户搜索商品-----
     @RequestMapping("/findCommodity")
-    public ModelAndView findCommodity(String keyword){
+    public ModelAndView findCommodity(String keyword) {
         System.out.println(keyword);
-        ModelAndView mv=new ModelAndView();
-        List<Commodity> commodityList=commodityService.findCommodityByKeyword(keyword);
-        mv.addObject("commodityList",commodityList);
-        mv.addObject("keyword",keyword);
+        ModelAndView mv = new ModelAndView();
+        List<Commodity> commodityList = commodityService.findCommodityByKeyword(keyword);
+        mv.addObject("commodityList", commodityList);
+        mv.addObject("keyword", keyword);
         mv.setViewName("front/front_commodity_find");
         return mv;
     }
@@ -110,7 +110,7 @@ public class CommodityController {
     //-----查询所有商品-----
     @RequestMapping("/findAllCommodity")
     public ModelAndView findAllCommodity(@RequestParam(defaultValue = "1") Integer page,
-                                         @RequestParam(defaultValue = "10") Integer size,
+                                         @RequestParam(defaultValue = "15") Integer size,
                                          HttpSession session) {
         commodities = findAll();
         session.removeAttribute("find_commodity");
@@ -136,7 +136,9 @@ public class CommodityController {
 
     //-----根据商品类型查商品-----
     @RequestMapping("/findCommodityByType")
-    public ModelAndView findCommodityByType(Integer commodityTypeId,
+    public ModelAndView findCommodityByType(@RequestParam(defaultValue = "1") Integer page,
+                                            @RequestParam(defaultValue = "15") Integer size,
+                                            Integer commodityTypeId,
                                             String typeName,
                                             HttpSession session) {
         ModelAndView mv = new ModelAndView();
@@ -157,7 +159,9 @@ public class CommodityController {
 
     //-----根据公司查商品-----
     @RequestMapping("/findCommodityBySupplier")
-    public ModelAndView findCommodityBySupplier(Integer supplierId) {
+    public ModelAndView findCommodityBySupplier(@RequestParam(defaultValue = "1") Integer page,
+                                                @RequestParam(defaultValue = "15") Integer size,
+                                                Integer supplierId) {
         ModelAndView mv = new ModelAndView();
         Supplier supplier = supplierService.findSupplierById(supplierId);
         List<Supplier> supplierList = supplierService.findAllSupplier();
@@ -213,9 +217,9 @@ public class CommodityController {
                                String commoditySell,
                                String commodityStock,
                                Integer supplierId) throws IOException {
-        File file = QiniuUtils.getNewFile(upload);
-        String img_upload = file.toString();
-//        String img_upload = QiniuUtils.loadQiNiu(upload);
+//        File file = QiniuUtils.getNewFile(upload);
+//        String img_upload = file.toString();
+        String img_upload = QiniuUtils.loadQiNiu(upload);
         System.out.println(img_upload);
         if (img_upload != null) {
             Commodity commodity = new Commodity();
@@ -287,16 +291,20 @@ public class CommodityController {
                                Integer supplierId) throws IOException {
         Commodity commodity = commodityService.findCommodityById(commodityId);
         String img_upload = "";
-        if (upload.getSize() > 0) {
+        if (upload.getSize() > 0 || commodity.getCommodityImg() != null) {
             //有图片时
-            if (commodity.getCommodityImg() != null && !commodity.getCommodityImg().equals("")) {
-                String old_key = commodity.getCommodityImg();
-                System.out.println(old_key);
-                //删除七牛云旧的图片
-                QiniuUtils.delImgQiNiu(old_key);
+            if (upload.getSize() == 0) {
+                img_upload = commodity.getCommodityImg();
+            } else if (upload.getSize() > 0) {
+                if (commodity.getCommodityImg() != null && !commodity.getCommodityImg().equals("")) {
+                    String old_key = commodity.getCommodityImg();
+                    System.out.println(old_key);
+                    //删除七牛云旧的图片
+                    QiniuUtils.delImgQiNiu(old_key);
+                }
+                //保存图片到七牛云
+                img_upload = QiniuUtils.loadQiNiu(upload);
             }
-            //保存图片到七牛云
-            img_upload = QiniuUtils.loadQiNiu(upload);
             System.out.println(img_upload);
             if (img_upload != null) {
                 commodity.setCommodityName(commodityName);
@@ -321,6 +329,80 @@ public class CommodityController {
         } else {
             return "redirect:/commodity/toUpdCommodity?commodityId=" + commodityId;
         }
+
     }
     //-----修改商品信息-----
+
+    /**
+     * 商品类别管理
+     */
+    //-----商品类别查询-----
+    @RequestMapping("/findAllCommodityType")
+    public ModelAndView findAllCommodityType(@RequestParam(defaultValue = "1") Integer page,
+                                             @RequestParam(defaultValue = "10") Integer size,
+                                             HttpSession session) {
+        ModelAndView mv = new ModelAndView();
+        List<CommodityType> commodityTypeList = commodityService.findAllCommodityType(page, size);
+        PageInfo<CommodityType> pageInfo = new PageInfo<>(commodityTypeList);
+        mv.addObject("pageInfo", pageInfo);
+        mv.setViewName("emp/commodity_type/commodity_type_all");
+        return mv;
+    }
+    //-----商品类别查询-----
+
+    //-----商品类别添加-----
+    @ResponseBody
+    @RequestMapping("/addCommodityType")
+    public String addCommodityType(String commodityTypeName) {
+        JSONObject jsonObject = new JSONObject();
+        List<CommodityType> commodityTypeList = commodityService.findAllCommodityType();
+        boolean flag = true;
+        for (CommodityType c : commodityTypeList) {
+            if (c.getCommodityTypeName().equals(commodityTypeName)) {
+                flag = false;
+            }
+        }
+        if (flag) {
+            CommodityType commodityType = new CommodityType();
+            commodityType.setCommodityTypeName(commodityTypeName);
+            Integer i = commodityService.addCommodityType(commodityType);
+            if (i > 0) {
+                jsonObject.put("result", "2");
+            } else {
+                jsonObject.put("result", "1");
+            }
+        } else {
+            jsonObject.put("result", "0");
+        }
+        return jsonObject.toString();
+    }
+    //-----商品类别添加-----
+
+    //-----商品类别编辑-----
+    @ResponseBody
+    @RequestMapping("/updCommodityType")
+    public String updCommodityType(Integer commodityTypeId,
+                                   String commodityTypeName,
+                                   HttpSession session) {
+        JSONObject jsonObject = new JSONObject();
+        CommodityType commodityType = new CommodityType(commodityTypeId, commodityTypeName);
+        Integer i = commodityService.updCommodityType(commodityType);
+        if (i > 0) {
+            jsonObject.put("result", "1");
+            List<CommodityType> commodityTypes = commodityService.findAllCommodityType();
+            session.setAttribute("commodityTypes", commodityTypes);
+        } else {
+            jsonObject.put("result", "0");
+        }
+        return jsonObject.toString();
+    }
+    //-----商品类别编辑-----
+
+    //-----商品类别删除-----
+    @RequestMapping("/delCommodityType")
+    public String delCommodityType(Integer commodityTypeId) {
+        commodityService.delCommodityType(commodityTypeId);
+        return "redirect:/commodity/findAllCommodityType";
+    }
+    //-----商品类别删除-----
 }
