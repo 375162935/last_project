@@ -236,9 +236,11 @@
                         password: password.val()
                     }, success: function (data) {
                         if (data.result == "1") {
+                            password.parent().addClass("has-error");
                             alert("密码不正确，请重新输入")
                         } else if (data.result == "0") {
-                            alert("账号不存在，请注册")
+                            username.parent().addClass("has-error");
+                            alert("账号不存在,请重新输入")
                         } else if (data.result == "2") {
                             window.location.href = "/user/toIndex";
                         }

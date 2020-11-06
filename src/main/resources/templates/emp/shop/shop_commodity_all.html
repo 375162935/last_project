@@ -217,7 +217,7 @@
             var $num = parent.find(".number_input");
             var c_id = parent.find(".commodity_id").val();
             var stock = parseInt(parent.find(".commodity_stock").val());
-            if ($num.val() < stock - 1) {
+            if ($num.val() <= stock - 1) {
                 parent.find(".num_cut").removeClass("disabled")                                        //修改调整后的按钮状态
                 var num = parseInt($num.val()) + 1;
                 if (num == stock) {

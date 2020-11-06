@@ -171,24 +171,24 @@
                     $(".commodityName_add").removeClass("has-success").addClass("has-warning");
                     commodityName_flag = false;
                 } else {
-                    $.ajax({
-                        url: "/commodity/commodityName",
-                        type: "post",
-                        dataType: "json",
-                        data: {
-                            commodityName: commodityName.val()
-                        }, success: function (data) {
-                            console.log(data.result)
-                            if (data.result == "1") {
+                    // $.ajax({
+                    //     url: "/commodity/commodityName",
+                    //     type: "post",
+                    //     dataType: "json",
+                    //     data: {
+                    //         commodityName: commodityName.val()
+                    //     }, success: function (data) {
+                    //         console.log(data.result)
+                    //         if (data.result == "1") {
                                 $(".commodityName_add").removeClass("has-warning").addClass("has-success");
                                 commodityName_flag = true;
-                            } else {
-                                $("#commodityName_text").after("<i id='commodityName_i' style='color: red'>-----商品已存在-----<i/>");
-                                $(".commodityName_add").removeClass("has-success").addClass("has-warning");
-                                commodityName_flag = false;
-                            }
-                        }
-                    })
+                    //         } else {
+                    //             $("#commodityName_text").after("<i id='commodityName_i' style='color: red'>-----商品已存在-----<i/>");
+                    //             $(".commodityName_add").removeClass("has-success").addClass("has-warning");
+                    //             commodityName_flag = false;
+                    //         }
+                    //     }
+                    // })
                 }
             })
             commodityParameter.blur(function () {

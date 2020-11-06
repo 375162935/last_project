@@ -92,11 +92,11 @@
                         <ul class="pagination">
                             <li th:class="${pageInfo.pageNum==1}?'disabled':''">
                                 <a href="#"
-                                   th:href="@{/commodity/findAllCommodityType(page=1,size=15)}">«</a>
+                                   th:href="@{/commodity/findAllCommodityType(page=1,size=12)}">«</a>
                             </li>
                             <li th:class="${pageInfo.pageNum==1}?'disabled':''">
                                 <a href="#"
-                                   th:href="@{/commodity/findAllCommodityType(page=${pageInfo.pageNum !=1}?${pageInfo.pageNum -1}:1,size=15)}"
+                                   th:href="@{/commodity/findAllCommodityType(page=${pageInfo.pageNum !=1}?${pageInfo.pageNum -1}:1,size=12)}"
                                 >上一页</a>
                             </li>
                             <li th:each="pageNums :${#numbers.sequence(1,pageInfo.pages)}"
@@ -104,16 +104,16 @@
                                 <input type="hidden" th:value="${pageNums}">
                                 <input type="hidden" th:value="${pageInfo.pageNum}">
                                 <a href="#" th:text="${pageNums}"
-                                   th:href="@{/commodity/findAllCommodityType(page=${pageNums},size=15)}">1</a>
+                                   th:href="@{/commodity/findAllCommodityType(page=${pageNums},size=12)}">1</a>
                             </li>
                             <li th:class="${pageInfo.pageNum==pageInfo.pages}?'disabled':''">
                                 <a href="#"
-                                   th:href="@{/commodity/findAllCommodityType(page=${pageInfo.pageNum !=pageInfo.pages}?${pageInfo.pageNum +1}:${pageInfo.pages},size=15)}"
+                                   th:href="@{/commodity/findAllCommodityType(page=${pageInfo.pageNum !=pageInfo.pages}?${pageInfo.pageNum +1}:${pageInfo.pages},size=12)}"
                                 >下一页</a>
                             </li>
                             <li th:class="${pageInfo.pageNum==pageInfo.pages}?'disabled':''">
                                 <a href="#"
-                                   th:href="@{/commodity/findAllCommodityType(page=${pageInfo.pages},size=15)}">»</a>
+                                   th:href="@{/commodity/findAllCommodityType(page=${pageInfo.pages},size=12)}">»</a>
                             </li>
                         </ul>
 

@@ -29,6 +29,9 @@
                             <li><a href="/user/closeUser"
                                    th:href="@{/user/closeUser}"
                                    th:if="${session.user_type=='0'}">点击登录</a></li>
+                            <li><a href="/user/toAddUser"
+                                   th:href="@{/user/toAddUser}"
+                                   th:if="${session.user_type=='0'}">注册用户</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -38,7 +41,7 @@
                             <li class="header-login-icon">
                                 <a href="" class="color-primary" data-toggle="tooltip"
                                    data-placement="top"
-                                   th:title="${session.user_type=='1'}?'个人信息':'注册'"
+                                   th:title="个人信息"
                                    th:href="@{/user/toUpdUserDetail}">
                                     <i class="far fa-user"></i>
                                 </a>

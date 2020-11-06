@@ -123,7 +123,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="pagination-layout1">
+                            <div class="pagination-layout1" th:if="${pageInfo.size>1}">
                                 <div th:class="${pageInfo.pageNum==1}?'disabled btn-prev':'btn-prev'">
                                     <a th:href="@{/order/getOPayOrder(page=1,size=10)}"
                                        href="#"><i class="fas fa-angle-double-left"></i>Home</a>

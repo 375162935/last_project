@@ -21,12 +21,19 @@
 
     <style>
         .form-group .form-control {
-            border: none;
-        !important;
+            border: none;!important;
         }
 
         .number_input {
             width: 46px;
+        }
+
+        .img_a{
+            height: 200px;
+        }
+
+        .img_a img{
+            height: auto;
         }
 
         #dropdown a:hover {
@@ -107,13 +114,14 @@
                 <div class="col-xl-10 col-lg-8">
                     <div class="heading-layout2">
                         <input type="hidden" name="pageType" id="pageType" th:value="${pageType}">
-                        <h2 class="heading-title" th:text="${commodityType}">所有产品</h2>
+                        <h2 class="heading-title" th:text="${typeName}">所有产品</h2>
                     </div>
                     <div class="row">
-                        <div class="col-xl-4 col-md-6" th:each="commodity:${commodityList}">
+                        <h1 th:if="${pageInfo.pages==0}">暂时没有商品</h1>
+                        <div class="col-xl-4 col-md-6" th:each="commodity:${pageInfo.list}">
                             <div class="product-box-layout1">
                                 <div class="item-img">
-                                    <a href="" class="item-trending">
+                                    <a href="" class="item-trending img_a">
                                         <img th:if="${commodity.commodityImg!=null}"
                                              th:src="@{'http://qilpqdaxg.hd-bkt.clouddn.com/'+${commodity.commodityImg}}"
                                              width="600" height="300"/>
@@ -130,6 +138,9 @@
                                         <a href="#" th:text="${commodity.commodityName}">商品名称</a>
                                     </h3>
                                     <ul class="entry-meta">
+                                        <li>
+                                            <span th:text="${commodity.commodityParameter}">参数</span>
+                                        </li>
                                         <li>
                                             <i class="fas fa-map-marker-alt"></i>
                                             <span th:text="${commodity.supplier.supplierAddress}">供应商地址</span>
@@ -153,19 +164,45 @@
                             </div>
                         </div>
                     </div>
-                    <div class="pagination-layout1">
+                    <div class="pagination-layout1" th:if="${pageInfo.pages>0&&pageType==null}">
                         <div th:class="${pageInfo.pageNum==1}?'disabled btn-prev':'btn-prev'">
-                            <a th:href="@{/commodity/findAllCommodity(page=1,size=15)}"
+                            <a th:href="@{/commodity/findAllCommodity(page=1,size=12)}"
                                href="#"><i class="fas fa-angle-double-left"></i>Home</a>
+                            <a th:href="@{/commodity/findAllCommodity(page=${pageInfo.pageNum==1}?1:${pageInfo.pageNum-1},size=12)}"
+                               href="#"><i class="fas fa-angle-double-left"></i><</a>
                         </div>
                         <div class="page-number">
                             <a href="" th:text="${pageNums}"
-                               th:href="@{/commodity/findAllCommodity(page=${pageNums},size=15)}"
+                               th:href="@{/commodity/findAllCommodity(page=${pageNums},size=12)}"
                                th:each="pageNums :${#numbers.sequence(1,pageInfo.pages)}"
                                th:class="${pageNums==pageInfo.pageNum}?'active'">1</a>
                         </div>
                         <div th:class="${pageInfo.pageNum==pageInfo.pages}?'disabled btn-next':'btn-next'">
-                            <a th:href="@{/commodity/findAllCommodity(page=${pageInfo.pages},size=15)}"
+                            <a th:href="@{/commodity/findAllCommodity(page=${pageInfo.pageNum==pageInfo.pages}?${pageInfo.pages}:${pageInfo.pageNum+1},size=12)}"
+                               href="#">><i class="fas fa-angle-double-right"></i></a>
+                            <a th:href="@{/commodity/findAllCommodity(page=${pageInfo.pages},size=12)}"
+                               href="#">End<i class="fas fa-angle-double-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="pagination-layout1" th:if="${pageInfo.pages>0&&pageType!=null}">
+                        <div th:class="${pageInfo.pageNum==1}?'disabled btn-prev':'btn-prev'">
+                            <a th:href="@{/commodity/findAllCommodity(page=1,size=12,commodityTypeId=${pageType},typeName=${typeName})}"
+                               href="#"><i class="fas fa-angle-double-left"></i>Home</a>
+                            <a th:href="@{/commodity/findAllCommodity(page=${pageInfo.pageNum==1}?1:${pageInfo.pageNum-1},size=12
+                            ,commodityTypeId=${pageType},typeName=${typeName})}"
+                               href="#"><i class="fas fa-angle-double-left"></i><</a>
+                        </div>
+                        <div class="page-number">
+                            <a href="" th:text="${pageNums}"
+                               th:href="@{/commodity/findAllCommodity(page=${pageNums},size=12,commodityTypeId=${pageType},typeName=${typeName})}"
+                               th:each="pageNums :${#numbers.sequence(1,pageInfo.pages)}"
+                               th:class="${pageNums==pageInfo.pageNum}?'active'">1</a>
+                        </div>
+                        <div th:class="${pageInfo.pageNum==pageInfo.pages}?'disabled btn-next':'btn-next'">
+                            <a th:href="@{/commodity/findAllCommodity(page=${pageInfo.pageNum==pageInfo.pages}?${pageInfo.pages}:${pageInfo.pageNum+1},size=12
+                            ,commodityTypeId=${pageType},typeName=${typeName})}"
+                               href="#">><i class="fas fa-angle-double-right"></i></a>
+                            <a th:href="@{/commodity/findAllCommodity(page=${pageInfo.pages},size=12,commodityTypeId=${pageType},typeName=${typeName})}"
                                href="#">End<i class="fas fa-angle-double-right"></i></a>
                         </div>
                     </div>
@@ -285,7 +322,7 @@
             var $num = parent.find(".number_input");
             var c_id = parent.find(".commodity_id").val();
             var stock = parseInt(parent.find(".commodity_stock").val());
-            if ($num.val() < stock - 1) {
+            if ($num.val() <= stock - 1) {
                 parent.find(".num_cut").removeClass("disabled")                                        //修改调整后的按钮状态
                 var num = parseInt($num.val()) + 1;
                 if (num == stock) {
@@ -330,7 +367,7 @@
             if (num > stock) {//数字大于库存时
                 num = stock;
                 parent.find(".num_add").addClass("disabled")
-            } else if (num.length == 0) {//去字符后长度为0时
+            } else if (num.length == 0||num==0) {//去字符后长度为0时
                 num = 0;
                 parent.find(".num_cut").addClass("disabled")
             } else {

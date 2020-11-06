@@ -110,7 +110,7 @@ public class CommodityController {
     //-----查询所有商品-----
     @RequestMapping("/findAllCommodity")
     public ModelAndView findAllCommodity(@RequestParam(defaultValue = "1") Integer page,
-                                         @RequestParam(defaultValue = "15") Integer size,
+                                         @RequestParam(defaultValue = "12") Integer size,
                                          HttpSession session) {
         commodities = findAll();
         session.removeAttribute("find_commodity");
@@ -127,7 +127,7 @@ public class CommodityController {
             //前端商品页
             mv.addObject("commodityType", "全部商品");
             mv.addObject("type", 0);
-            mv.setViewName("/front/front_commodity_all");
+            mv.setViewName("front/front_commodity_all");
         }
         session.setAttribute("page_type", "所有商品");
         return mv;
@@ -137,21 +137,22 @@ public class CommodityController {
     //-----根据商品类型查商品-----
     @RequestMapping("/findCommodityByType")
     public ModelAndView findCommodityByType(@RequestParam(defaultValue = "1") Integer page,
-                                            @RequestParam(defaultValue = "15") Integer size,
+                                            @RequestParam(defaultValue = "12") Integer size,
                                             Integer commodityTypeId,
                                             String typeName,
                                             HttpSession session) {
         ModelAndView mv = new ModelAndView();
         String user_type = (String) session.getAttribute("user_type");
-        List<Commodity> commodityList = commodityService.findCommodityByType(commodityTypeId);
-        mv.addObject("commodityList", commodityList);
+        List<Commodity> commodityList = commodityService.findCommodityByType(page, size, commodityTypeId);
+        PageInfo<Commodity> pageInfo = new PageInfo<>(commodityList);
+        mv.addObject("pageInfo", pageInfo);
+        mv.addObject("typeName", typeName);
+        mv.addObject("pageType", commodityTypeId);
         if (user_type.equals("2") || user_type.equals("3")) {
             session.setAttribute("page_type", typeName);
             mv.setViewName("emp/shop/shop_commodity_type");
         } else {
-            mv.addObject("commodityType", typeName);
-            mv.addObject("pageType", commodityTypeId);
-            mv.setViewName("/front/front_commodity_all");
+            mv.setViewName("front/front_commodity_all");
         }
         return mv;
     }
@@ -160,7 +161,7 @@ public class CommodityController {
     //-----根据公司查商品-----
     @RequestMapping("/findCommodityBySupplier")
     public ModelAndView findCommodityBySupplier(@RequestParam(defaultValue = "1") Integer page,
-                                                @RequestParam(defaultValue = "15") Integer size,
+                                                @RequestParam(defaultValue = "12") Integer size,
                                                 Integer supplierId) {
         ModelAndView mv = new ModelAndView();
         Supplier supplier = supplierService.findSupplierById(supplierId);
@@ -169,7 +170,7 @@ public class CommodityController {
         mv.addObject("commodityList", commodityList);//供应商商品列表
         mv.addObject("supplierList", supplierList);//供应商列表
         mv.addObject("supplier", supplier);//当前供应商信息
-        mv.setViewName("/front/front_commodity_supplier");
+        mv.setViewName("front/front_commodity_supplier");
         return mv;
     }
     //-----根据公司查商品-----

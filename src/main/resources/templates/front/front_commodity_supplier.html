@@ -21,11 +21,19 @@
 
     <style>
         .img_a {
-            height: 290px;
+            /*height: 290px;*/
         }
 
         .number_input {
             width: 46px;
+        }
+
+        .img_a{
+            height: 200px;
+        }
+
+        .img_a img{
+            height: auto;
         }
 
         #dropdown a:hover {
@@ -112,7 +120,7 @@
                         <div class="col-xl-4 col-md-6" th:each="commodity:${commodityList}">
                             <div class="product-box-layout1">
                                 <div class="item-img">
-                                    <a href="" class="item-trending">
+                                    <a href="" class="item-trending img_a">
                                         <img th:if="${commodity.commodityImg!=null}"
                                              th:src="@{'http://qilpqdaxg.hd-bkt.clouddn.com/'+${commodity.commodityImg}}"
                                              width="600" height="300"/>
@@ -129,6 +137,9 @@
                                         <a href="#" th:text="${commodity.commodityName}">商品名称</a>
                                     </h3>
                                     <ul class="entry-meta">
+                                        <li>
+                                            <span th:text="${commodity.commodityParameter}"></span>
+                                        </li>
                                         <li>
                                             <i class="fas fa-map-marker-alt"></i>
                                             <span th:text="${commodity.supplier.supplierAddress}">供应商地址</span>
@@ -267,7 +278,7 @@
             var $num = parent.find(".number_input");
             var c_id = parent.find(".commodity_id").val();
             var stock = parseInt(parent.find(".commodity_stock").val());
-            if ($num.val() < stock - 1) {
+            if ($num.val() <= stock - 1) {
                 parent.find(".num_cut").removeClass("disabled")                                        //修改调整后的按钮状态
                 var num = parseInt($num.val()) + 1;
                 if (num == stock) {

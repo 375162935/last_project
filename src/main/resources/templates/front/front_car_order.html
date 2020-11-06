@@ -31,6 +31,32 @@
         #dropdown a:hover {
             background-color: #eee;
         }
+
+        .car_list {
+            margin-bottom: 50px;
+        }
+
+        .item-right {
+            margin-right: 1.875rem;
+        }
+
+        .bottom_pay {
+            width: 100%;
+            height: 100px;
+            background-color: rgba(222, 222, 222, .8);
+            position: fixed;
+            bottom: 0;
+        }
+
+        .bottom_pay_left {
+            float: left;
+        }
+
+        .bottom_pay_right {
+            margin-top: 25px;
+            float: right;
+        }
+
     </style>
 </head>
 
@@ -74,22 +100,9 @@
         </div>
     </section>
 
-    <section class="section-padding-equal-70">
+    <section class="section-padding-equal-70 car_list">
         <div class="container">
             <div class="row">
-                <div class="col-md-4">
-                    <h3 class="ordering-controller">商品总数：
-                        <span id="all_number" th:text="${order.allNum}">0</span></h3>
-                </div>
-                <div class="col-md-8 d-flex justify-content-md-end justify-content-center">
-                    <h3 class="layout-switcher">总价：$
-                        <span id="all_price" th:text="${order.orderPrice}">0</span></h3>
-                    <button type="button" class="btn btn-w-md btn-primary"
-                            onclick="javascript:history.back(-1);return false;">返 回
-                    </button>
-                    <button class="btn btn-success btn_alipay">支付宝支付</button>
-                    <button class="btn btn-success btn_money_pay">现金支付</button>
-                </div>
                 <div class="col-lg-12">
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="favourite" role="tabpanel">
@@ -112,6 +125,9 @@
                                                     <a href=""
                                                        th:text="${ordersub.commodity.commodityName}">商品名称</a><span>New</span>
                                                 </h3>
+                                                <div class="item-tag">
+                                                    <span th:text="${ordersub.commodity.commodityParameter}">商品参数</span>
+                                                </div>
                                                 <div class="item-tag">
                                                     <i class="fas fa-angle-double-right"></i>
                                                     <span th:text="${ordersub.commodity.supplier.supplierName}">供应商名称</span>
@@ -149,6 +165,33 @@
             </div>
         </div>
     </section>
+    <div class="bottom_pay">
+        <div class="container">
+            <!--            -->
+            <div class="bottom_pay_left">
+                <h3 class="ordering-controller">商品总数：
+                    <span id="all_number" th:text="${order.allNum}">0</span></h3>
+                <h3 class="ordering-controller">订单总价：$
+                    <span id="all_price" th:text="${order.orderPrice}">0</span></h3>
+            </div>
+            <div class="bottom_pay_right">
+                <button type="button" class="btn btn-round btn-w-md btn-primary"
+                        onclick="javascript:history.back(-1);return false;">
+                    <img src="/images/back.png" height="30px" width="30px">
+                    <span>返 回</span>
+                </button>
+                <button class="btn btn-round btn-info btn-w-xl btn_alipay">
+                    <img src="/images/alipay.png" height="30px" width="30px">
+                    <span>支付宝支付</span>
+                </button>
+                <button class="btn btn-round btn-dark btn-w-xl btn_money_pay">
+                    <img src="/images/pay.png" height="30px" width="30px">
+                    <span>现金支付</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
 </div>
 </body>
 <script type="text/javascript" src="/js/jquery.min.js"
@@ -173,7 +216,7 @@
         $(".btn_alipay").click(function () {
             window.location.href = "/Alipay/AliPay"
         })
-        $(".btn_money_pay").click(function(){
+        $(".btn_money_pay").click(function () {
             window.location.href = "/order/payOrder?payType=1"
         })
 

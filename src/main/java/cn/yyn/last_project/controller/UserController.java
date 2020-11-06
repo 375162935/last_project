@@ -154,9 +154,9 @@ public class UserController {
         Integer i = userService.updPassword(userInfo);
         if (i > 0) {
             System.out.println("修改成功");
+            session.setAttribute("user", userInfo);
         } else {
             System.out.println("修改失败");
-            session.setAttribute("user", userInfo);
         }
         return "redirect:/user/toIndex";
     }
@@ -173,9 +173,9 @@ public class UserController {
         if (loginType.equals("2") || loginType.equals("3")) {
             return "emp/user/user_detail";
         } else if (loginType.equals("1")) {
-            return "/front/user/front_user_dental";
+            return "front/user/front_user_dental";
         } else {
-            return "/front/user/front_user_register";
+            return "redirect:/order/getOPayOrder";
         }
     }
     //-----跳转用户信息页面-----
@@ -194,10 +194,10 @@ public class UserController {
                                 @Param("gender") String gender,
                                 @Param("birthday") String birthday,
                                 @Param("userPhone") String userPhone,
-                                HttpSession session) {
+                                HttpSession session) throws ParseException {
         UserInfo userInfo = (UserInfo) session.getAttribute("user");
         JSONObject jsonObject = new JSONObject();
-        try {
+//        try {
             Date user_birthday = new SimpleDateFormat("yyyy-MM-dd").parse(birthday);
             userInfo.setName(name);
             userInfo.setGender(gender);
@@ -213,10 +213,10 @@ public class UserController {
                 System.out.println("修改失败");
             }
             return jsonObject.toString();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return jsonObject.toString();
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//        }
+//        return jsonObject.toString();
     }
     //-----修改用户信息-----
 

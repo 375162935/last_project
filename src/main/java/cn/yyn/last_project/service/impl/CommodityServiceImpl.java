@@ -83,6 +83,12 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
+    public List<Commodity> findCommodityByType(Integer page, Integer size, Integer commodityTypeId) {
+        PageHelper.startPage(page, size);
+        return commodityDao.findCommodityByType(commodityTypeId);
+    }
+
+    @Override
     public List<Commodity> findCommodityBySupplier(Integer supplierId) {
         return commodityDao.findCommodityBySupplier(supplierId);
     }

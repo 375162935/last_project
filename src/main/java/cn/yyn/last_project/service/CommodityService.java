@@ -25,6 +25,7 @@ public interface CommodityService {
     List<Commodity> findAllCommodity();
     //根据商品类别id查找商品类别
     List<Commodity> findCommodityByType(Integer commodityTypeId);
+    List<Commodity> findCommodityByType(Integer page,Integer size,Integer commodityTypeId);
     //根据供应商id查找商品
     List<Commodity> findCommodityBySupplier(Integer supplierId);
     List<Commodity> findCommodityBySupplier(Integer page,Integer size,Integer supplierId);

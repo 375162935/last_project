@@ -143,7 +143,7 @@ public class ShopCarController {
         if (user_type.equals("2")||user_type.equals("3")) {
             mv.setViewName("emp/shop/shop_commodity_car");
         } else {
-            mv.setViewName("/front/front_commodity_car");
+            mv.setViewName("front/front_commodity_car");
         }
         return mv;
     }

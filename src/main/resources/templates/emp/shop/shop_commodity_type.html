@@ -42,42 +42,71 @@
 
         <div class="row">
             <!--     视图格式选购页面     -->
-            <h1 th:if="${commodityList.size()==0}">该类别暂时没有商品</h1>
-            <div class="col-lg-3 col-md-4 col-sm-6" th:each="commodity : ${commodityList}">
-                <div class="product-box-layout1">
-                    <div class="item-img">
-                        <a href="#" class="img_a">
-                            <img th:if="${commodity.commodityImg!=null}"
-                                 th:src="@{'http://qilpqdaxg.hd-bkt.clouddn.com/'+${commodity.commodityImg}}"
-                                 width="600" height="300"/>
-                            <img th:if="${commodity.commodityImg==null}"
-                                 src="/images/nullImg.jpg" th:alt="${commodity.commodityName}"></a>
-                    </div>
-                    <div class="item-content">
-                        <h3 class="item-title">
-                            <a href="" th:text="${commodity.commodityName}">商品名称</a></h3>
-                        <ul class="entry-meta">
-                            <li><i class="far fa-clock"></i>
-                                <span th:text="${commodity.commodityParameter}">商品参数</span></li>
-                            <li><i class="fas fa-map-marker-alt"></i>
-                                <span th:text="${commodity.supplier.supplierAddress}">商品产地</span></li>
-                        </ul>
-                        <div class="item-price">
-                            <span class="currency-symbol" th:text="'$'+${commodity.commoditySell}">商品价格</span>
+            <h1 th:if="${pageInfo.list.size()==0}">该类别暂时没有商品</h1>
+            <div class="card-body">
+                <div class="col-lg-3 col-md-4 col-sm-6" th:each="commodity : ${pageInfo.list}">
+                    <div class="product-box-layout1">
+                        <div class="item-img">
+                            <a href="#" class="img_a">
+                                <img th:if="${commodity.commodityImg!=null}"
+                                     th:src="@{'http://qilpqdaxg.hd-bkt.clouddn.com/'+${commodity.commodityImg}}"
+                                     width="600" height="300"/>
+                                <img th:if="${commodity.commodityImg==null}"
+                                     src="/images/nullImg.jpg" th:alt="${commodity.commodityName}"></a>
                         </div>
-                        <font class="text-danger"
-                              th:if="${commodity.commodityStock==0}">已售完</font>
-                        <div class="btn-group btn-group-round" th:if="${commodity.commodityStock}>0">
-                            <button class="btn btn-default num_cut disabled">-</button>
-                            <input type="hidden" th:value="${commodity.commodityId}" class="commodity_id">
-                            <input type="hidden" th:value="${commodity.commodityStock}" class="commodity_stock">
-                            <input type="text" class="btn btn-default number_input" value="0">
-                            <button class="btn btn-default num_add">+</button>
+                        <div class="item-content">
+                            <h3 class="item-title">
+                                <a href="" th:text="${commodity.commodityName}">商品名称</a></h3>
+                            <ul class="entry-meta">
+                                <li><i class="far fa-clock"></i>
+                                    <span th:text="${commodity.commodityParameter}">商品参数</span></li>
+                                <li><i class="fas fa-map-marker-alt"></i>
+                                    <span th:text="${commodity.supplier.supplierAddress}">商品产地</span></li>
+                            </ul>
+                            <div class="item-price">
+                                <span class="currency-symbol" th:text="'$'+${commodity.commoditySell}">商品价格</span>
+                            </div>
+                            <font class="text-danger"
+                                  th:if="${commodity.commodityStock==0}">已售完</font>
+                            <div class="btn-group btn-group-round" th:if="${commodity.commodityStock}>0">
+                                <button class="btn btn-default num_cut disabled">-</button>
+                                <input type="hidden" th:value="${commodity.commodityId}" class="commodity_id">
+                                <input type="hidden" th:value="${commodity.commodityStock}" class="commodity_stock">
+                                <input type="text" class="btn btn-default number_input" value="0">
+                                <button class="btn btn-default num_add">+</button>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <ul class="pagination">
+                    <li th:class="${pageInfo.pageNum==1}?'disabled':''">
+                        <a href="#"
+                           th:href="@{/commodity/findCommodityByType(page=1,size=12,commodityTypeId=${pageType},typeName=${typeName})}">«</a>
+                    </li>
+                    <li th:class="${pageInfo.pageNum==1}?'disabled':''">
+                        <a href="#"
+                           th:href="@{/commodity/findCommodityByType(page=${pageInfo.pageNum !=1}?${pageInfo.pageNum -1}:1,size=12,
+                           commodityTypeId=${pageType},typeName=${typeName})}">上一页</a>
+                    </li>
+                    <li th:each="pageNums :${#numbers.sequence(1,pageInfo.pages)}"
+                        th:class="${pageNums==pageInfo.pageNum}?'active'">
+                        <input type="hidden" th:value="${pageNums}">
+                        <input type="hidden" th:value="${pageInfo.pageNum}">
+                        <a href="#" th:text="${pageNums}"
+                           th:href="@{/commodity/findCommodityByType(page=${pageNums},size=12,commodityTypeId=${pageType},typeName=${typeName})}">1</a>
+                    </li>
+                    <li th:class="${pageInfo.pageNum==pageInfo.pages}?'disabled':''">
+                        <a href="#"
+                           th:href="@{/commodity/findCommodityByType(page=${pageInfo.pageNum !=pageInfo.pages}?${pageInfo.pageNum +1}:${pageInfo.pages},size=12,
+                           commodityTypeId=${pageType},typeName=${typeName})}"
+                        >下一页</a>
+                    </li>
+                    <li th:class="${pageInfo.pageNum==pageInfo.pages}?'disabled':''">
+                        <a href="#"
+                           th:href="@{/commodity/findCommodityByType(page=${pageInfo.pages},size=12,commodityTypeId=${pageType},typeName=${typeName})}">»</a>
+                    </li>
+                </ul>
             </div>
-
         </div>
     </div>
 </main>
@@ -135,7 +164,7 @@
                             if (list[i].commodityId == $(".commodity_id").eq(j).val()) {//进入选购页面时调整已选购商品的按钮状态
                                 var stock = list[i].commodity.commodityStock;
                                 var num = list[i].commodityQuantity;
-                                var parent =$(".commodity_id").eq(j).parent();
+                                var parent = $(".commodity_id").eq(j).parent();
                                 parent.find(".num_cut").removeClass("disabled");
                                 parent.find(".number_input").val(num)
                                 if (stock == num) {
@@ -176,7 +205,7 @@
         });
         //减少商品
         $(".num_cut").click(function () {
-            var parent=$(this).parent();
+            var parent = $(this).parent();
             var c_id = parent.find(".commodity_id").val();
             var $num = parent.find(".number_input");
             parent.find(".num_add").removeClass("disabled")
@@ -193,11 +222,11 @@
         })
         //添加商品
         $(".num_add").click(function () {
-            var parent=$(this).parent();
+            var parent = $(this).parent();
             var $num = parent.find(".number_input");
             var c_id = parent.find(".commodity_id").val();
             var stock = parseInt(parent.find(".commodity_stock").val());
-            if ($num.val() < stock - 1) {
+            if ($num.val() <= stock - 1) {
                 parent.find(".num_cut").removeClass("disabled")                                        //修改调整后的按钮状态
                 var num = parseInt($num.val()) + 1;
                 if (num == stock) {
@@ -215,7 +244,7 @@
         //数字框
         $(".number_input").blur(function () {
             var $num = $(this);
-            var parent=$(this).parent();
+            var parent = $(this).parent();
             var c_id = parent.find(".commodity_id").val();
             var num = $num.val();
             if (num.length > 16) {
